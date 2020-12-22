@@ -1,43 +1,43 @@
-import React, { useEffect, useState } from "react";
-import Page from "./Page";
-import { useParams, Link } from "react-router-dom";
-import Axios from "axios";
-import LoadingDotsIcon from "./LoadingDotsIcon";
-import ReactMarkdown from "react-markdown";
-import ReactTooltip from "react-tooltip";
+import React, { useEffect, useState } from "react"
+import Page from "./Page"
+import { useParams, Link } from "react-router-dom"
+import Axios from "axios"
+import LoadingDotsIcon from "./LoadingDotsIcon"
+import ReactMarkdown from "react-markdown"
+import ReactTooltip from "react-tooltip"
 
 function ViewSinglePost() {
-	const { id } = useParams();
-	const [isLoading, setIsLoading] = useState(true);
-	const [post, setPost] = useState();
+	const { id } = useParams()
+	const [isLoading, setIsLoading] = useState(true)
+	const [post, setPost] = useState()
 
 	useEffect(() => {
-		const ourRequest = Axios.CancelToken.source();
+		const ourRequest = Axios.CancelToken.source()
 
 		async function fetchPost() {
 			try {
-				const response = await Axios.get(`/post/${id}`, { cancelToken: ourRequest.token });
-				setPost(response.data);
-				setIsLoading(false);
+				const response = await Axios.get(`/post/${id}`, { cancelToken: ourRequest.token })
+				setPost(response.data)
+				setIsLoading(false)
 			} catch (e) {
-				console.log("There was a problem or the request was cancelled.");
+				console.log("There was a problem or the request was cancelled.")
 			}
 		}
-		fetchPost();
+		fetchPost()
 		return () => {
-			ourRequest.cancel();
-		};
-	}, []);
+			ourRequest.cancel()
+		}
+	}, [])
 
 	if (isLoading)
 		return (
 			<Page title="...">
 				<LoadingDotsIcon />
 			</Page>
-		);
+		)
 
-	const date = new Date(post.createdDate);
-	const dateFormatted = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+	const date = new Date(post.createdDate)
+	const dateFormatted = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
 
 	return (
 		<Page title={post.title}>
@@ -63,10 +63,10 @@ function ViewSinglePost() {
 			</p>
 
 			<div className="body-content">
-				<ReactMarkdown source={post.body} allowedTypes={["paragraph","strong","emphasis","text","heading","list","listItem"]}/>
+				<ReactMarkdown source={post.body} allowedTypes={["paragraph", "strong", "emphasis", "text", "heading", "list", "listItem"]} />
 			</div>
 		</Page>
-	);
+	)
 }
 
-export default ViewSinglePost;
+export default ViewSinglePost

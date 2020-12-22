@@ -1,14 +1,14 @@
-import React, { useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
-import DispatchContext from "../DispatchContext";
-import StateContext from "../StateContext";
+import React, { useEffect, useContext } from "react"
+import { Link } from "react-router-dom"
+import DispatchContext from "../DispatchContext"
+import StateContext from "../StateContext"
 
 function HeaderLoggedIn(props) {
-	const appDispatch = useContext(DispatchContext);
-	const appState = useContext(StateContext);
+	const appDispatch = useContext(DispatchContext)
+	const appState = useContext(StateContext)
 
 	function handleLogout() {
-		appDispatch({ type: "logout" });
+		appDispatch({ type: "logout" })
 	}
 
 	return (
@@ -24,16 +24,17 @@ function HeaderLoggedIn(props) {
 				<img className="small-header-avatar" src={appState.user.avatar} />
 			</Link>
 			<Link className="btn btn-sm btn-success mr-2" to="/create-post">
-				Create Post
+				{/* Create Post */}
+				Create Ship Version
 			</Link>
-			<Link className="btn btn-sm btn-success mr-2" to="/three-model">
+			<Link className="btn btn-sm btn-success mr-2" to={`/three-model/${appState.user.username}`}>
 				Show 3D
 			</Link>
-			<button onClick={handleLogout} className="btn btn-sm btn-secondary">
+			<Link onClick={handleLogout} to="/" className="btn btn-sm btn-secondary" to="/">
 				Sign Out
-			</button>
+			</Link>
 		</div>
-	);
+	)
 }
 
-export default HeaderLoggedIn;
+export default HeaderLoggedIn

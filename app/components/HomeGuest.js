@@ -2,6 +2,9 @@ import React, { useState } from "react"
 import Page from "./Page"
 import Axios from "axios"
 
+import Image1 from "../images/Gunnerus_starboard_su.jpg"
+import Image2 from "../images/Gunnerus.jpg"
+
 function HomeGuest() {
 	const [username, setUsername] = useState()
 	const [email, setEmail] = useState()
@@ -13,6 +16,7 @@ function HomeGuest() {
 			await Axios.post("/register", { username, email, password })
 			console.log("User was successfully created.")
 		} catch (e) {
+			console.log("User was successfully created.")
 			console.log("There was an error.")
 		}
 	}
@@ -20,9 +24,18 @@ function HomeGuest() {
 	return (
 		<Page title="Welcome" wide={true}>
 			<div className="row align-items-center">
-				<div className="col-lg-7 py-3 py-md-5">
-					<h1 className="display-3">Remember Writing?</h1>
-					<p className="lead text-muted">Are you sick of short tweets and impersonal &ldquo;shared&rdquo; posts that are reminiscent of the late 90&rsquo;s email forwards? We believe getting back to actually writing is the key to enjoying the internet again.</p>
+				<div className="col-lg-7 py-3 py-md-0">
+					<h1 className="display-4 text-center ">Life Cycle Platform</h1>
+					<div className="position-relative">
+						<div className="text-center home-images-transition-1">
+							<img src={Image1} className="rounded-lg" alt="" height="300px" width="450px" />
+							<p className="lead text-muted">From concept</p>
+						</div>
+						<div className="text-center home-images-transition-2">
+							<img src={Image2} className="rounded-lg" alt="" height="300px" width="450px" />
+							<p className="lead text-muted">To design.</p>
+						</div>
+					</div>
 				</div>
 				<div className="col-lg-5 pl-lg-5 pb-3 py-lg-5">
 					<form onSubmit={handleSubmit}>

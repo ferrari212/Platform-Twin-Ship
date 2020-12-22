@@ -1,6 +1,8 @@
-import React, { useEffect, Component } from "react"
+import React, { useEffect, useState, Component } from "react"
 import * as THREE from "three"
 import Page from "./Page"
+import { useParams } from "react-router-dom"
+import Axios from "axios"
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { Skybox } from "../vessel/libs/skybox_from_examples_r118"
@@ -14,15 +16,43 @@ var oSize = 512
 const skybox = new Skybox(oSize)
 
 class ThreeModel extends Component {
+	constructor(props) {
+		super(props)
+
+		console.log("Constructor")
+	}
+
 	componentDidMount() {
 		// Globals
 		this.oSize = 2048
+		this.ship = new Vessel.Ship(GunnerusTeste)
+		// this.setState({ ship: this.ship })
+
+		const ourRequest = Axios.CancelToken.source()
+
+		async function fetchPosts(componet) {
+			try {
+				const response = await Axios.get(`/profile/${componet.props.user.username}/posts`, { cancelToken: ourRequest.token })
+				console.log(response.data[3])
+				componet.setState({ newShip: response.data[3] })
+			} catch (e) {
+				console.log("There was a problem.", e)
+			}
+		}
+		fetchPosts(this)
 
 		this.sceneSetup()
 		this.addCustomSceneObjects()
 		this.startAnimationLoop()
 
 		window.addEventListener("resize", this.handleWindowResize)
+
+		console.log("Component did Mount!")
+	}
+
+	componentDidUpdate(prevProps, prevStates) {
+		console.log("Component did Update!", prevProps, prevStates)
+		console.log(this.state)
 	}
 
 	sceneSetup = () => {
@@ -91,9 +121,7 @@ class ThreeModel extends Component {
 		this.scene.add(this.ocean)
 		this.scene.rotation.x = -Math.PI / 2
 
-		var ship = new Vessel.Ship(GunnerusTeste)
-
-		this.ship3D = new Ship3D(ship, {
+		this.ship3D = new Ship3D(this.ship, {
 			// stlPath: "specs/STL files",
 			stlPath: "specs/STL files/Gunnerus",
 			upperColor: 0x33aa33,
@@ -139,9 +167,6 @@ class ThreeModel extends Component {
 	startAnimationLoop = () => {
 		this.ocean.water.material.uniforms.time.value += 1 / 60
 
-		// this.cube.rotation.x += 0.01
-		// this.cube.rotation.y += 0.01
-
 		this.renderer.render(this.scene, this.camera)
 		this.requestID = window.requestAnimationFrame(this.startAnimationLoop)
 	}
@@ -159,6 +184,7 @@ class ThreeModel extends Component {
 		return (
 			<Page title="Three-js" className="">
 				<div ref={ref => (this.mount = ref)} />
+				<h1>Hello, {this.props.test}</h1>
 			</Page>
 		)
 	}
