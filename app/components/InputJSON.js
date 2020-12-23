@@ -6,17 +6,7 @@ class InputJSON extends Component {
 	}
 
 	componentDidMount() {
-		// read file from user
-		// this.handleFile = e => {
-		// 	const content = e.target.result
-		// 	// console.log("file content", content)
-		// 	// console.log(typeof content)
-		// 	// console.log(JSON.parse(content))
-
-		// 	// You can set content in state and show it in render.
-		// 	// this.props.changeShip(content)
-		// }
-
+		// Read file from user
 		this.handleChangeFile = file => {
 			var handleFile = e => {
 				const content = e.target.result
