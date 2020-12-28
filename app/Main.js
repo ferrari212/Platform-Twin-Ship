@@ -74,7 +74,7 @@ function Main() {
 					<Header />
 					<Switch>
 						<Route path="/three-model/:username">
-							<ThreeModel test="Simulation one" user={state.user} />
+							<ThreeModel test="Simulation one" user={state.user} addScenarioStatus={true} />
 						</Route>
 						<Route path="/profile/:username">
 							<Profile />

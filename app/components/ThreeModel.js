@@ -22,33 +22,19 @@ class ThreeModel extends Component {
 		// this.props = props
 		console.log(this)
 
-		this.addScenario = this.props.addScenario
+		this.addScenarioStatus = this.props.addScenarioStatus
+		this.height = this.props.height
+		this.ship = this.props.ship
 
 		console.log("Constructor")
 	}
 
 	componentDidMount() {
 		// Globals
-		this.oSize = 2048
-		this.ship = new Vessel.Ship(GunnerusTeste)
-		// console.log(GunnerusTeste)
+		// this.ship = new Vessel.Ship(GunnerusTeste)
 
-		const ourRequest = Axios.CancelToken.source()
-
-		async function fetchPosts(componet) {
-			try {
-				const response = await Axios.get(`/profile/${componet.props.user.username}/posts`, { cancelToken: ourRequest.token })
-				console.log(response.data[0])
-				await componet.setState({ newShip: JSON.parse(response.data[0].ship) })
-			} catch (e) {
-				console.log("There was a problem.", e)
-			}
-		}
-		fetchPosts(this)
-
+		this.getData(this)
 		this.sceneSetup()
-		// this.addScenario()
-		this.startAnimationLoop()
 
 		window.addEventListener("resize", this.handleWindowResize)
 
@@ -57,18 +43,26 @@ class ThreeModel extends Component {
 
 	componentDidUpdate(prevProps, prevStates) {
 		console.log("Component did Update!", prevProps, prevStates)
-		console.log(this.state)
-		console.log(this.state.newShip)
-		// this.ship = new Vessel.Ship(this.state.newShip)
-		// this.addScenario()
-		this.addShip()
+
+		// Make the if else of the posting or not
+		if (prevProps.ship !== this.props.ship) {
+			this.removeShip()
+			this.setState({ newShip: JSON.parse(this.props.ship) })
+		} else {
+			this.ship = new Vessel.Ship(this.state.newShip)
+			// Add scenario is just after
+			if (this.addScenarioStatus) this.addScenario()
+			this.addShip()
+			this.startAnimationLoop()
+		}
 	}
 
 	sceneSetup = () => {
 		// get container dimensions and use them for scene sizing
-		const width = document.body.clientWidth
+		const width = this.mount.offsetWidth
+
 		// Modify the inner Height
-		const height = window.innerHeight - 151
+		const height = this.props.height || window.innerHeight - 151
 
 		this.scene = new THREE.Scene()
 		this.camera = new THREE.PerspectiveCamera(
@@ -99,7 +93,7 @@ class ThreeModel extends Component {
 
 		this.useZUp()
 
-		const skybox = new Skybox(this.oSize)
+		const skybox = new Skybox()
 		skybox.name = "Skybox"
 		this.scene.add(skybox)
 
@@ -110,16 +104,32 @@ class ThreeModel extends Component {
 			segments: 127
 		})
 		this.ocean.name = "Ocean"
+		console.log(this.ocean)
 		this.scene.add(this.ocean)
+		this.scene.rotation.x = -Math.PI / 2
+	}
+
+	getData = context => {
+		const ourRequest = Axios.CancelToken.source()
+
+		async function fetchPosts(component) {
+			try {
+				const response = await Axios.get(`/profile/${component.props.user.username}/posts`, { cancelToken: ourRequest.token })
+
+				await component.setState({ newShip: JSON.parse(response.data[0].ship) })
+			} catch (e) {
+				if (component.props.user === undefined && component.ship) {
+					await component.setState({ newShip: JSON.parse(component.ship) })
+				} else {
+					console.log("There was a problem.", e)
+				}
+			}
+		}
+
+		fetchPosts(context)
 	}
 
 	addShip = () => {
-		this.scene.background = new THREE.Color(0xa9cce3)
-		const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
-		const mainLight = new THREE.DirectionalLight(0xffffff, 1)
-		mainLight.position.set(1, 1, 1)
-		this.scene.add(ambientLight, mainLight)
-
 		this.ship3D = new Ship3D(this.ship, {
 			// stlPath: "specs/STL files",
 			stlPath: "specs/STL files/Gunnerus",
@@ -130,16 +140,35 @@ class ThreeModel extends Component {
 			objectOpacity: 1
 		})
 
+		// Pass later on with the value of the title
 		this.ship3D.name = "Ship3D"
 		this.ship3D.show = "on"
 
 		this.scene.add(this.ship3D)
 
-		this.scene.rotation.x = -Math.PI / 2
+		if (this.addScenario) {
+			this.scene.background = new THREE.Color(0xa9cce3)
+			const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
+			const mainLight = new THREE.DirectionalLight(0xffffff, 1)
+			mainLight.position.set(1, 1, 1)
+			this.scene.add(ambientLight, mainLight)
+
+			this.scene.rotation.x = -Math.PI / 2
+			this.addScenario = false
+		}
+	}
+
+	removeShip = () => {
+		// const INDEX = this.scene.children.findIndex(element => element.name === "Ship3D")
+		var deletedShip = this.scene.getObjectByName("Ship3D")
+		console.log(deletedShip)
+		this.scene.remove(deletedShip)
 	}
 
 	startAnimationLoop = () => {
-		// this.ocean.water.material.uniforms.time.value += 1 / 60
+		if (this.addScenarioStatus) {
+			this.ocean.water.material.uniforms.time.value += 1 / 60
+		}
 
 		this.renderer.render(this.scene, this.camera)
 		this.requestID = window.requestAnimationFrame(this.startAnimationLoop)
@@ -156,7 +185,7 @@ class ThreeModel extends Component {
 
 	render() {
 		return (
-			<Page title="Three-js" className="">
+			<Page title="Three-js" className="" wide={this.props.wide}>
 				<div ref={ref => (this.mount = ref)} />
 				<h1>Hello, {this.props.test}</h1>
 			</Page>

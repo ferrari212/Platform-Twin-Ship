@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from "react"
+import UpLoadCanvas from "./UpLoadCanvas"
 import Page from "./Page"
+import ThreeModel from "./ThreeModel"
 import Axios from "axios"
 import { withRouter } from "react-router-dom"
 import DispatchContext from "../DispatchContext"
@@ -10,7 +12,7 @@ import InputJSON from "./InputJSON"
 
 function CreatePost(props) {
 	const [title, setTitle] = useState()
-	const [body, setBody] = useState()
+	const [description, setDescription] = useState()
 	const [ship, setShip] = useState()
 	const appDispatch = useContext(DispatchContext)
 	const appState = useContext(StateContext)
@@ -19,7 +21,7 @@ function CreatePost(props) {
 		e.preventDefault()
 		try {
 			// const response = await Axios.post("/create-post", { title, body, token: appState.user.token })
-			const response = await Axios.post("/create-post", { title, body, ship, token: appState.user.token })
+			const response = await Axios.post("/create-post", { title, description, ship, token: appState.user.token })
 
 			// Redirect to new post url
 			appDispatch({ type: "flashMessage", value: "Congrats, you created a new post." })
@@ -45,13 +47,24 @@ function CreatePost(props) {
 				</div>
 
 				<div className="form-group">
-					<label htmlFor="post-body" className="text-muted mb-1 d-block">
-						<small>Body Content</small>
+					<label htmlFor="post-description" className="text-muted mb-1 d-block">
+						<small>Description</small>
 					</label>
-					<textarea onChange={e => setBody(e.target.value)} name="body" id="post-body" className="body-content tall-textarea form-control" type="text"></textarea>
+					<textarea onChange={e => setDescription(e.target.value)} name="description" id="post-description" className="description-content tall-textarea form-control form-control-sm" type="text"></textarea>
 				</div>
 
-				<InputJSON changeShip={changeShip} />
+				<div className="form-group">
+					<label htmlFor="post-description" className="text-muted mb-1 d-block">
+						<small>Insert JSON Ship File</small>
+					</label>
+					<InputJSON changeShip={changeShip} />
+				</div>
+
+				<div className="form-group">
+					{ship ? <ThreeModel ship={ship} height={350} addScenarioStatus={false} /> : <UpLoadCanvas />}
+					{/* <UpLoadCanvas />
+					<ThreeModel ship={ship} height={350} /> */}
+				</div>
 
 				<p>This is the ship:{ship}</p>
 

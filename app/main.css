@@ -55,15 +55,15 @@ body {
 	font-weight: 500;
 }
 
-.body-content {
+.Descridescriptionption-content {
 	font-size: 1.2rem;
 	line-height: 1.75;
 	color: #292929;
 }
 
-.body-content p,
-.body-content ul,
-.body-content ol {
+.Descridescriptionption-content p,
+.Descridescriptionption-content ul,
+.Descridescriptionption-content ol {
 	margin-bottom: 1.75rem;
 }
 
@@ -163,15 +163,15 @@ body {
 	z-index: 2;
 }
 
-textarea.tall-textarea {
-	height: 160px;
+/* textarea.tall-textarea {
+	height: 80px;
 }
 
 @media (min-width: 768px) {
 	textarea.tall-textarea {
 		height: 320px;
 	}
-}
+} */
 
 .delete-post-button {
 	cursor: pointer;
