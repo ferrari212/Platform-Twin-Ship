@@ -3,12 +3,15 @@ import UpLoadCanvas from "./UpLoadCanvas"
 import Page from "./Page"
 import ThreeModel from "./ThreeModel"
 import Axios from "axios"
+import Renderjson from "renderjson"
 import { withRouter } from "react-router-dom"
 import DispatchContext from "../DispatchContext"
 import StateContext from "../StateContext"
 // import { response } from "express"
 
 import InputJSON from "./InputJSON"
+
+console.log(Renderjson)
 
 function CreatePost(props) {
 	const [title, setTitle] = useState()
@@ -34,6 +37,12 @@ function CreatePost(props) {
 
 	var changeShip = newShip => {
 		setShip(newShip)
+
+		var fileCont = document.getElementById("render-json")
+		fileCont.innerHTML = ""
+		Renderjson.set_show_to_level(1)
+
+		fileCont.appendChild(Renderjson(JSON.parse(newShip)))
 	}
 
 	return (
@@ -60,13 +69,9 @@ function CreatePost(props) {
 					<InputJSON changeShip={changeShip} />
 				</div>
 
-				<div className="form-group">
-					{ship ? <ThreeModel ship={ship} height={350} addScenarioStatus={false} /> : <UpLoadCanvas />}
-					{/* <UpLoadCanvas />
-					<ThreeModel ship={ship} height={350} /> */}
-				</div>
+				<div className="form-group">{ship ? <ThreeModel ship={ship} height={350} addScenarioStatus={false} /> : <UpLoadCanvas />}</div>
 
-				<p>This is the ship:{ship}</p>
+				<div id="render-json" />
 
 				<button className="btn btn-primary">Create New Version</button>
 			</form>

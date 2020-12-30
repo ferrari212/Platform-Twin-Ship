@@ -3,6 +3,10 @@ body {
 	background-color: #dce8f2;
 }
 
+h4 {
+	color: #295773;
+}
+
 .header-bar {
 	background-color: #295773;
 }
@@ -55,15 +59,15 @@ body {
 	font-weight: 500;
 }
 
-.Descridescriptionption-content {
+.description-content {
 	font-size: 1.2rem;
 	line-height: 1.75;
 	color: #292929;
 }
 
-.Descridescriptionption-content p,
-.Descridescriptionption-content ul,
-.Descridescriptionption-content ol {
+.description-content p,
+.description-content ul,
+.description-content ol {
 	margin-bottom: 1.75rem;
 }
 

@@ -44,7 +44,7 @@ class ThreeModel extends Component {
 	componentDidUpdate(prevProps, prevStates) {
 		console.log("Component did Update!", prevProps, prevStates)
 
-		// Make the if else of the posting or not
+		// Make the if else of the posting or notF
 		if (prevProps.ship !== this.props.ship) {
 			this.removeShip()
 			this.setState({ newShip: JSON.parse(this.props.ship) })

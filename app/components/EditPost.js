@@ -19,7 +19,7 @@ function EditPost(props) {
 			hasErrors: false,
 			message: ""
 		},
-		body: {
+		description: {
 			value: "",
 			hasErrors: false,
 			message: ""
@@ -35,19 +35,19 @@ function EditPost(props) {
 		switch (action.type) {
 			case "fetchComplete":
 				draft.title.value = action.value.title
-				draft.body.value = action.value.body
+				draft.description.value = action.value.description
 				draft.isFetching = false
 				return
 			case "titleChange":
 				draft.title.hasErrors = false
 				draft.title.value = action.value
 				return
-			case "bodyChange":
-				draft.body.hasErrors = false
-				draft.body.value = action.value
+			case "descriptionChange":
+				draft.description.hasErrors = false
+				draft.description.value = action.value
 				return
 			case "submitRequest":
-				if (!draft.title.hasErrors && !draft.body.hasErrors) {
+				if (!draft.title.hasErrors && !draft.description.hasErrors) {
 					draft.sendCount++
 				}
 				return
@@ -63,10 +63,15 @@ function EditPost(props) {
 					draft.title.message = "You must provide a title."
 				}
 				return
-			case "bodyRules":
+			case "descriptionRules":
 				if (!action.value.trim()) {
-					draft.body.hasErrors = true
-					draft.body.message = "You must provide body content."
+					draft.description.hasErrors = true
+					draft.description.message = "You must provide description content."
+				}
+			case "shipRules":
+				if (!action.value.trim()) {
+					draft.description.hasErrors = true
+					draft.description.message = "You must provide description content."
 				}
 				return
 			case "notFound":
@@ -80,8 +85,8 @@ function EditPost(props) {
 	function submitHandler(e) {
 		e.preventDefault()
 		dispatch({ type: "titleRules", value: state.title.value })
-		dispatch({ type: "bodyRules", value: state.body.value })
-		dispatch({ type: "bodyRules", value: state.ship.value })
+		dispatch({ type: "descriptionRules", value: state.description.value })
+		dispatch({ type: "shipRules", value: state.ship.value })
 		dispatch({ type: "submitRequest" })
 	}
 
@@ -118,7 +123,7 @@ function EditPost(props) {
 
 			async function fetchPost() {
 				try {
-					const response = await Axios.post(`/post/${state.id}/edit`, { title: state.title.value, body: state.body.value, token: appState.user.token }, { cancelToken: ourRequest.token })
+					const response = await Axios.post(`/post/${state.id}/edit`, { title: state.title.value, description: state.description.value, token: appState.user.token }, { cancelToken: ourRequest.token })
 					console.log(response)
 					dispatch({ type: "saveRequestFinished" })
 					appDispatch({ type: "flashMessage", value: "Post was updated." })
@@ -160,11 +165,11 @@ function EditPost(props) {
 				</div>
 
 				<div className="form-group">
-					<label htmlFor="post-body" className="text-muted mb-1 d-block">
-						<small>Body Content</small>
+					<label htmlFor="post-description" className="text-muted mb-1 d-block">
+						<small>Description</small>
 					</label>
-					<textarea onBlur={e => dispatch({ type: "bodyRules", value: e.target.value })} onChange={e => dispatch({ type: "bodyChange", value: e.target.value })} name="body" id="post-body" className="body-content tall-textarea form-control" type="text" value={state.body.value} />
-					{state.body.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.body.message}</div>}
+					<textarea onBlur={e => dispatch({ type: "descriptionRules", value: e.target.value })} onChange={e => dispatch({ type: "descriptionChange", value: e.target.value })} name="description" id="post-description" className="description-content tall-textarea form-control" type="text" value={state.description.value} />
+					{state.description.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.description.message}</div>}
 				</div>
 
 				<button className="btn btn-primary" disabled={state.isSaving}>

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react"
 import Page from "./Page"
 import { useParams, Link, withRouter } from "react-router-dom"
 import Axios from "axios"
+import Renderjson from "renderjson"
 import LoadingDotsIcon from "./LoadingDotsIcon"
 import ReactMarkdown from "react-markdown"
 import ReactTooltip from "react-tooltip"
@@ -22,12 +23,21 @@ function ViewSinglePost(props) {
 			try {
 				const response = await Axios.get(`/post/${id}`, { cancelToken: ourRequest.token })
 				setPost(response.data)
+
 				setIsLoading(false)
+
+				return response.data
 			} catch (e) {
 				console.log("There was a problem or the request was cancelled.")
 			}
 		}
-		fetchPost()
+		fetchPost().then(post => {
+			var fileCont = document.getElementById("render-json")
+			fileCont.innerHTML = ""
+			Renderjson.set_show_to_level(2)
+
+			fileCont.appendChild(Renderjson(JSON.parse(post.ship)))
+		})
 		return () => {
 			ourRequest.cancel()
 		}
@@ -93,8 +103,9 @@ function ViewSinglePost(props) {
 				Posted by <Link to={`/profile/${post.author.username}`}>{post.author.username}</Link> on {dateFormatted}
 			</p>
 
-			<div className="body-content">
-				<ReactMarkdown source={post.body} allowedTypes={["paragraph", "strong", "emphasis", "text", "heading", "list", "listItem"]} />
+			<div className="description-content">
+				<ReactMarkdown source={post.description} allowedTypes={["paragraph", "strong", "emphasis", "text", "heading", "list", "listItem"]} />
+				<div id="render-json" />
 			</div>
 		</Page>
 	)
