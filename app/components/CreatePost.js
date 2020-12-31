@@ -69,8 +69,8 @@ function CreatePost(props) {
 					<InputJSON changeShip={changeShip} />
 				</div>
 
-				<div className="form-group">{ship ? <ThreeModel ship={ship} height={350} addScenarioStatus={false} /> : <UpLoadCanvas />}</div>
-
+				{console.log(props)}
+				<div className="form-group">{ship ? <ThreeModel ship={ship} height={350} addScenarioStatus={false} addLifeCycle={false} /> : <UpLoadCanvas />}</div>
 				<div id="render-json" />
 
 				<button className="btn btn-primary">Create New Version</button>

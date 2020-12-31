@@ -1,6 +1,7 @@
 import React, { useEffect, useState, Component } from "react"
 import * as THREE from "three"
 import Page from "./Page"
+import LifeCycleBar from "./LifeCycleBar"
 import { useParams } from "react-router-dom"
 import Axios from "axios"
 
@@ -22,7 +23,8 @@ class ThreeModel extends Component {
 		// this.props = props
 		console.log(this)
 
-		this.addScenarioStatus = this.props.addScenarioStatus
+		this.addScenarioStatus = this.props.addScenarioStatus || false
+		this.addLifeCycle = this.props.addLifeCycle || false
 		this.height = this.props.height
 		this.ship = this.props.ship
 
@@ -50,7 +52,6 @@ class ThreeModel extends Component {
 			this.setState({ newShip: JSON.parse(this.props.ship) })
 		} else {
 			this.ship = new Vessel.Ship(this.state.newShip)
-			// Add scenario is just after
 			if (this.addScenarioStatus) this.addScenario()
 			this.addShip()
 			this.startAnimationLoop()
@@ -187,7 +188,8 @@ class ThreeModel extends Component {
 		return (
 			<Page title="Three-js" className="" wide={this.props.wide}>
 				<div ref={ref => (this.mount = ref)} />
-				<h1>Hello, {this.props.test}</h1>
+				{/* <h1>Hello, {this.props.test}</h1> */}
+				{this.addLifeCycle ? <LifeCycleBar /> : ""}
 			</Page>
 		)
 	}
