@@ -10,6 +10,7 @@ import { Skybox } from "../vessel/libs/skybox_from_examples_r118"
 import { Ocean } from "../vessel/libs/Configurable_ocean2"
 import { Vessel } from "../vessel/build/vessel"
 import { Ship3D } from "../vessel/build/Ship3D"
+import { renderRayCaster } from "../vessel/snippets/renderRayCaster"
 
 import GunnerusTeste from "../vessel/specs/Gunnerus.json"
 
@@ -27,6 +28,8 @@ class ThreeModelRayCaster extends Component {
 		this.addLifeCycle = this.props.addLifeCycle || false
 		this.height = this.props.height
 		this.ship = this.props.ship
+		this.intersected = undefined
+		this.mouse = new THREE.Vector2()
 
 		console.log("Constructor")
 	}
@@ -37,6 +40,8 @@ class ThreeModelRayCaster extends Component {
 
 		this.getData(this)
 		this.sceneSetup()
+
+		this.mount.addEventListener("mousemove", this.onMouseMove, false)
 
 		window.addEventListener("resize", this.handleWindowResize)
 
@@ -110,6 +115,17 @@ class ThreeModelRayCaster extends Component {
 		this.scene.rotation.x = -Math.PI / 2
 	}
 
+	onMouseMove = event => {
+		// calculate mouse position in normalized device coordinates
+		// (-1 to +1) for both components
+		// debugger
+		this.mouse.clientX = event.clientX
+		this.mouse.clientY = event.clientY
+
+		this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+		this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+	}
+
 	getData = context => {
 		const ourRequest = Axios.CancelToken.source()
 
@@ -173,6 +189,10 @@ class ThreeModelRayCaster extends Component {
 
 		this.renderer.render(this.scene, this.camera)
 		this.requestID = window.requestAnimationFrame(this.startAnimationLoop)
+
+		// Apply the function RayCaster
+		// IMPORTANT: I am using this.scene but the right one would be zUpCount
+		this.intersected = renderRayCaster(this.mouse, this.camera, this.scene, this.intersected)
 	}
 
 	handleWindowResize = () => {

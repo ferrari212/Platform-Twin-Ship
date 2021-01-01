@@ -24,6 +24,7 @@ import Profile from "./components/Profile"
 import EditPost from "./components/EditPost"
 import NotFound from "./components/NotFound"
 import LoadingDotsIcon from "./components/LoadingDotsIcon"
+import ThreeModelRayCaster from "./components/ThreeModelRayCaster"
 
 function Main() {
 	const initialState = {
@@ -76,7 +77,7 @@ function Main() {
 					<Suspense fallback={<LoadingDotsIcon></LoadingDotsIcon>}>
 						<Switch>
 							<Route path="/three-model/:username">
-								<ThreeModel test="Simulation one" user={state.user} addScenarioStatus={true} addLifeCycle={true} />
+								<ThreeModelRayCaster test="Simulation one" user={state.user} addScenarioStatus={true} addLifeCycle={true} />
 							</Route>
 							<Route path="/profile/:username">
 								<Profile />
