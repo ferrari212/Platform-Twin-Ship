@@ -17,7 +17,6 @@ function renderRayCaster(mouse, camera, scene, intersectedElement = { name: unde
 	raycaster.setFromCamera(mouse, camera)
 
 	// Ensures just the layers = 1 one will be effected by raycaster
-	raycaster.layers.set(0)
 
 	scene.updateMatrixWorld()
 
@@ -73,14 +72,10 @@ function renderRayCaster(mouse, camera, scene, intersectedElement = { name: unde
 	}
 
 	function returnToOriginalColor() {
-		if (intersectedElement.name != undefined) {
+		if (intersectedElement.name != undefined && intersectedElement.currentHex != undefined) {
 			// Check if there was a previeus touched
 			// Make the previous in its original color
-			try {
-				intersectedElement.material.color.set(intersectedElement.currentHex)
-			} catch (e) {
-				console.log(e)
-			}
+			intersectedElement.material.color.set(intersectedElement.currentHex)
 		}
 
 		// cast name and colors of the object as udefined

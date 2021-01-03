@@ -123,7 +123,7 @@ class ThreeModelRayCaster extends Component {
 		this.mouse.clientY = event.clientY
 
 		this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1
-		this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+		this.mouse.y = -((event.clientY - 48) / this.mount.clientHeight) * 2 + 1
 	}
 
 	getData = context => {
@@ -193,6 +193,16 @@ class ThreeModelRayCaster extends Component {
 		// Apply the function RayCaster
 		// IMPORTANT: I am using this.scene but the right one would be zUpCount
 		this.intersected = renderRayCaster(this.mouse, this.camera, this.scene, this.intersected)
+
+		// Apply the click information function
+		if (this.intersected.name === undefined) {
+			document.body.style.cursor = "default"
+			// document.getElementById("SimulationWindow").onclick = false
+		} else {
+			// clickedInformation(ship3D, tooltipElement, intersected)
+		}
+
+		this.toolTip(this.intersected)
 	}
 
 	handleWindowResize = () => {
@@ -204,10 +214,66 @@ class ThreeModelRayCaster extends Component {
 		this.camera.updateProjectionMatrix()
 	}
 
+	// ToolTip function shows the object name when mouse is on @ferrari212
+	toolTip = intersected => {
+		// console.log(intersected)
+		// var textnode = document.createTextNode("Water") // Create a text node
+		// this.mount.appendChild(textnode)
+
+		// console.log(this.mount)
+		// if (intersected.status) {
+		// 	// Inserting tooltip
+		// 	tooltip.style.visibility = "visible"
+		// 	tooltip.style.left = mouse.clientX + 20
+		// 	tooltip.style.top = mouse.clientY + 10
+		// 	tooltip.textContent = intersected.name
+		// 	zUpCont.remove(zUpCont.getObjectByName(intersected.name))
+		// } else {
+		// 	// Taking off tool tip
+		// 	tooltip.style.visibility = "hidden"
+		// }
+		var element = document.getElementById("tooltip")
+
+		console.log(element.style.visibility)
+
+		if (intersected) {
+			if (intersected.status) {
+				// return <p>{intersected.name}</p>
+				// var element = document.createElement("p")
+				// var textnode = document.createTextNode(intersected.name) // Create a text node
+				// this.mount.appendChild(textnode)
+				element.style.setProperty("visibility", "visible")
+				element.innerText = intersected.name
+				element.style.left = `${this.mouse.clientX + 10}px`
+				element.style.top = `${this.mouse.clientY + 10}px`
+				// element.style.top = this.mouse.clientY + 10
+			} else {
+				console.log("Teste")
+				element.style.setProperty("visibility", "hidden")
+			}
+		}
+	}
+
 	render() {
 		return (
 			<Page title="Three-js" className="" wide={this.props.wide}>
-				<div ref={ref => (this.mount = ref)} />
+				<div ref={ref => (this.mount = ref)}>
+					<p id="tooltip" />
+				</div>
+				<table id="free-table" class="table table-dark ">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">First</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">1</th>
+							<td>Mark</td>
+						</tr>
+					</tbody>
+				</table>
 				{/* <h1>Hello, {this.props.test}</h1> */}
 				{this.addLifeCycle ? <LifeCycleBar /> : ""}
 			</Page>

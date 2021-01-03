@@ -12,6 +12,29 @@ h4 {
 	bottom: 100px;
 }
 
+#free-table {
+	position: fixed;
+	top: 15vh;
+	left: 5vw;
+	width: 20vw;
+}
+
+#tooltip {
+	/* visibility: hidden; */
+	position: fixed;
+	top: 100px;
+	left: 10px;
+	position: absolute;
+	font-family: Helvetica;
+	display: block;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	padding: 5px 10px;
+	border-radius: 6px;
+	z-index: 101;
+}
+
 #free-button {
 	padding: 12px;
 	border-radius: 50%;
