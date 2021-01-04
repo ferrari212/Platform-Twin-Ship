@@ -12,6 +12,9 @@ import { Vessel } from "../vessel/build/vessel"
 import { Ship3D } from "../vessel/build/Ship3D"
 import { renderRayCaster } from "../vessel/snippets/renderRayCaster"
 
+import ToolTip from "../snippets/ToolTip"
+import TableInfo from "../snippets/TableInfo"
+
 import GunnerusTeste from "../vessel/specs/Gunnerus.json"
 
 var oSize = 512
@@ -22,7 +25,7 @@ class ThreeModelRayCaster extends Component {
 		super(props)
 
 		// this.props = props
-		console.log(this)
+		// console.log(this)
 
 		this.addScenarioStatus = this.props.addScenarioStatus || false
 		this.addLifeCycle = this.props.addLifeCycle || false
@@ -37,6 +40,8 @@ class ThreeModelRayCaster extends Component {
 	componentDidMount() {
 		// Globals
 		// this.ship = new Vessel.Ship(GunnerusTeste)
+
+		this.toolTip = new ToolTip(this.mouse)
 
 		this.getData(this)
 		this.sceneSetup()
@@ -110,7 +115,6 @@ class ThreeModelRayCaster extends Component {
 			segments: 127
 		})
 		this.ocean.name = "Ocean"
-		console.log(this.ocean)
 		this.scene.add(this.ocean)
 		this.scene.rotation.x = -Math.PI / 2
 	}
@@ -156,6 +160,7 @@ class ThreeModelRayCaster extends Component {
 			deckOpacity: 1,
 			objectOpacity: 1
 		})
+		this.tableInfo = new TableInfo(this.ship3D, tableinfo)
 
 		// Pass later on with the value of the title
 		this.ship3D.name = "Ship3D"
@@ -178,7 +183,7 @@ class ThreeModelRayCaster extends Component {
 	removeShip = () => {
 		// const INDEX = this.scene.children.findIndex(element => element.name === "Ship3D")
 		var deletedShip = this.scene.getObjectByName("Ship3D")
-		console.log(deletedShip)
+		// console.log(deletedShip)
 		this.scene.remove(deletedShip)
 	}
 
@@ -191,7 +196,6 @@ class ThreeModelRayCaster extends Component {
 		this.requestID = window.requestAnimationFrame(this.startAnimationLoop)
 
 		// Apply the function RayCaster
-		// IMPORTANT: I am using this.scene but the right one would be zUpCount
 		this.intersected = renderRayCaster(this.mouse, this.camera, this.scene, this.intersected)
 
 		// Apply the click information function
@@ -200,9 +204,10 @@ class ThreeModelRayCaster extends Component {
 			// document.getElementById("SimulationWindow").onclick = false
 		} else {
 			// clickedInformation(ship3D, tooltipElement, intersected)
+			this.tableInfo.upDate(this.intersected)
 		}
 
-		this.toolTip(this.intersected)
+		this.toolTip.upDate(this.intersected)
 	}
 
 	handleWindowResize = () => {
@@ -214,66 +219,28 @@ class ThreeModelRayCaster extends Component {
 		this.camera.updateProjectionMatrix()
 	}
 
-	// ToolTip function shows the object name when mouse is on @ferrari212
-	toolTip = intersected => {
-		// console.log(intersected)
-		// var textnode = document.createTextNode("Water") // Create a text node
-		// this.mount.appendChild(textnode)
-
-		// console.log(this.mount)
-		// if (intersected.status) {
-		// 	// Inserting tooltip
-		// 	tooltip.style.visibility = "visible"
-		// 	tooltip.style.left = mouse.clientX + 20
-		// 	tooltip.style.top = mouse.clientY + 10
-		// 	tooltip.textContent = intersected.name
-		// 	zUpCont.remove(zUpCont.getObjectByName(intersected.name))
-		// } else {
-		// 	// Taking off tool tip
-		// 	tooltip.style.visibility = "hidden"
-		// }
-		var element = document.getElementById("tooltip")
-
-		console.log(element.style.visibility)
-
-		if (intersected) {
-			if (intersected.status) {
-				// return <p>{intersected.name}</p>
-				// var element = document.createElement("p")
-				// var textnode = document.createTextNode(intersected.name) // Create a text node
-				// this.mount.appendChild(textnode)
-				element.style.setProperty("visibility", "visible")
-				element.innerText = intersected.name
-				element.style.left = `${this.mouse.clientX + 10}px`
-				element.style.top = `${this.mouse.clientY + 10}px`
-				// element.style.top = this.mouse.clientY + 10
-			} else {
-				console.log("Teste")
-				element.style.setProperty("visibility", "hidden")
-			}
-		}
-	}
-
 	render() {
 		return (
 			<Page title="Three-js" className="" wide={this.props.wide}>
 				<div ref={ref => (this.mount = ref)}>
 					<p id="tooltip" />
 				</div>
-				<table id="free-table" class="table table-dark ">
-					<thead>
-						<tr>
-							<th scope="col">#</th>
-							<th scope="col">First</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td>Mark</td>
-						</tr>
-					</tbody>
-				</table>
+				<div id="tableinfo">
+					<table id="free-table" className="table table-dark ">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">First</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">1</th>
+								<td>Mark</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 				{/* <h1>Hello, {this.props.test}</h1> */}
 				{this.addLifeCycle ? <LifeCycleBar /> : ""}
 			</Page>
