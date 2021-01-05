@@ -8,8 +8,7 @@ export default class TableInfo {
 	constructor(Ship3D, tableTag = "tableinfo") {
 		this.ship = Ship3D.ship
 		this.tooltipElement = document.getElementById(tableTag)
-
-		// console.log(element.style.visibility)
+		this.tooltipElement.style.visibility = "hidden"
 	}
 
 	// Add the table with the informations
@@ -17,7 +16,7 @@ export default class TableInfo {
 		// Classes for changing the inner displayed table @ferrari
 		class ListMarkup {
 			constructor() {
-				this.innerHTML = `<table id="free-table" className="table table-dark "></table>`
+				this.innerHTML = `<table id="free-table" class="table table-dark"><tbody>`
 			}
 
 			extendSingleInnerHTML(key, value, unit = "") {
@@ -33,7 +32,7 @@ export default class TableInfo {
 			}
 
 			closeInnerHTML() {
-				this.innerHTML += `</table>`
+				this.innerHTML += `</tbody></table>`
 			}
 		}
 
@@ -66,14 +65,13 @@ export default class TableInfo {
 		block.style.visibility = "visible"
 		// block.style.left = mouse.clientX + 20
 		// block.style.top = mouse.clientY + 10
-		// block.innerHTML = listMarkup.innerHTML
+		block.innerHTML = listMarkup.innerHTML
 		// zUpCont.remove(zUpCont.getObjectByName(element.name))
 	}
 
 	upDate(intersected) {
 		var name = intersected.name
 		var element = this.ship.derivedObjects[name] || this.ship.structure.decks[name] || this.ship.structure.bulkheads[name]
-
 		this.addTable(this.tooltipElement, element)
 		// document.getElementById("SimulationWindow").addEventListener("mousemove", this.onMouseMove, false) = () => addTable(this.tooltipElement, element)
 	}

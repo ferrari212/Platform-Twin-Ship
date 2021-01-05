@@ -42,6 +42,7 @@ function Main() {
 			case "login":
 				draft.loggedIn = true
 				draft.user = action.data
+				draft.ship = "Test"
 				return
 
 			case "logout":

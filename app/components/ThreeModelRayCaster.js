@@ -64,6 +64,7 @@ class ThreeModelRayCaster extends Component {
 			this.ship = new Vessel.Ship(this.state.newShip)
 			if (this.addScenarioStatus) this.addScenario()
 			this.addShip()
+			this.tableInfo = new TableInfo(this.ship3D, "tableinfo")
 			this.startAnimationLoop()
 		}
 	}
@@ -122,7 +123,6 @@ class ThreeModelRayCaster extends Component {
 	onMouseMove = event => {
 		// calculate mouse position in normalized device coordinates
 		// (-1 to +1) for both components
-		// debugger
 		this.mouse.clientX = event.clientX
 		this.mouse.clientY = event.clientY
 
@@ -160,7 +160,6 @@ class ThreeModelRayCaster extends Component {
 			deckOpacity: 1,
 			objectOpacity: 1
 		})
-		this.tableInfo = new TableInfo(this.ship3D, tableinfo)
 
 		// Pass later on with the value of the title
 		this.ship3D.name = "Ship3D"
@@ -199,12 +198,10 @@ class ThreeModelRayCaster extends Component {
 		this.intersected = renderRayCaster(this.mouse, this.camera, this.scene, this.intersected)
 
 		// Apply the click information function
-		if (this.intersected.name === undefined) {
-			document.body.style.cursor = "default"
-			// document.getElementById("SimulationWindow").onclick = false
-		} else {
-			// clickedInformation(ship3D, tooltipElement, intersected)
+		if (this.intersected.name !== undefined) {
 			this.tableInfo.upDate(this.intersected)
+		} else {
+			this.tableInfo.tooltipElement.style.visibility = "hidden"
 		}
 
 		this.toolTip.upDate(this.intersected)
@@ -225,22 +222,7 @@ class ThreeModelRayCaster extends Component {
 				<div ref={ref => (this.mount = ref)}>
 					<p id="tooltip" />
 				</div>
-				<div id="tableinfo">
-					<table id="free-table" className="table table-dark ">
-						<thead>
-							<tr>
-								<th scope="col">#</th>
-								<th scope="col">First</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">1</th>
-								<td>Mark</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+				<div id="tableinfo"></div>
 				{/* <h1>Hello, {this.props.test}</h1> */}
 				{this.addLifeCycle ? <LifeCycleBar /> : ""}
 			</Page>

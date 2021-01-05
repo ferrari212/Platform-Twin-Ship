@@ -3,7 +3,6 @@ import { Link } from "react-router-dom"
 import { Dropdown } from "react-bootstrap"
 import DispatchContext from "../DispatchContext"
 import StateContext from "../StateContext"
-import { createPopper } from "@popperjs/core"
 
 function HeaderLoggedIn(props) {
 	const appDispatch = useContext(DispatchContext)
@@ -21,7 +20,7 @@ function HeaderLoggedIn(props) {
 				</Link>
 
 				<Dropdown.Toggle size="sm" variant="success" id="dropdown-basic" className="mr-2">
-					Dropdown Button
+					{console.log(appState)}
 				</Dropdown.Toggle>
 
 				<Dropdown.Menu>
