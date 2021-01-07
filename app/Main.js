@@ -33,7 +33,8 @@ function Main() {
 		user: {
 			token: localStorage.getItem("complexappToken"),
 			username: localStorage.getItem("complexappUsername"),
-			avatar: localStorage.getItem("complexappAvatar")
+			avatar: localStorage.getItem("complexappAvatar"),
+			shipId: 1
 		}
 	}
 
@@ -42,7 +43,6 @@ function Main() {
 			case "login":
 				draft.loggedIn = true
 				draft.user = action.data
-				draft.ship = "Test"
 				return
 
 			case "logout":
@@ -62,10 +62,12 @@ function Main() {
 			localStorage.setItem("complexappToken", state.user.token)
 			localStorage.setItem("complexappUsername", state.user.username)
 			localStorage.setItem("complexappAvatar", state.user.avatar)
+			localStorage.setItem("complexappShipIndex", state.user.shipId)
 		} else {
 			localStorage.removeItem("complexappToken")
 			localStorage.removeItem("complexappUsername")
 			localStorage.removeItem("complexappAvatar")
+			localStorage.removeItem("complexappShipIndex")
 		}
 	}, [state.loggedIn])
 

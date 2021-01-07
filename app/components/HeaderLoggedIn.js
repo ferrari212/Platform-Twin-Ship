@@ -12,6 +12,14 @@ function HeaderLoggedIn(props) {
 		appDispatch({ type: "logout" })
 	}
 
+	// Initial Use of Button: Insert the ship version as reducer
+	var Teste = e => {
+		appState.user.shipId = e
+		console.log(appState.user.shipId)
+
+		console.log(e)
+	}
+
 	return (
 		<Dropdown>
 			<div className="flex-row my-3 my-md-0">
@@ -24,9 +32,15 @@ function HeaderLoggedIn(props) {
 				</Dropdown.Toggle>
 
 				<Dropdown.Menu>
-					<Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-					<Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-					<Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+					<Dropdown.Item onSelect={Teste} eventKey="1">
+						Action
+					</Dropdown.Item>
+					<Dropdown.Item onSelect={Teste} eventKey="2">
+						Another action
+					</Dropdown.Item>
+					<Dropdown.Item onSelect={Teste} eventKey="3">
+						Something else
+					</Dropdown.Item>
 				</Dropdown.Menu>
 
 				<Link className="btn btn-sm btn-success mr-2 success" to="/create-post">
