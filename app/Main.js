@@ -33,8 +33,9 @@ function Main() {
 		user: {
 			token: localStorage.getItem("complexappToken"),
 			username: localStorage.getItem("complexappUsername"),
-			avatar: localStorage.getItem("complexappAvatar"),
-			shipId: 1
+			avatar: localStorage.getItem("complexappVersions"),
+			versions: localStorage.getItem("complexappAvatar"),
+			shipId: 0
 		}
 	}
 
@@ -47,6 +48,10 @@ function Main() {
 
 			case "logout":
 				draft.loggedIn = false
+				return
+
+			case "changeShip":
+				draft.user.shipId = action.shipId
 				return
 
 			case "flashMessage":
@@ -62,11 +67,13 @@ function Main() {
 			localStorage.setItem("complexappToken", state.user.token)
 			localStorage.setItem("complexappUsername", state.user.username)
 			localStorage.setItem("complexappAvatar", state.user.avatar)
+			localStorage.setItem("complexappVersions", state.user.versions)
 			localStorage.setItem("complexappShipIndex", state.user.shipId)
 		} else {
 			localStorage.removeItem("complexappToken")
 			localStorage.removeItem("complexappUsername")
 			localStorage.removeItem("complexappAvatar")
+			localStorage.removeItem("complexappVersions")
 			localStorage.removeItem("complexappShipIndex")
 		}
 	}, [state.loggedIn])

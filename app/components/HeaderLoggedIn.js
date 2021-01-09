@@ -13,11 +13,14 @@ function HeaderLoggedIn(props) {
 	}
 
 	// Initial Use of Button: Insert the ship version as reducer
-	var Teste = e => {
-		appState.user.shipId = e
-		console.log(appState.user.shipId)
+	var setDisplayedShip = e => {
+		appDispatch({ type: "changeShip", shipId: e - 1 })
+	}
 
-		console.log(e)
+	var displayTitleString = e => {
+		const id = e.user.shipId
+		const version = e.user.versions[id]
+		return version.title
 	}
 
 	return (
@@ -28,19 +31,19 @@ function HeaderLoggedIn(props) {
 				</Link>
 
 				<Dropdown.Toggle size="sm" variant="success" id="dropdown-basic" className="mr-2">
-					{console.log(appState)}
+					{displayTitleString(appState)}
 				</Dropdown.Toggle>
 
 				<Dropdown.Menu>
-					<Dropdown.Item onSelect={Teste} eventKey="1">
-						Action
-					</Dropdown.Item>
-					<Dropdown.Item onSelect={Teste} eventKey="2">
-						Another action
-					</Dropdown.Item>
-					<Dropdown.Item onSelect={Teste} eventKey="3">
-						Something else
-					</Dropdown.Item>
+					{console.log(appState.user.versions)}
+
+					{appState.user.versions.map(version => {
+						return (
+							<Dropdown.Item onSelect={setDisplayedShip} eventKey="1">
+								{version.title}
+							</Dropdown.Item>
+						)
+					})}
 				</Dropdown.Menu>
 
 				<Link className="btn btn-sm btn-success mr-2 success" to="/create-post">

@@ -137,7 +137,7 @@ class ThreeModelRayCaster extends Component {
 			try {
 				const response = await Axios.get(`/profile/${component.props.user.username}/posts`, { cancelToken: ourRequest.token })
 				var index = component.props.user.shipId
-				console.log(index)
+				console.log(component.props.user)
 				await component.setState({ newShip: JSON.parse(response.data[index].ship) })
 			} catch (e) {
 				if (component.props.user === undefined && component.ship) {

@@ -1,23 +1,27 @@
-import React, { useEffect, useState, useContext } from "react";
-import Axios from "axios";
-import DispatchContext from "../DispatchContext";
+import React, { useEffect, useState, useContext } from "react"
+import Axios from "axios"
+import DispatchContext from "../DispatchContext"
 
 function HeaderLoggedOut(props) {
-	const appDispatch = useContext(DispatchContext);
-	const [username, setUsername] = useState();
-	const [password, setPassword] = useState();
+	const appDispatch = useContext(DispatchContext)
+	const [username, setUsername] = useState()
+	const [password, setPassword] = useState()
 
 	async function handeSubmit(e) {
-		e.preventDefault();
+		e.preventDefault()
+		const ourRequest = Axios.CancelToken.source()
 		try {
-			const response = await Axios.post("/login", { username, password });
+			const response = await Axios.post("/login", { username, password })
+
 			if (response.data) {
-				appDispatch({ type: "login", data: response.data });
+				const versions = await Axios.get(`/profile/${username}/posts`, { cancelToken: ourRequest.token })
+				response.data = { ...response.data, versions: versions.data, shipId: 0 }
+				appDispatch({ type: "login", data: response.data })
 			} else {
-				console.log("Incorrect username / password");
+				console.log("Incorrect username / password")
 			}
 		} catch (e) {
-			console.log("there was a problem");
+			console.log("Error problem:", e)
 		}
 	}
 
@@ -35,7 +39,7 @@ function HeaderLoggedOut(props) {
 				</div>
 			</div>
 		</form>
-	);
+	)
 }
 
-export default HeaderLoggedOut;
+export default HeaderLoggedOut
