@@ -33,8 +33,8 @@ function Main() {
 		user: {
 			token: localStorage.getItem("complexappToken"),
 			username: localStorage.getItem("complexappUsername"),
-			avatar: localStorage.getItem("complexappVersions"),
-			versions: localStorage.getItem("complexappAvatar"),
+			avatar: localStorage.getItem("complexappAvatar"),
+			versions: [],
 			shipId: 0
 		}
 	}
@@ -64,11 +64,18 @@ function Main() {
 
 	useEffect(() => {
 		if (state.loggedIn) {
+			var versionsLocalStorage = state.user.versions.map(e => {
+				console.log(e)
+				return JSON.stringify(e)
+			})
+
 			localStorage.setItem("complexappToken", state.user.token)
 			localStorage.setItem("complexappUsername", state.user.username)
 			localStorage.setItem("complexappAvatar", state.user.avatar)
-			localStorage.setItem("complexappVersions", state.user.versions)
+			localStorage.setItem("complexappVersions", versionsLocalStorage)
 			localStorage.setItem("complexappShipIndex", state.user.shipId)
+
+			console.log(versionsLocalStorage)
 		} else {
 			localStorage.removeItem("complexappToken")
 			localStorage.removeItem("complexappUsername")

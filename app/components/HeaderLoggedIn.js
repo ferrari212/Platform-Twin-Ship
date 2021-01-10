@@ -14,14 +14,22 @@ function HeaderLoggedIn(props) {
 
 	// Initial Use of Button: Insert the ship version as reducer
 	var setDisplayedShip = e => {
-		appDispatch({ type: "changeShip", shipId: e - 1 })
+		appDispatch({ type: "changeShip", shipId: e })
 	}
 
 	var displayTitleString = e => {
 		const id = e.user.shipId
 		const version = e.user.versions[id]
-		return version.title
+		return version ? version.title : ""
 	}
+
+	var titles = []
+
+	if (typeof appState.user.versions === "object") {
+		titles = appState.user.versions.map(x => x.title)
+	}
+
+	console.log(titles)
 
 	return (
 		<Dropdown>
@@ -37,9 +45,9 @@ function HeaderLoggedIn(props) {
 				<Dropdown.Menu>
 					{console.log(appState.user.versions)}
 
-					{appState.user.versions.map(version => {
+					{appState.user.versions.map((version, id) => {
 						return (
-							<Dropdown.Item onSelect={setDisplayedShip} eventKey="1">
+							<Dropdown.Item key={id} onSelect={setDisplayedShip} eventKey={id}>
 								{version.title}
 							</Dropdown.Item>
 						)
@@ -47,7 +55,6 @@ function HeaderLoggedIn(props) {
 				</Dropdown.Menu>
 
 				<Link className="btn btn-sm btn-success mr-2 success" to="/create-post">
-					{/* Create Post */}
 					Create Ship Version
 				</Link>
 				<Link className="btn btn-sm btn-success mr-2" to={`/three-model/${appState.user.username}`}>

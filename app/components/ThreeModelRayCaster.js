@@ -32,7 +32,9 @@ class ThreeModelRayCaster extends Component {
 		this.height = this.props.height
 		this.ship = this.props.ship
 		this.intersected = undefined
-		this.mouse = new THREE.Vector2()
+		this.mouse = new THREE.Vector2(0.5, 0.5)
+		console.log(this.mouse)
+		// this.mouse.set()s
 
 		console.log("Constructor")
 	}
@@ -224,7 +226,6 @@ class ThreeModelRayCaster extends Component {
 					<p id="tooltip" />
 				</div>
 				<div id="tableinfo"></div>
-				{/* <h1>Hello, {this.props.test}</h1> */}
 				{this.addLifeCycle ? <LifeCycleBar /> : ""}
 			</Page>
 		)
