@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react"
 import UpLoadCanvas from "./UpLoadCanvas"
 import Page from "./Page"
-import ThreeModel from "./ThreeModel"
+import ThreeMiniPage from "./ThreeMiniPage"
 import Axios from "axios"
 import Renderjson from "renderjson"
 import { withRouter } from "react-router-dom"
@@ -10,8 +10,6 @@ import StateContext from "../StateContext"
 // import { response } from "express"
 
 import InputJSON from "./InputJSON"
-
-console.log(Renderjson)
 
 function CreatePost(props) {
 	const [title, setTitle] = useState()
@@ -69,8 +67,7 @@ function CreatePost(props) {
 					<InputJSON changeShip={changeShip} />
 				</div>
 
-				{console.log(props)}
-				<div className="form-group">{ship ? <ThreeModel ship={ship} height={350} addScenarioStatus={false} addLifeCycle={false} /> : <UpLoadCanvas />}</div>
+				<div className="form-group">{ship ? <ThreeMiniPage ship={ship} height={350} /> : <UpLoadCanvas />}</div>
 				<div id="render-json" />
 
 				<button className="btn btn-primary">Create New Version</button>
