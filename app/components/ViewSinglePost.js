@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useContext } from "react"
-import Page from "./Page"
 import { useParams, Link, withRouter } from "react-router-dom"
 import Axios from "axios"
+import Page from "./Page"
+import ThreeMiniPage from "./ThreeMiniPage"
 import Renderjson from "renderjson"
 import LoadingDotsIcon from "./LoadingDotsIcon"
 import ReactMarkdown from "react-markdown"
@@ -15,6 +16,8 @@ function ViewSinglePost(props) {
 	const { id } = useParams()
 	const [isLoading, setIsLoading] = useState(true)
 	const [post, setPost] = useState()
+
+	console.log(appState)
 
 	useEffect(() => {
 		const ourRequest = Axios.CancelToken.source()
@@ -105,6 +108,7 @@ function ViewSinglePost(props) {
 
 			<div className="description-content">
 				<ReactMarkdown source={post.description} allowedTypes={["paragraph", "strong", "emphasis", "text", "heading", "list", "listItem"]} />
+				<ThreeMiniPage ship={post.ship} height={350} />
 				<div id="render-json" />
 			</div>
 		</Page>

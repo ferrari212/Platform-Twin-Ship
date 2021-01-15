@@ -83,15 +83,11 @@ function Main() {
 
 				try {
 					const versions = await Axios.get(`/profile/${component.username}/posts`, { cancelToken: ourRequest.token })
-					// response.data = { ...response.data, versions: versions.data }
-					// debugger
 					dispatch({ type: "setVersion", data: versions.data })
 				} catch (e) {
 					console.log("There was a problem.", e)
 				}
 			}
-
-			// debugger
 
 			if (state.user.versions.length === 0) getVersions(state.user)
 
@@ -113,9 +109,7 @@ function Main() {
 					<Header />
 					<Suspense fallback={<LoadingDotsIcon></LoadingDotsIcon>}>
 						<Switch>
-							<Route path="/three-model/:username">
-								<ThreeModelRayCaster user={state.user} addScenarioStatus={true} />
-							</Route>
+							<Route path="/three-model/:username">{state.user.versions.length > 0 ? <ThreeModelRayCaster user={state.user} addScenarioStatus={true} /> : ""}</Route>
 							<Route path="/profile/:username">
 								<Profile />
 							</Route>

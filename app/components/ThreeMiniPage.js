@@ -22,14 +22,13 @@ class ThreeMiniPage extends Component {
 		this.addLifeCycle = this.props.addLifeCycle || false
 		this.height = this.props.height
 		this.ship = this.props.ship
+		debugger
 
 		console.log("Constructor")
 	}
 
 	componentDidMount() {
 		// Globals
-		// this.ship = new Vessel.Ship(GunnerusTeste)
-
 		this.getData(this)
 		this.sceneSetup()
 
@@ -110,15 +109,9 @@ class ThreeMiniPage extends Component {
 
 		async function fetchPosts(component) {
 			try {
-				const response = await Axios.get(`/profile/${component.props.user.username}/posts`, { cancelToken: ourRequest.token })
-
-				await component.setState({ newShip: JSON.parse(response.data[0].ship) })
+				await component.setState({ newShip: JSON.parse(component.ship) })
 			} catch (e) {
-				if (component.props.user === undefined && component.ship) {
-					await component.setState({ newShip: JSON.parse(component.ship) })
-				} else {
-					console.log("There was a problem.", e)
-				}
+				console.log("There was a problem.", e)
 			}
 		}
 

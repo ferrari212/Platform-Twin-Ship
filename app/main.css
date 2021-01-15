@@ -66,6 +66,10 @@ h4 {
 	top: 3px;
 }
 
+.highlightedBar {
+	fill: red;
+}
+
 .chat-count-badge {
 	text-align: center;
 	position: absolute;

@@ -10,7 +10,6 @@ class InputJSON extends Component {
 		this.handleChangeFile = file => {
 			var handleFile = e => {
 				const content = e.target.result
-				// console.log("file content", content)
 
 				// You can set content in state and show it in render.
 				this.props.changeShip(content)

@@ -16,6 +16,8 @@ import ToolTip from "../snippets/ToolTip"
 import TableInfo from "../snippets/TableInfo"
 
 import GunnerusTeste from "../vessel/specs/Gunnerus.json"
+import ConsumptionChart from "./ConsumptionChart"
+import GraphicVega from "./GraphicVega"
 
 var oSize = 512
 const skybox = new Skybox(oSize)
@@ -23,29 +25,25 @@ const skybox = new Skybox(oSize)
 class ThreeModelRayCaster extends Component {
 	constructor(props) {
 		super(props)
-		console.log(props)
 
 		this.addScenarioStatus = this.props.addScenarioStatus || false
 		this.height = this.props.height
 		this.ship = this.props.ship
 		this.intersected = undefined
 		this.mouse = new THREE.Vector2(0.5, 0.5)
-		console.log(this.mouse)
 
 		console.log("Constructor")
 	}
 
 	componentDidMount() {
 		// Globals
-		// this.ship = new Vessel.Ship(GunnerusTeste)
-
 		this.toolTip = new ToolTip(this.mouse)
 
 		this.sceneSetup()
 
 		this.mount.addEventListener("mousemove", this.onMouseMove, false)
 
-		this.getData(this)
+		this.setShipData(this)
 
 		window.addEventListener("resize", this.handleWindowResize)
 
@@ -55,17 +53,22 @@ class ThreeModelRayCaster extends Component {
 	componentDidUpdate(prevProps, prevStates) {
 		console.log("Component did Update!", prevProps, prevStates)
 
-		// Make the if else of the posting or notF
-		if (prevProps.ship !== this.props.ship) {
+		var prevIndex = prevProps.user.shipId
+		var prevVersion = prevProps.user.versions[prevIndex].ship
+		var newIndex = this.props.user.shipId
+		var newVersion = this.props.user.versions[newIndex].ship
+
+		if (prevVersion !== newVersion) {
 			this.removeShip()
-			this.setState({ newShip: JSON.parse(this.props.ship) })
+			this.setState({ newShip: JSON.parse(newVersion) })
 		} else {
 			this.ship = new Vessel.Ship(this.state.newShip)
-			// debugger
+
 			if (this.addScenarioStatus) this.addScenario()
 			this.addShip()
 			this.tableInfo = new TableInfo(this.ship3D, "tableinfo")
-			this.startAnimationLoop()
+
+			if (this.requestID === undefined) this.startAnimationLoop()
 		}
 	}
 
@@ -130,10 +133,9 @@ class ThreeModelRayCaster extends Component {
 		this.mouse.y = -((event.clientY - 48) / this.mount.clientHeight) * 2 + 1
 	}
 
-	getData = context => {
+	setShipData = context => {
 		var version = context.props.user.versions
 
-		debugger
 		if (version.length !== 0) {
 			var index = context.props.user.shipId
 			context.setState({ newShip: JSON.parse(version[index].ship) })
@@ -156,26 +158,24 @@ class ThreeModelRayCaster extends Component {
 
 		this.scene.add(this.ship3D)
 
-		if (this.addScenario) {
-			this.scene.background = new THREE.Color(0xa9cce3)
+		if (this.addScenarioStatus) {
 			const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
 			const mainLight = new THREE.DirectionalLight(0xffffff, 1)
 			mainLight.position.set(1, 1, 1)
 			this.scene.add(ambientLight, mainLight)
 
 			this.scene.rotation.x = -Math.PI / 2
-			this.addScenario = false
+			this.addScenarioStatus = false
 		}
 	}
 
 	removeShip = () => {
-		// const INDEX = this.scene.children.findIndex(element => element.name === "Ship3D")
 		var deletedShip = this.scene.getObjectByName("Ship3D")
 		this.scene.remove(deletedShip)
 	}
 
 	startAnimationLoop = () => {
-		if (this.addScenarioStatus) {
+		if (this.ocean.name) {
 			this.ocean.water.material.uniforms.time.value += 1 / 60
 		}
 
@@ -211,6 +211,12 @@ class ThreeModelRayCaster extends Component {
 					<p id="tooltip" />
 				</div>
 				<div id="tableinfo"></div>
+				<div className="container-fluid align-items-center p-3">
+					<div className="row">
+						<ConsumptionChart />
+						<GraphicVega />
+					</div>
+				</div>
 				<LifeCycleBar />
 			</Page>
 		)
