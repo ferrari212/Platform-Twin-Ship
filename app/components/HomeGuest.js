@@ -2,8 +2,9 @@ import React, { useState } from "react"
 import Page from "./Page"
 import Axios from "axios"
 
-import Image1 from "../images/Gunnerus_starboard_su.jpg"
-import Image2 from "../images/Gunnerus.jpg"
+import Image1 from "../images/picture1.jpg"
+import Image2 from "../images/picture2.jpg"
+import Image3 from "../images/picture3.jpg"
 
 function HomeGuest() {
 	const [username, setUsername] = useState()
@@ -29,11 +30,15 @@ function HomeGuest() {
 					<div className="position-relative">
 						<div className="text-center home-images-transition-1">
 							<img src={Image1} className="rounded-lg" alt="" height="300px" width="450px" />
-							<p className="lead text-muted">From concept</p>
+							<p className="lead text-muted">From concept....</p>
 						</div>
 						<div className="text-center home-images-transition-2">
 							<img src={Image2} className="rounded-lg" alt="" height="300px" width="450px" />
-							<p className="lead text-muted">To design.</p>
+							<p className="lead text-muted">...to design...</p>
+						</div>
+						<div className="text-center home-images-transition-3">
+							<img src={Image3} className="rounded-lg" alt="" height="300px" width="450px" />
+							<p className="lead text-muted">...to real life.</p>
 						</div>
 					</div>
 				</div>
@@ -43,7 +48,7 @@ function HomeGuest() {
 							<label htmlFor="username-register" className="text-muted mb-1">
 								<small>Username</small>
 							</label>
-							<input onChange={e => setUsername(e.target.value)} id="username-register" name="username" className="form-control" type="text" placeholder="Pick a username" autoComplete="off" />
+							<input onChange={e => setUsername(e.target.value)} id="username-register" name="username" className="form-control" type="text" placeholder="Username" autoComplete="off" />
 						</div>
 						<div className="form-group">
 							<label htmlFor="email-register" className="text-muted mb-1">
@@ -53,12 +58,12 @@ function HomeGuest() {
 						</div>
 						<div className="form-group">
 							<label htmlFor="password-register" className="text-muted mb-1">
-								<small>Password</small>
+								<small>Password (capital letter and number included)</small>
 							</label>
 							<input onChange={e => setPassword(e.target.value)} id="password-register" name="password" className="form-control" type="password" placeholder="Create a password" />
 						</div>
 						<button type="submit" className="py-3 mt-4 btn btn-lg btn-success btn-block">
-							Sign up htmlFor ComplexApp
+							Sign up for TwinShipPlatform
 						</button>
 					</form>
 				</div>

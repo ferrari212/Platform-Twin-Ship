@@ -22,7 +22,6 @@ class ThreeMiniPage extends Component {
 		this.addLifeCycle = this.props.addLifeCycle || false
 		this.height = this.props.height
 		this.ship = this.props.ship
-		debugger
 
 		console.log("Constructor")
 	}

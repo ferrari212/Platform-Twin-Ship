@@ -8,12 +8,12 @@ h4 {
 }
 
 #free-bar {
-	position: fixed;
-	bottom: 100px;
+	position: absolute;
+	bottom: 25%;
 }
 
 #free-table {
-	position: fixed;
+	position: absolute;
 	top: 15vh;
 	left: 5vw;
 	width: 20vw;
@@ -64,10 +64,6 @@ h4 {
 	cursor: pointer;
 	position: relative;
 	top: 3px;
-}
-
-.highlightedBar {
-	fill: red;
 }
 
 .chat-count-badge {
@@ -634,7 +630,7 @@ h4 {
 /* -------------- Images animation ------------  */
 .home-images-transition-1 {
 	/* position: relative; */
-	animation-duration: 5s;
+	animation-duration: 10s;
 	animation-name: run-fixed-bar-1;
 	animation-iteration-count: infinite;
 }
@@ -644,49 +640,115 @@ h4 {
 	margin-top: 0%;
 	margin-left: 50%;
 	transform: translate(-50%, -100%);
-	animation-duration: 5s;
+	animation-duration: 10s;
 	animation-name: run-fixed-bar-2;
+	animation-iteration-count: infinite;
+}
+
+.home-images-transition-3 {
+	position: absolute;
+	margin-top: 0%;
+	margin-left: 50%;
+	transform: translate(-50%, -100%);
+	animation-duration: 10s;
+	animation-name: run-fixed-bar-3;
 	animation-iteration-count: infinite;
 }
 
 @keyframes run-fixed-bar-1 {
 	0%,
-	100% {
+	20% {
+		opacity: 1;
+	}
+
+	33.33%,
+	91.66% {
 		opacity: 0;
 	}
 
-	60% {
+	100% {
 		opacity: 1;
 	}
 }
 
 @-webkit-keyframes run-fixed-bar-1 {
 	0%,
-	100% {
+	20% {
+		opacity: 1;
+	}
+
+	33.33%,
+	91.66% {
 		opacity: 0;
 	}
 
-	60% {
+	100% {
 		opacity: 1;
 	}
 }
 
 @keyframes run-fixed-bar-2 {
-	0% {
+	0%,
+	20% {
 		opacity: 0;
 	}
 
-	100% {
+	33.33%,
+	53.33% {
 		opacity: 1;
+	}
+
+	66.66%,
+	100% {
+		opacity: 0;
 	}
 }
 
 @-webkit-keyframes run-fixed-bar-2 {
-	0% {
+	0%,
+	20% {
 		opacity: 0;
 	}
 
-	100% {
+	33.33%,
+	53.33% {
 		opacity: 1;
+	}
+
+	66.66%,
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes run-fixed-bar-3 {
+	0%,
+	53.33% {
+		opacity: 0;
+	}
+
+	66.66%,
+	86.66% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+@-webkit-keyframes run-fixed-bar-3 {
+	0%,
+	53.33% {
+		opacity: 0;
+	}
+
+	66.66%,
+	86.66% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
 	}
 }
