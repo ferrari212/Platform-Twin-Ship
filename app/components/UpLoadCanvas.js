@@ -1,6 +1,6 @@
 import React from "react"
 
-import Image from "../images/icons/cloud_upload-blue-48dp.svg"
+import Image from "../images/cloud_upload-blue-48dp.svg"
 
 function UpLoadCanvas() {
 	return (

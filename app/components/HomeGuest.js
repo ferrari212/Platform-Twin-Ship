@@ -29,16 +29,16 @@ function HomeGuest() {
 					<h1 className="display-4 text-center ">Life Cycle Platform</h1>
 					<div className="position-relative">
 						<div className="text-center home-images-transition-1">
-							<img src={Image1} className="rounded-lg" alt="" height="300px" width="450px" />
-							<p className="lead text-muted">From concept....</p>
+							<img src={Image1} className="rounded border border-dark" alt="" height="300px" width="550px" />
+							<p className="lead text-muted">Through concept....</p>
 						</div>
 						<div className="text-center home-images-transition-2">
-							<img src={Image2} className="rounded-lg" alt="" height="300px" width="450px" />
-							<p className="lead text-muted">...to design...</p>
+							<img src={Image2} className="rounded border border-dark" alt="" height="300px" width="550px" />
+							<p className="lead text-muted">...to simulation...</p>
 						</div>
 						<div className="text-center home-images-transition-3">
-							<img src={Image3} className="rounded-lg" alt="" height="300px" width="450px" />
-							<p className="lead text-muted">...to real life.</p>
+							<img src={Image3} className="rounded border border-dark" alt="" height="300px" width="550px" />
+							<p className="lead text-muted">...and real life.</p>
 						</div>
 					</div>
 				</div>

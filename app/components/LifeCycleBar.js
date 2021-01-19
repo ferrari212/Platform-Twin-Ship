@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 
-import Image from "../images/icons/code-24px.svg"
+import Image from "../images/code-24px.svg"
 
 function LifeCycleBar() {
 	return (
