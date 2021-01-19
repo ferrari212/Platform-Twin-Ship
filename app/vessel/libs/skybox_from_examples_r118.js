@@ -6,9 +6,9 @@ function Skybox(size) {
 	var cubeMap = new THREE.CubeTexture([])
 	cubeMap.format = THREE.RGBFormat
 	var loader = new THREE.ImageLoader()
+	size = size || 1024
 	loader.load(ImageSky, function (image) {
 		var getSide = function (x, y) {
-			var size = 1024
 			var canvas = document.createElement("canvas")
 			canvas.width = size
 			canvas.height = size

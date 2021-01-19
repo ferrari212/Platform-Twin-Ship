@@ -1,5 +1,6 @@
 Untitled-1.txt
 .env
+dist/
 *.diff
 *.err
 *.orig

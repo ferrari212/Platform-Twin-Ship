@@ -3,6 +3,50 @@ body {
 	background-color: #dce8f2;
 }
 
+h4 {
+	color: #295773;
+}
+
+#free-bar {
+	position: absolute;
+	bottom: 25%;
+}
+
+#free-table {
+	position: absolute;
+	top: 15vh;
+	left: 5vw;
+	width: 20vw;
+}
+
+#tooltip {
+	/* visibility: hidden; */
+	position: fixed;
+	top: 100px;
+	left: 10px;
+	position: absolute;
+	font-family: Helvetica;
+	display: block;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	padding: 5px 10px;
+	border-radius: 6px;
+	z-index: 101;
+}
+
+#free-button {
+	padding: 12px;
+	border-radius: 50%;
+	margin-bottom: 0px;
+
+	background-color: #fff;
+	opacity: 0.9;
+	z-index: 999;
+
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+}
+
 .header-bar {
 	background-color: #295773;
 }
@@ -55,15 +99,15 @@ body {
 	font-weight: 500;
 }
 
-.body-content {
+.description-content {
 	font-size: 1.2rem;
 	line-height: 1.75;
 	color: #292929;
 }
 
-.body-content p,
-.body-content ul,
-.body-content ol {
+.description-content p,
+.description-content ul,
+.description-content ol {
 	margin-bottom: 1.75rem;
 }
 
@@ -163,15 +207,15 @@ body {
 	z-index: 2;
 }
 
-textarea.tall-textarea {
-	height: 160px;
+/* textarea.tall-textarea {
+	height: 80px;
 }
 
 @media (min-width: 768px) {
 	textarea.tall-textarea {
 		height: 320px;
 	}
-}
+} */
 
 .delete-post-button {
 	cursor: pointer;
@@ -586,7 +630,7 @@ textarea.tall-textarea {
 /* -------------- Images animation ------------  */
 .home-images-transition-1 {
 	/* position: relative; */
-	animation-duration: 5s;
+	animation-duration: 10s;
 	animation-name: run-fixed-bar-1;
 	animation-iteration-count: infinite;
 }
@@ -596,49 +640,115 @@ textarea.tall-textarea {
 	margin-top: 0%;
 	margin-left: 50%;
 	transform: translate(-50%, -100%);
-	animation-duration: 5s;
+	animation-duration: 10s;
 	animation-name: run-fixed-bar-2;
+	animation-iteration-count: infinite;
+}
+
+.home-images-transition-3 {
+	position: absolute;
+	margin-top: 0%;
+	margin-left: 50%;
+	transform: translate(-50%, -100%);
+	animation-duration: 10s;
+	animation-name: run-fixed-bar-3;
 	animation-iteration-count: infinite;
 }
 
 @keyframes run-fixed-bar-1 {
 	0%,
-	100% {
+	20% {
+		opacity: 1;
+	}
+
+	33.33%,
+	91.66% {
 		opacity: 0;
 	}
 
-	60% {
+	100% {
 		opacity: 1;
 	}
 }
 
 @-webkit-keyframes run-fixed-bar-1 {
 	0%,
-	100% {
+	20% {
+		opacity: 1;
+	}
+
+	33.33%,
+	91.66% {
 		opacity: 0;
 	}
 
-	60% {
+	100% {
 		opacity: 1;
 	}
 }
 
 @keyframes run-fixed-bar-2 {
-	0% {
+	0%,
+	20% {
 		opacity: 0;
 	}
 
-	100% {
+	33.33%,
+	53.33% {
 		opacity: 1;
+	}
+
+	66.66%,
+	100% {
+		opacity: 0;
 	}
 }
 
 @-webkit-keyframes run-fixed-bar-2 {
-	0% {
+	0%,
+	20% {
 		opacity: 0;
 	}
 
-	100% {
+	33.33%,
+	53.33% {
 		opacity: 1;
+	}
+
+	66.66%,
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes run-fixed-bar-3 {
+	0%,
+	53.33% {
+		opacity: 0;
+	}
+
+	66.66%,
+	86.66% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+@-webkit-keyframes run-fixed-bar-3 {
+	0%,
+	53.33% {
+		opacity: 0;
+	}
+
+	66.66%,
+	86.66% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
 	}
 }
