@@ -18,7 +18,7 @@ import About from "./components/About"
 import Terms from "./components/Terms"
 const CreatePost = React.lazy(() => import("./components/CreatePost"))
 const ViewSinglePost = React.lazy(() => import("./components/ViewSinglePost"))
-const ThreeModelRayCaster = React.lazy(() => import("./components/ThreeModelRayCaster"))
+const ThreeModelRayCaster = React.lazy(() => import("./components/ThreeComponents/ThreeModelRayCaster"))
 import FlashMessages from "./components/FlashMessages"
 import Profile from "./components/Profile"
 import EditPost from "./components/EditPost"

@@ -1,35 +1,48 @@
 import React, { useEffect, useState, Component } from "react"
 import * as THREE from "three"
-import Page from "./Page"
+import Page from "../Page"
+import LifeCycleBar from "../LifeCycleBar"
+import { useParams } from "react-router-dom"
 import Axios from "axios"
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
-import { Skybox } from "../vessel/libs/skybox_from_examples_r118"
-import { Ocean } from "../vessel/libs/Configurable_ocean2"
-import { Vessel } from "../vessel/build/vessel"
-import { Ship3D } from "../vessel/build/Ship3D"
+import { Skybox } from "../../vessel/libs/skybox_from_examples_r118"
+import { Ocean } from "../../vessel/libs/Configurable_ocean2"
+import { Vessel } from "../../vessel/build/vessel"
+import { Ship3D } from "../../vessel/build/Ship3D"
+import { renderRayCaster } from "../../vessel/snippets/renderRayCaster"
 
-import GunnerusTeste from "../vessel/specs/Gunnerus.json"
+import ToolTip from "../../snippets/ToolTip"
+import TableInfo from "../../snippets/TableInfo"
+
+import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
+import ConsumptionChart from "../ChartComponents/ConsumptionChart"
+import GraphicVega from "../ChartComponents/GraphicVega"
 
 var oSize = 512
 const skybox = new Skybox(oSize)
 
-class ThreeMiniPage extends Component {
+class ThreeModelRayCaster extends Component {
 	constructor(props) {
 		super(props)
 
 		this.addScenarioStatus = this.props.addScenarioStatus || false
-		this.addLifeCycle = this.props.addLifeCycle || false
 		this.height = this.props.height
-		this.ship = this.props.ship
+		this.intersected = undefined
+		this.mouse = new THREE.Vector2(0.5, 0.5)
 
 		console.log("Constructor")
 	}
 
 	componentDidMount() {
 		// Globals
-		this.getData(this)
+		this.toolTip = new ToolTip(this.mouse)
+
 		this.sceneSetup()
+
+		this.mount.addEventListener("mousemove", this.onMouseMove, false)
+
+		this.setShipData(this)
 
 		window.addEventListener("resize", this.handleWindowResize)
 
@@ -39,15 +52,30 @@ class ThreeMiniPage extends Component {
 	componentDidUpdate(prevProps, prevStates) {
 		console.log("Component did Update!", prevProps, prevStates)
 
-		// Make the if else of the posting or notF
-		if (prevProps.ship !== this.props.ship) {
+		var prevIndex = prevProps.user.shipId
+		var prevVersion = prevProps.user.versions[prevIndex].ship
+		var newIndex = this.props.user.shipId
+		var newVersion = this.props.user.versions[newIndex].ship
+
+		if (prevVersion !== newVersion) {
 			this.removeShip()
-			this.setState({ newShip: JSON.parse(this.props.ship) })
+			// this.setState({ newShip: JSON.parse(newVersion) })
+			this.setState(() => {
+				// console.log("TESTE HEHERE")
+				var newShip = JSON.parse(version[index].ship)
+				return {
+					newShip: newShip,
+					ship: new Vessel.Ship(newShip)
+				}
+			})
 		} else {
 			this.ship = new Vessel.Ship(this.state.newShip)
+
 			if (this.addScenarioStatus) this.addScenario()
 			this.addShip()
-			this.startAnimationLoop()
+			this.tableInfo = new TableInfo(this.ship3D, "tableinfo")
+
+			if (this.requestID === undefined) this.startAnimationLoop()
 		}
 	}
 
@@ -98,23 +126,34 @@ class ThreeMiniPage extends Component {
 			segments: 127
 		})
 		this.ocean.name = "Ocean"
-		console.log(this.ocean)
 		this.scene.add(this.ocean)
 		this.scene.rotation.x = -Math.PI / 2
 	}
 
-	getData = context => {
-		const ourRequest = Axios.CancelToken.source()
+	onMouseMove = event => {
+		// calculate mouse position in normalized device coordinates
+		// (-1 to +1) for both components
+		this.mouse.clientX = event.clientX
+		this.mouse.clientY = event.clientY
 
-		async function fetchPosts(component) {
-			try {
-				await component.setState({ newShip: JSON.parse(component.ship) })
-			} catch (e) {
-				console.log("There was a problem.", e)
-			}
+		this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+		this.mouse.y = -((event.clientY - 48) / this.mount.clientHeight) * 2 + 1
+	}
+
+	setShipData = context => {
+		var version = context.props.user.versions
+
+		if (version.length !== 0) {
+			var index = context.props.user.shipId
+			context.setState(() => {
+				// console.log("TESTE HEHERE")
+				var newShip = JSON.parse(version[index].ship)
+				return {
+					newShip: newShip,
+					ship: new Vessel.Ship(newShip)
+				}
+			})
 		}
-
-		fetchPosts(context)
 	}
 
 	addShip = () => {
@@ -133,32 +172,41 @@ class ThreeMiniPage extends Component {
 
 		this.scene.add(this.ship3D)
 
-		if (this.addScenario) {
-			this.scene.background = new THREE.Color(0xa9cce3)
+		if (this.addScenarioStatus) {
 			const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
 			const mainLight = new THREE.DirectionalLight(0xffffff, 1)
 			mainLight.position.set(1, 1, 1)
 			this.scene.add(ambientLight, mainLight)
 
 			this.scene.rotation.x = -Math.PI / 2
-			this.addScenario = false
+			this.addScenarioStatus = false
 		}
 	}
 
 	removeShip = () => {
-		// const INDEX = this.scene.children.findIndex(element => element.name === "Ship3D")
 		var deletedShip = this.scene.getObjectByName("Ship3D")
-		console.log(deletedShip)
 		this.scene.remove(deletedShip)
 	}
 
 	startAnimationLoop = () => {
-		if (this.addScenarioStatus) {
+		if (this.ocean.name) {
 			this.ocean.water.material.uniforms.time.value += 1 / 60
 		}
 
 		this.renderer.render(this.scene, this.camera)
 		this.requestID = window.requestAnimationFrame(this.startAnimationLoop)
+
+		// Apply the function RayCaster
+		this.intersected = renderRayCaster(this.mouse, this.camera, this.scene, this.intersected)
+
+		// Apply the click information function
+		if (this.intersected.name !== undefined) {
+			this.tableInfo.upDate(this.intersected)
+		} else {
+			this.tableInfo.tooltipElement.style.visibility = "hidden"
+		}
+
+		this.toolTip.upDate(this.intersected)
 	}
 
 	handleWindowResize = () => {
@@ -171,12 +219,34 @@ class ThreeMiniPage extends Component {
 	}
 
 	render() {
+		function switchElement(self) {
+			var teste = true
+
+			switch (teste) {
+				case true:
+					if (Boolean(self)) {
+						debugger
+						return <ConsumptionChart state={self} Vessel={Vessel} />
+					}
+					return null
+
+				default:
+					return null
+			}
+		}
+
 		return (
 			<Page title="Three-js" className="" wide={this.props.wide}>
-				<div ref={ref => (this.mount = ref)} />
+				<div ref={ref => (this.mount = ref)}>
+					<p id="tooltip" />
+					<div id="tableinfo"></div>
+				</div>
+				{/* {switchElement("teste", this)} */}
+				{switchElement(this.state)}
+				<LifeCycleBar />
 			</Page>
 		)
 	}
 }
 
-export default ThreeMiniPage
+export default ThreeModelRayCaster

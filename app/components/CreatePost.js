@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react"
 import UpLoadCanvas from "./UpLoadCanvas"
 import Page from "./Page"
-import ThreeMiniPage from "./ThreeMiniPage"
+import ThreeMiniPage from "./ThreeComponents/ThreeMiniPage"
 import Axios from "axios"
 import Renderjson from "renderjson"
 import { withRouter } from "react-router-dom"
@@ -34,7 +34,7 @@ function CreatePost(props) {
 	}
 
 	var changeShip = newShip => {
-		setShip(newShip)
+		setShip(newShip => newShip)
 
 		var fileCont = document.getElementById("render-json")
 		fileCont.innerHTML = ""

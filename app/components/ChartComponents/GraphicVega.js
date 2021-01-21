@@ -23,7 +23,6 @@ function GraphicVega() {
 	}
 	const signalListeners = { hover: handleHover }
 
-	// return <Vega spec={spec} data={barData} signalListeners={signalListeners} />
 	return <BarChart data={barData} signalListeners={signalListeners} />
 }
 

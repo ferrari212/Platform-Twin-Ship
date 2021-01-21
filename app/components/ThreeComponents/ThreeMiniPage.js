@@ -1,49 +1,35 @@
 import React, { useEffect, useState, Component } from "react"
 import * as THREE from "three"
-import Page from "./Page"
-import LifeCycleBar from "./LifeCycleBar"
-import { useParams } from "react-router-dom"
+import Page from "../Page"
 import Axios from "axios"
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
-import { Skybox } from "../vessel/libs/skybox_from_examples_r118"
-import { Ocean } from "../vessel/libs/Configurable_ocean2"
-import { Vessel } from "../vessel/build/vessel"
-import { Ship3D } from "../vessel/build/Ship3D"
-import { renderRayCaster } from "../vessel/snippets/renderRayCaster"
+import { Skybox } from "../../vessel/libs/skybox_from_examples_r118"
+import { Ocean } from "../../vessel/libs/Configurable_ocean2"
+import { Vessel } from "../../vessel/build/vessel"
+import { Ship3D } from "../../vessel/build/Ship3D"
 
-import ToolTip from "../snippets/ToolTip"
-import TableInfo from "../snippets/TableInfo"
-
-import GunnerusTeste from "../vessel/specs/Gunnerus.json"
-import ConsumptionChart from "./ConsumptionChart"
-import GraphicVega from "./GraphicVega"
+import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
 
 var oSize = 512
 const skybox = new Skybox(oSize)
 
-class ThreeModelRayCaster extends Component {
+class ThreeMiniPage extends Component {
 	constructor(props) {
 		super(props)
 
 		this.addScenarioStatus = this.props.addScenarioStatus || false
+		this.addLifeCycle = this.props.addLifeCycle || false
 		this.height = this.props.height
 		this.ship = this.props.ship
-		this.intersected = undefined
-		this.mouse = new THREE.Vector2(0.5, 0.5)
 
 		console.log("Constructor")
 	}
 
 	componentDidMount() {
 		// Globals
-		this.toolTip = new ToolTip(this.mouse)
-
+		this.getData(this)
 		this.sceneSetup()
-
-		this.mount.addEventListener("mousemove", this.onMouseMove, false)
-
-		this.setShipData(this)
 
 		window.addEventListener("resize", this.handleWindowResize)
 
@@ -53,22 +39,15 @@ class ThreeModelRayCaster extends Component {
 	componentDidUpdate(prevProps, prevStates) {
 		console.log("Component did Update!", prevProps, prevStates)
 
-		var prevIndex = prevProps.user.shipId
-		var prevVersion = prevProps.user.versions[prevIndex].ship
-		var newIndex = this.props.user.shipId
-		var newVersion = this.props.user.versions[newIndex].ship
-
-		if (prevVersion !== newVersion) {
+		// Make the if else of the posting or notF
+		if (prevProps.ship !== this.props.ship) {
 			this.removeShip()
-			this.setState({ newShip: JSON.parse(newVersion) })
+			this.setState({ newShip: JSON.parse(this.props.ship) })
 		} else {
 			this.ship = new Vessel.Ship(this.state.newShip)
-
 			if (this.addScenarioStatus) this.addScenario()
 			this.addShip()
-			this.tableInfo = new TableInfo(this.ship3D, "tableinfo")
-
-			if (this.requestID === undefined) this.startAnimationLoop()
+			this.startAnimationLoop()
 		}
 	}
 
@@ -119,27 +98,23 @@ class ThreeModelRayCaster extends Component {
 			segments: 127
 		})
 		this.ocean.name = "Ocean"
+		console.log(this.ocean)
 		this.scene.add(this.ocean)
 		this.scene.rotation.x = -Math.PI / 2
 	}
 
-	onMouseMove = event => {
-		// calculate mouse position in normalized device coordinates
-		// (-1 to +1) for both components
-		this.mouse.clientX = event.clientX
-		this.mouse.clientY = event.clientY
+	getData = context => {
+		const ourRequest = Axios.CancelToken.source()
 
-		this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1
-		this.mouse.y = -((event.clientY - 48) / this.mount.clientHeight) * 2 + 1
-	}
-
-	setShipData = context => {
-		var version = context.props.user.versions
-
-		if (version.length !== 0) {
-			var index = context.props.user.shipId
-			context.setState({ newShip: JSON.parse(version[index].ship) })
+		async function fetchPosts(component) {
+			try {
+				await component.setState({ newShip: JSON.parse(component.ship) })
+			} catch (e) {
+				console.log("There was a problem.", e)
+			}
 		}
+
+		fetchPosts(context)
 	}
 
 	addShip = () => {
@@ -158,41 +133,32 @@ class ThreeModelRayCaster extends Component {
 
 		this.scene.add(this.ship3D)
 
-		if (this.addScenarioStatus) {
+		if (this.addScenario) {
+			this.scene.background = new THREE.Color(0xa9cce3)
 			const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
 			const mainLight = new THREE.DirectionalLight(0xffffff, 1)
 			mainLight.position.set(1, 1, 1)
 			this.scene.add(ambientLight, mainLight)
 
 			this.scene.rotation.x = -Math.PI / 2
-			this.addScenarioStatus = false
+			this.addScenario = false
 		}
 	}
 
 	removeShip = () => {
+		// const INDEX = this.scene.children.findIndex(element => element.name === "Ship3D")
 		var deletedShip = this.scene.getObjectByName("Ship3D")
+		console.log(deletedShip)
 		this.scene.remove(deletedShip)
 	}
 
 	startAnimationLoop = () => {
-		if (this.ocean.name) {
+		if (this.addScenarioStatus) {
 			this.ocean.water.material.uniforms.time.value += 1 / 60
 		}
 
 		this.renderer.render(this.scene, this.camera)
 		this.requestID = window.requestAnimationFrame(this.startAnimationLoop)
-
-		// Apply the function RayCaster
-		this.intersected = renderRayCaster(this.mouse, this.camera, this.scene, this.intersected)
-
-		// Apply the click information function
-		if (this.intersected.name !== undefined) {
-			this.tableInfo.upDate(this.intersected)
-		} else {
-			this.tableInfo.tooltipElement.style.visibility = "hidden"
-		}
-
-		this.toolTip.upDate(this.intersected)
 	}
 
 	handleWindowResize = () => {
@@ -207,20 +173,10 @@ class ThreeModelRayCaster extends Component {
 	render() {
 		return (
 			<Page title="Three-js" className="" wide={this.props.wide}>
-				<div ref={ref => (this.mount = ref)}>
-					<p id="tooltip" />
-				</div>
-				<div id="tableinfo"></div>
-				<div className="container-fluid align-items-center p-3">
-					<div className="row">
-						<ConsumptionChart />
-						<GraphicVega />
-					</div>
-				</div>
-				<LifeCycleBar />
+				<div ref={ref => (this.mount = ref)} />
 			</Page>
 		)
 	}
 }
 
-export default ThreeModelRayCaster
+export default ThreeMiniPage
