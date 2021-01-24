@@ -1,13 +1,13 @@
 import React, { useEffect } from "react"
 
 // import { Vessel } from "../../vessel/build/vessel"
-import GraphicVega from "./GraphicVega"
+import BarVega from "./BarVega"
+import D3Chart from "./D3Chart"
 
 function ConsumptionChart(props) {
 	console.log(props)
 
 	try {
-		debugger
 		this.ship = props.state.ship
 		this.shipState = new props.Vessel.ShipState(this.ship.designState.getSpecification())
 		this.propeller = new Object({
@@ -34,11 +34,11 @@ function ConsumptionChart(props) {
 		<div className="container-fluid align-items-center p-3">
 			Teste
 			<div className="row">
-				<div className="col-sm-6  text-center ">
-					<GraphicVega key="1" />
+				<div className="col-lg-6  text-center ">
+					<D3Chart key="5" />
 				</div>
-				<div className="col-sm-6  text-center ">
-					<GraphicVega key="2" />
+				<div className="col-lg-6  text-center ">
+					<BarVega key="2" />
 				</div>
 			</div>
 		</div>

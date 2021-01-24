@@ -17,7 +17,6 @@ import TableInfo from "../../snippets/TableInfo"
 
 import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
 import ConsumptionChart from "../ChartComponents/ConsumptionChart"
-import GraphicVega from "../ChartComponents/GraphicVega"
 
 var oSize = 512
 const skybox = new Skybox(oSize)
@@ -225,7 +224,6 @@ class ThreeModelRayCaster extends Component {
 			switch (teste) {
 				case true:
 					if (Boolean(self)) {
-						debugger
 						return <ConsumptionChart state={self} Vessel={Vessel} />
 					}
 					return null

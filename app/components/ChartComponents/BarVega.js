@@ -1,10 +1,10 @@
 import React, { useEffect } from "react"
-import BarChart from "./BarChart.js"
+import BarConfig from "./BarConfig.js"
 import ReactDOM from "react-dom"
 import { Vega } from "react-vega"
 import { createClassFromSpec } from "react-vega"
 
-function GraphicVega() {
+function BarVega() {
 	const barData = {
 		table: [
 			{ category: "A", amount: 28 },
@@ -23,7 +23,7 @@ function GraphicVega() {
 	}
 	const signalListeners = { hover: handleHover }
 
-	return <BarChart data={barData} signalListeners={signalListeners} />
+	return <BarConfig data={barData} signalListeners={signalListeners} />
 }
 
-export default GraphicVega
+export default BarVega
