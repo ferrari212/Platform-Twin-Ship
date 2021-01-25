@@ -17,6 +17,7 @@ import TableInfo from "../../snippets/TableInfo"
 
 import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
 import ConsumptionChart from "../ChartComponents/ConsumptionChart"
+import Chart from "../ChartComponents/Chart"
 
 var oSize = 512
 const skybox = new Skybox(oSize)
