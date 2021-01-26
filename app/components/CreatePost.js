@@ -34,7 +34,7 @@ function CreatePost(props) {
 	}
 
 	var changeShip = newShip => {
-		setShip(newShip => newShip)
+		setShip(newShip)
 
 		var fileCont = document.getElementById("render-json")
 		fileCont.innerHTML = ""

@@ -16,8 +16,7 @@ import ToolTip from "../../snippets/ToolTip"
 import TableInfo from "../../snippets/TableInfo"
 
 import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
-import ConsumptionChart from "../ChartComponents/ConsumptionChart"
-import Chart from "../ChartComponents/Chart"
+import AnalysisChart from "../ChartComponents/AnalysisChart"
 
 var oSize = 512
 const skybox = new Skybox(oSize)
@@ -42,7 +41,9 @@ class ThreeModelRayCaster extends Component {
 
 		this.mount.addEventListener("mousemove", this.onMouseMove, false)
 
-		this.setShipData(this)
+		var Id = this.props.user.shipId
+		var version = this.props.user.versions[Id].ship
+		this.setShipDataTemporary(this, version)
 
 		window.addEventListener("resize", this.handleWindowResize)
 
@@ -59,15 +60,8 @@ class ThreeModelRayCaster extends Component {
 
 		if (prevVersion !== newVersion) {
 			this.removeShip()
-			// this.setState({ newShip: JSON.parse(newVersion) })
-			this.setState(() => {
-				// console.log("TESTE HEHERE")
-				var newShip = JSON.parse(version[index].ship)
-				return {
-					newShip: newShip,
-					ship: new Vessel.Ship(newShip)
-				}
-			})
+
+			this.setShipDataTemporary(this, newVersion)
 		} else {
 			this.ship = new Vessel.Ship(this.state.newShip)
 
@@ -140,14 +134,11 @@ class ThreeModelRayCaster extends Component {
 		this.mouse.y = -((event.clientY - 48) / this.mount.clientHeight) * 2 + 1
 	}
 
-	setShipData = context => {
-		var version = context.props.user.versions
-
+	setShipDataTemporary = (context, version) => {
+		console.log(this)
 		if (version.length !== 0) {
-			var index = context.props.user.shipId
-			context.setState(() => {
-				// console.log("TESTE HEHERE")
-				var newShip = JSON.parse(version[index].ship)
+			this.setState(() => {
+				var newShip = JSON.parse(version)
 				return {
 					newShip: newShip,
 					ship: new Vessel.Ship(newShip)
@@ -188,6 +179,15 @@ class ThreeModelRayCaster extends Component {
 		this.scene.remove(deletedShip)
 	}
 
+	handleWindowResize = () => {
+		const width = this.mount.clientWidth
+		const height = this.mount.clientHeight
+
+		this.renderer.setSize(width, height)
+		this.camera.aspect = width / height
+		this.camera.updateProjectionMatrix()
+	}
+
 	startAnimationLoop = () => {
 		if (this.ocean.name) {
 			this.ocean.water.material.uniforms.time.value += 1 / 60
@@ -209,15 +209,6 @@ class ThreeModelRayCaster extends Component {
 		this.toolTip.upDate(this.intersected)
 	}
 
-	handleWindowResize = () => {
-		const width = this.mount.clientWidth
-		const height = this.mount.clientHeight
-
-		this.renderer.setSize(width, height)
-		this.camera.aspect = width / height
-		this.camera.updateProjectionMatrix()
-	}
-
 	render() {
 		function switchElement(self) {
 			var teste = true
@@ -225,7 +216,7 @@ class ThreeModelRayCaster extends Component {
 			switch (teste) {
 				case true:
 					if (Boolean(self)) {
-						return <ConsumptionChart state={self} Vessel={Vessel} />
+						return <AnalysisChart state={self} Vessel={Vessel} />
 					}
 					return null
 
@@ -242,7 +233,7 @@ class ThreeModelRayCaster extends Component {
 				</div>
 				{/* {switchElement("teste", this)} */}
 				{switchElement(this.state)}
-				<LifeCycleBar />
+				{/* <LifeCycleBar /> */}
 			</Page>
 		)
 	}

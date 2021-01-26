@@ -94,7 +94,6 @@ class D3Chart extends Component {
 			<div className="container-fluid align-items-center p-3">
 				<div className="row">
 					<div ref={ref => (this.mount = ref)} className="col-sm-6  text-center "></div>
-					{/* <GraphicVega /> */}
 				</div>
 			</div>
 		)
