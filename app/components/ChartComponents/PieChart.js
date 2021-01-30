@@ -11,9 +11,12 @@ class BarChart extends Component {
 	}
 
 	static defaultProps = {
+		height: 400,
 		displayTitle: true,
 		displayLegend: true,
-		legendPosition: "right"
+		textTitle: "Pie Chart",
+		legendPosition: "top",
+		legendAlign: "center"
 	}
 
 	render() {
@@ -25,19 +28,20 @@ class BarChart extends Component {
 						<div className="col-sm-9">
 							<Pie
 								data={this.state.chartData}
-								width={100}
-								height={500}
+								height={this.props.height}
 								options={{
 									title: {
 										display: this.props.displayTitle,
-										text: "Pie Chart",
-										fontSize: 25
+										text: this.props.textTitle,
+										fontSize: 18
 									},
 									legend: {
 										display: this.props.displayLegend,
-										position: this.props.legendPosition
+										position: this.props.legendPosition,
+										align: this.props.legendAlign
 									},
-									maintainAspectRatio: false
+									maintainAspectRatio: false,
+									fill: true
 								}}
 							/>
 						</div>

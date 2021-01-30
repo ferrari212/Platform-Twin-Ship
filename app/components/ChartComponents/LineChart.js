@@ -11,9 +11,14 @@ class LineChart extends Component {
 	}
 
 	static defaultProps = {
+		height: 400,
 		displayTitle: true,
 		displayLegend: true,
-		legendPosition: "right"
+		textTitle: "Bar Chart",
+		legendPosition: "right",
+		legendAlign: "center",
+		xLabel: "xLabel",
+		yLabel: "yLabel"
 	}
 
 	render() {
@@ -25,19 +30,38 @@ class LineChart extends Component {
 						<div className="col-sm-9">
 							<Line
 								data={this.state.chartData}
-								width={100}
-								height={500}
+								height={this.props.height}
 								options={{
 									title: {
 										display: this.props.displayTitle,
-										text: "Line Chart",
-										fontSize: 25
+										text: this.props.textTitle,
+										fontSize: 18
 									},
 									legend: {
 										display: this.props.displayLegend,
-										position: this.props.legendPosition
+										position: this.props.legendPosition,
+										align: this.props.legendAlign
 									},
-									maintainAspectRatio: false
+									maintainAspectRatio: false,
+									fill: false,
+									scales: {
+										xAxes: [
+											{
+												scaleLabel: {
+													display: true,
+													labelString: this.props.xLabel
+												}
+											}
+										],
+										yAxes: [
+											{
+												scaleLabel: {
+													display: true,
+													labelString: this.props.yLabel
+												}
+											}
+										]
+									}
 								}}
 							/>
 						</div>

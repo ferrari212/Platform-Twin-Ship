@@ -6,7 +6,7 @@ Then in javascript use classes and functions with a vessel prefix. Example:
 let ship = new vessel.Ship(someSpecification);
 */
 
-;("use strict")
+"use strict"
 
 var vessel = {}
 var Vessel = vessel //alias for backwards compatibility
@@ -2589,7 +2589,7 @@ ShipState now mainly accounts for load state, by which I mean the states of obje
 
 			var Rt = this.coefficients.k * rf + rapp + rw + rb + rtr + ra
 
-			return Rt
+			return { Rt, Rf: this.coefficients.k * rf, Rw: rw }
 		}, "calmResistance"),
 		totalResistance: StateModule.prototype.memoized(function () {
 			var Hw = 2 * this.wavCre.waveDef.waveAmplitude // wave height
@@ -2598,10 +2598,10 @@ ShipState now mainly accounts for load state, by which I mean the states of obje
 			if (Hw <= 2) {
 				// use Kreitner formula
 				var raddw = (0.64 * Math.pow(Hw * this.floatState.BWL, 2) * this.floatState.Cb * this.rho * this.g) / this.floatState.LWL
-				Rtadd = this.calmResistance + raddw
+				Rtadd = this.calmResistance.Rt + raddw
 			} else {
 				// add 20% sea margin
-				Rtadd = 1.2 * this.calmResistance
+				Rtadd = 1.2 * this.calmResistance.Rt
 			}
 
 			var Pe = this.coefficients.speedSI * Rtadd // effective power
@@ -2684,12 +2684,25 @@ ShipState now mainly accounts for load state, by which I mean the states of obje
 	PropellerInteraction.prototype = Object.create(StateModule.prototype)
 
 	Object.assign(PropellerInteraction.prototype, {
-		constructor: PropellerInteraction
+		constructor: PropellerInteraction,
+		getForceByRotation: function (n) {
+			if (n === 0) return 0
+
+			var J = this.propulsion.Va / (n * this.propeller.D)
+
+			var KT = this.propeller.beta1 - this.propeller.beta2 * J
+			var T = KT * this.rho * Math.pow(n, 2) * Math.pow(this.propeller.D, 5)
+			var Ftadd = T * this.propeller.noProps * (1 - this.resistanceState.t)
+			return Ftadd
+		}
 	})
 
 	Object.defineProperties(PropellerInteraction.prototype, {
 		propulsion: StateModule.prototype.memoized(function () {
 			// convert vessel speed from knots to m/s
+			if (this.speedSI === 0) {
+				console.error("Speed equals to zero, try getForceByRotation() method to get boolard pull or use changeSpeed() method.")
+			}
 			var speedSI = 0.514444 * this.speedState.speed
 			var lcb = (100 * (this.floatState.LCB - (this.floatState.minXs + this.floatState.LWL / 2))) / this.floatState.LWL // %
 			var Va = speedSI / (1 - this.resistanceState.w) // m/s
@@ -2715,8 +2728,7 @@ ShipState now mainly accounts for load state, by which I mean the states of obje
 			}
 			var eta = eta0 * this.resistanceState.etah * etar
 			var Ps = this.resistanceState.Pe / eta // W, required brake power
-
-			return { eta, Ps, n }
+			return { eta, Ps, n, Va }
 		}, "propulsion")
 	})
 	//@EliasHasle
@@ -2775,7 +2787,6 @@ Vessel.loadShip(filePath, function(ship) {
 */
 
 	function loadShip(url, callback) {
-		console.log(url)
 		var request = new XMLHttpRequest()
 		request.open("GET", url, true)
 		request.addEventListener("load", function (event) {

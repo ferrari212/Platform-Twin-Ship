@@ -15,7 +15,7 @@ class BarChart extends Component {
 		displayTitle: true,
 		displayLegend: true,
 		textTitle: "Bar Chart",
-		legendPosition: "right",
+		legendPosition: "top",
 		legendAlign: "center"
 	}
 
