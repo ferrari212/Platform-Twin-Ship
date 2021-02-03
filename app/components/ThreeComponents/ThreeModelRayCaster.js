@@ -231,9 +231,7 @@ class ThreeModelRayCaster extends Component {
 					<p id="tooltip" />
 					<div id="tableinfo"></div>
 				</div>
-				{/* {switchElement("teste", this)} */}
 				{switchElement(this.state)}
-				{/* <LifeCycleBar /> */}
 			</Page>
 		)
 	}

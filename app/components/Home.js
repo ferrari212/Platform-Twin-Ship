@@ -11,7 +11,7 @@ function Home() {
 				Hello <strong>{appState.user.username}</strong>, you have no ship versions on your own.
 			</h2>
 			<p className="lead text-muted text-center">
-				Your feed displays the ship projects you have. If you do not have any version and want to learn how to start; you can use the &ldquo;Create Ship Version&rdquo; feature in the top menu bar to upload a ship version in{" "}
+				Your feed displays the ship projects you have. You can use the &ldquo;Create Ship Version&rdquo; feature in the top menu bar to upload a ship version in{" "}
 				<a href="https://shiplab.github.io/vesseljs/" target="_blank">
 					Vessel.js
 				</a>{" "}
