@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react"
+import React, { useContext } from "react"
 import { Link } from "react-router-dom"
 import { Dropdown } from "react-bootstrap"
 import DispatchContext from "../DispatchContext"
@@ -10,6 +10,28 @@ function HeaderLoggedIn(props) {
 
 	function handleLogout() {
 		appDispatch({ type: "logout" })
+	}
+
+	function ReturnVersionButton() {
+		if (appState.user.versions.length) {
+			return (
+				<Dropdown.Toggle size="sm" variant="success" id="dropdown-basic" className="mr-2">
+					{displayTitleString(appState)}
+				</Dropdown.Toggle>
+			)
+		}
+		return ""
+	}
+
+	function Ship3DButton() {
+		if (appState.user.versions.length) {
+			return (
+				<Link className="btn btn-sm btn-success mr-2" to={`/three-model/${appState.user.username}`}>
+					Show 3D
+				</Link>
+			)
+		}
+		return ""
 	}
 
 	// Initial Use of Button: Insert the ship version as reducer
@@ -38,9 +60,7 @@ function HeaderLoggedIn(props) {
 					<img className="small-header-avatar" src={appState.user.avatar} />
 				</Link>
 
-				<Dropdown.Toggle size="sm" variant="success" id="dropdown-basic" className="mr-2">
-					{displayTitleString(appState)}
-				</Dropdown.Toggle>
+				<ReturnVersionButton />
 
 				<Dropdown.Menu>
 					{console.log(appState.user.versions)}
@@ -57,9 +77,9 @@ function HeaderLoggedIn(props) {
 				<Link className="btn btn-sm btn-success mr-2 success" to="/create-post">
 					Create Ship Version
 				</Link>
-				<Link className="btn btn-sm btn-success mr-2" to={`/three-model/${appState.user.username}`}>
-					Show 3D
-				</Link>
+
+				<Ship3DButton />
+
 				<Link onClick={handleLogout} to="/" className="btn btn-sm btn-danger" to="/">
 					Sign Out
 				</Link>

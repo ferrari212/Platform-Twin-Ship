@@ -92,6 +92,7 @@ class ThreeModelRayCaster extends Component {
 		this.camera.position.set(oSize * 0.03, oSize * 0.03, oSize * 0.03)
 
 		this.controls = new OrbitControls(this.camera, this.mount)
+		this.controls.maxDistance = 200
 		this.renderer = new THREE.WebGLRenderer()
 		this.renderer.setSize(width, height)
 		this.mount.appendChild(this.renderer.domElement) // mount using React ref
@@ -231,6 +232,7 @@ class ThreeModelRayCaster extends Component {
 					<p id="tooltip" />
 					<div id="tableinfo"></div>
 				</div>
+				<LifeCycleBar />
 				{switchElement(this.state)}
 			</Page>
 		)

@@ -35,6 +35,10 @@ function Main() {
 			avatar: localStorage.getItem("complexappAvatar"),
 			versions: [],
 			shipId: 0
+		},
+		shipStage: {
+			lifeCycle: "project",
+			method: "analyse"
 		}
 	}
 
@@ -60,6 +64,17 @@ function Main() {
 			case "flashMessage":
 				draft.flashMessages.push(action.value)
 				return
+
+			case "analyse":
+				if (action.command) {
+					draft.shipStage.method = "analyse"
+				} else {
+					draft.shipStage.method = "project"
+				}
+
+				console.log(draft)
+
+				return
 		}
 	}
 
@@ -67,11 +82,6 @@ function Main() {
 
 	useEffect(() => {
 		if (state.loggedIn) {
-			// var versionsLocalStorage = state.user.versions.map(e => {
-			// 	console.log(e)
-			// 	return JSON.stringify(e)
-			// })
-
 			localStorage.setItem("complexappToken", state.user.token)
 			localStorage.setItem("complexappUsername", state.user.username)
 			localStorage.setItem("complexappAvatar", state.user.avatar)
@@ -90,8 +100,6 @@ function Main() {
 			}
 
 			if (state.user.versions.length === 0) getVersions(state.user)
-
-			// console.log(versionsLocalStorage)
 		} else {
 			localStorage.removeItem("complexappToken")
 			localStorage.removeItem("complexappUsername")

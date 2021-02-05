@@ -8,8 +8,9 @@ h4 {
 }
 
 #free-bar {
-	position: absolute;
-	bottom: 25%;
+	position: fixed;
+	bottom: 15%;
+	z-index: 101;
 }
 
 #free-table {
