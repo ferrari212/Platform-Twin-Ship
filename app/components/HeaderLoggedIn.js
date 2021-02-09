@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useEffect, useContext } from "react"
 import { Link } from "react-router-dom"
 import { Dropdown } from "react-bootstrap"
 import DispatchContext from "../DispatchContext"
@@ -7,6 +7,8 @@ import StateContext from "../StateContext"
 function HeaderLoggedIn(props) {
 	const appDispatch = useContext(DispatchContext)
 	const appState = useContext(StateContext)
+
+	console.log(props)
 
 	function handleLogout() {
 		appDispatch({ type: "logout" })
@@ -47,11 +49,16 @@ function HeaderLoggedIn(props) {
 
 	var titles = []
 
-	if (typeof appState.user.versions === "object") {
-		titles = appState.user.versions.map(x => x.title)
-	}
+	// if (typeof appState.user.versions === "object") {
+	// 	titles = appState.user.versions.map(x => x.title)
+	// }
 
-	console.log(titles)
+	useEffect(() => {
+		if (typeof appState.user.versions === "object") {
+			titles = appState.user.versions.map(x => x.title)
+		}
+		console.log("Count", appState)
+	}, [appState.user.versions])
 
 	return (
 		<Dropdown>
@@ -63,9 +70,7 @@ function HeaderLoggedIn(props) {
 				<ReturnVersionButton />
 
 				<Dropdown.Menu>
-					{console.log(appState.user.versions)}
-
-					{appState.user.versions.map((version, id) => {
+					{titles.map((version, id) => {
 						return (
 							<Dropdown.Item key={id} onSelect={setDisplayedShip} eventKey={id}>
 								{version.title}

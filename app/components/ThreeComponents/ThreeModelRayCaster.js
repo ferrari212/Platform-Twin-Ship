@@ -39,6 +39,8 @@ class ThreeModelRayCaster extends Component {
 
 		this.sceneSetup()
 
+		this.addScenario()
+
 		this.mount.addEventListener("mousemove", this.onMouseMove, false)
 
 		var Id = this.props.user.shipId
@@ -65,8 +67,8 @@ class ThreeModelRayCaster extends Component {
 		} else {
 			this.ship = new Vessel.Ship(this.state.newShip)
 
-			if (this.addScenarioStatus) this.addScenario()
-			this.addShip()
+			if (!this.scene.getObjectByName("Ship3D")) this.addShip()
+
 			this.tableInfo = new TableInfo(this.ship3D, "tableinfo")
 
 			if (this.requestID === undefined) this.startAnimationLoop()
@@ -136,7 +138,6 @@ class ThreeModelRayCaster extends Component {
 	}
 
 	setShipDataTemporary = (context, version) => {
-		console.log(this)
 		if (version.length !== 0) {
 			this.setState(() => {
 				var newShip = JSON.parse(version)
@@ -211,19 +212,19 @@ class ThreeModelRayCaster extends Component {
 	}
 
 	render() {
-		function switchElement(self) {
-			var teste = true
+		function switchElement(prop, state) {
+			if (Boolean(state) && Boolean(prop)) {
+				var teste = prop.method
 
-			switch (teste) {
-				case true:
-					if (Boolean(self)) {
-						return <AnalysisChart state={self} Vessel={Vessel} />
-					}
-					return null
+				switch (teste) {
+					case "analyse":
+						return <AnalysisChart state={state} Vessel={Vessel} />
 
-				default:
-					return null
+					default:
+						return null
+				}
 			}
+			return null
 		}
 
 		return (
@@ -233,7 +234,7 @@ class ThreeModelRayCaster extends Component {
 					<div id="tableinfo"></div>
 				</div>
 				<LifeCycleBar />
-				{switchElement(this.state)}
+				{switchElement(this.props.user.shipStage, this.state)}
 			</Page>
 		)
 	}

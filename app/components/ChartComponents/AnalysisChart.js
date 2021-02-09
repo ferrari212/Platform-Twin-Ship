@@ -110,7 +110,6 @@ function AnalysisChart(props) {
 		if (isNaN(models.hullRes.calmResistance.Rt)) throw "Resistance not possible to be calculated"
 
 		for (let type of Object.keys(models.percentages)) {
-			console.log(models.percentages[type], type, typeof type)
 			datasetPower.push(models.percentages[type].toFixed(2))
 			dataPower.xLabel.push(type)
 		}
@@ -129,7 +128,7 @@ function AnalysisChart(props) {
 			<div className="container-fluid align-items-center p-3">
 				<div className="row">
 					<div className="col-lg-6  text-center ">
-						<LineChart chartData={dataResitance.chartData} textTitle="Resistence by Velocity" xLabel="Ship Speed (Knots)" yLabel="Resistence (N)" />
+						<LineChart chartData={dataResitance.chartData} textTitle="Resistence by Velocity" xLabel="Ship Speed (Knots)" yLabel="Resistence (N)" legendPosition="top" />
 					</div>
 					<div className="col-lg-6  text-center ">
 						<PieChart chartData={dataPower.chartData} textTitle={`Power % for ${models.v_proj} knots`} />
@@ -165,13 +164,10 @@ function AnalysisChart(props) {
 		var draftVariation = 0.25
 
 		var CG = models.ship.getWeight(models.shipState)
-		console.log(CG)
-		console.log(models)
 
 		while (draft <= models.ship.structure.hull.attributes.Depth) {
 			drafts.push(draft.toFixed(2))
 			var attributes = models.ship.structure.hull.calculateAttributesAtDraft(draft)
-			console.log(attributes)
 
 			datasetDisp.push(attributes["Vs"].toFixed(2))
 			datasetLCB.push(attributes["LCB"].toFixed(2))
@@ -197,10 +193,10 @@ function AnalysisChart(props) {
 			<div className="container-fluid align-items-center p-3">
 				<div className="row">
 					<div className="col-lg-6  text-center ">
-						<LineChart chartData={dataDisp.chartData} textTitle="Displacement x Draft" xLabel="Draft (m)" yLabel="Displacement (m^3)" />
+						<LineChart chartData={dataDisp.chartData} textTitle="Displacement x Draft" xLabel="Draft (m)" yLabel="Displacement (m^3)" displayLegend="false" />
 					</div>
 					<div className="col-lg-6  text-center ">
-						<LineChart chartData={dataCenter.chartData} textTitle="Longitudinal Centers" xLabel="Draft (m)" yLabel="Value (m)" />
+						<LineChart chartData={dataCenter.chartData} textTitle="Longitudinal Centers" xLabel="Draft (m)" yLabel="Value (m)" legendPosition="top" />
 					</div>
 				</div>
 				<div className="row">

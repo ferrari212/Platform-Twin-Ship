@@ -6,7 +6,6 @@ import { Vessel } from "../../vessel/build/vessel"
 class D3Chart extends Component {
 	constructor(props) {
 		super(props)
-		console.log(props)
 	}
 
 	componentDidMount() {

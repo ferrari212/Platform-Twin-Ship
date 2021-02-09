@@ -34,11 +34,11 @@ function Main() {
 			username: localStorage.getItem("complexappUsername"),
 			avatar: localStorage.getItem("complexappAvatar"),
 			versions: [],
-			shipId: 0
-		},
-		shipStage: {
-			lifeCycle: "project",
-			method: "analyse"
+			shipId: 0,
+			shipStage: {
+				lifeCycle: "project",
+				method: "simulate"
+			}
 		}
 	}
 
@@ -63,17 +63,15 @@ function Main() {
 
 			case "flashMessage":
 				draft.flashMessages.push(action.value)
+				draft.user.versions = action.clearData
 				return
 
-			case "analyse":
+			case "setAnalysis":
 				if (action.command) {
-					draft.shipStage.method = "analyse"
+					draft.user.shipStage.method = "analyse"
 				} else {
-					draft.shipStage.method = "project"
+					draft.user.shipStage.method = "simulate"
 				}
-
-				console.log(draft)
-
 				return
 		}
 	}
@@ -85,7 +83,7 @@ function Main() {
 			localStorage.setItem("complexappToken", state.user.token)
 			localStorage.setItem("complexappUsername", state.user.username)
 			localStorage.setItem("complexappAvatar", state.user.avatar)
-			// localStorage.setItem("complexappVersions", versionsLocalStorage)
+			// localStorage.setItem("complexappVersions", state.user.versions)
 			localStorage.setItem("complexappShipIndex", state.user.shipId)
 
 			async function getVersions(component) {
@@ -93,6 +91,8 @@ function Main() {
 
 				try {
 					const versions = await Axios.get(`/profile/${component.username}/posts`, { cancelToken: ourRequest.token })
+					console.log(versions)
+
 					dispatch({ type: "setVersion", data: versions.data })
 				} catch (e) {
 					console.log("There was a problem.", e)
@@ -104,10 +104,10 @@ function Main() {
 			localStorage.removeItem("complexappToken")
 			localStorage.removeItem("complexappUsername")
 			localStorage.removeItem("complexappAvatar")
-			localStorage.removeItem("complexappVersions")
+			// localStorage.removeItem("complexappVersions")
 			localStorage.removeItem("complexappShipIndex")
 		}
-	}, [state.loggedIn])
+	}, [state.loggedIn, state.user.versions])
 
 	return (
 		<StateContext.Provider value={state}>

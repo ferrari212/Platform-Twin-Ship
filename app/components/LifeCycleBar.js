@@ -1,8 +1,10 @@
 import React, { useContext } from "react"
 import StateContext from "../StateContext"
 import DispatchContext from "../DispatchContext"
+import ReactTooltip from "react-tooltip"
 
 import ImageFunctions from "../images/functions-black-24dp.svg"
+import ImageSimulate from "../images/waves-24px.svg"
 import ImageCompare from "../images/compare_arrows-black-24dp.svg"
 import ImageCode from "../images/download-black-24dp.svg"
 
@@ -28,14 +30,12 @@ function LifeCycleBar() {
 
 	function startAnlysis(e) {
 		e.preventDefault()
-		// console.log(e)
-		appDispatch({ type: "analyse", command: true })
+		appDispatch({ type: "setAnalysis", command: true })
 	}
 
 	function endAnlysis(e) {
 		e.preventDefault()
-		// console.log(e)
-		appDispatch({ type: "analyse", command: false })
+		appDispatch({ type: "setAnalysis", command: false })
 	}
 
 	return (
@@ -44,24 +44,28 @@ function LifeCycleBar() {
 				<div className="col-sm"></div>
 				<div className="col-sm-7"></div>
 				<div className="col-sm">
-					<a id="free-button" target="_blank" onClick={startAnlysis} title="View source code for animation / cloth on GitHub">
+					<a id="free-button" href="" onClick={startAnlysis} data-tip="Analysis" data-for="analysis">
 						<img src={ImageFunctions} />
 					</a>
+					<ReactTooltip id="analysis" className="custom-tooptip" />{" "}
 				</div>
 				<div className="col-sm">
-					<a id="free-button" target="_blank" onClick={endAnlysis} title="View source code for animation / cloth on GitHub">
-						<img src={ImageFunctions} />
+					<a id="free-button" href="" onClick={endAnlysis} data-tip="Simulation" data-for="simulation">
+						<img src={ImageSimulate} />
 					</a>
+					<ReactTooltip id="simulation" className="custom-tooptip" />{" "}
 				</div>
 				<div className="col-sm">
-					<a id="free-button" target="_blank" href="https://github.com/ferrari212/vesseljs/blob/master/examples/Gunnerus_Complete_Example.html" title="View source code for animation / cloth on GitHub">
+					<a id="free-button" target="_blank" href="https://github.com/ferrari212/vesseljs/blob/master/examples/Gunnerus_Complete_Example.html" data-tip="Code" data-for="code">
 						<img src={ImageCompare} />
 					</a>
+					<ReactTooltip id="code" className="custom-tooptip" />{" "}
 				</div>
 				<div className="col-sm">
-					<a id="free-button" href="" onClick={dowloadHandle} title="View source code for animation / cloth on GitHub">
+					<a id="free-button" href="" onClick={dowloadHandle} data-tip="Dowload" data-for="dowload">
 						<img src={ImageCode} />
 					</a>
+					<ReactTooltip id="dowload" className="custom-tooptip" />{" "}
 				</div>
 			</div>
 		</div>
