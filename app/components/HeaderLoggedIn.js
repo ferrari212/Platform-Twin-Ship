@@ -8,13 +8,12 @@ function HeaderLoggedIn(props) {
 	const appDispatch = useContext(DispatchContext)
 	const appState = useContext(StateContext)
 
-	console.log(props)
-
 	function handleLogout() {
 		appDispatch({ type: "logout" })
 	}
 
 	function ReturnVersionButton() {
+		console.log("count", appState.user.versions.length)
 		if (appState.user.versions.length) {
 			return (
 				<Dropdown.Toggle size="sm" variant="success" id="dropdown-basic" className="mr-2">
@@ -25,8 +24,30 @@ function HeaderLoggedIn(props) {
 		return ""
 	}
 
-	function Ship3DButton() {
+	function ReturnDropdown() {
 		if (appState.user.versions.length) {
+			var titles = appState.user.versions.map(x => x.title)
+
+			return (
+				<Dropdown.Menu>
+					{titles.map((version, id) => {
+						return (
+							<Dropdown.Item key={id} onSelect={setDisplayedShip} eventKey={id}>
+								{version}
+							</Dropdown.Item>
+						)
+					})}
+				</Dropdown.Menu>
+			)
+		}
+		return ""
+	}
+
+	function Ship3DButton() {
+		console.log("count", appState.user.versions.length)
+
+		if (appState.user.versions.length) {
+			console.log("passou")
 			return (
 				<Link className="btn btn-sm btn-success mr-2" to={`/three-model/${appState.user.username}`}>
 					Show 3D
@@ -47,19 +68,6 @@ function HeaderLoggedIn(props) {
 		return version ? version.title : ""
 	}
 
-	var titles = []
-
-	// if (typeof appState.user.versions === "object") {
-	// 	titles = appState.user.versions.map(x => x.title)
-	// }
-
-	useEffect(() => {
-		if (typeof appState.user.versions === "object") {
-			titles = appState.user.versions.map(x => x.title)
-		}
-		console.log("Count", appState)
-	}, [appState.user.versions])
-
 	return (
 		<Dropdown>
 			<div className="flex-row my-3 my-md-0">
@@ -68,16 +76,7 @@ function HeaderLoggedIn(props) {
 				</Link>
 
 				<ReturnVersionButton />
-
-				<Dropdown.Menu>
-					{titles.map((version, id) => {
-						return (
-							<Dropdown.Item key={id} onSelect={setDisplayedShip} eventKey={id}>
-								{version.title}
-							</Dropdown.Item>
-						)
-					})}
-				</Dropdown.Menu>
+				<ReturnDropdown />
 
 				<Link className="btn btn-sm btn-success mr-2 success" to="/create-post">
 					Create Ship Version
