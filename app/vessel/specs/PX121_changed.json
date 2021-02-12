@@ -167,7 +167,7 @@
 				"height": 4.3
 			},
 			"capabilities": {},
-			"file3D": "tank1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -224,7 +224,7 @@
 				"height": 4.3
 			},
 			"capabilities": {},
-			"file3D": "tank2.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -253,7 +253,7 @@
 				"height": 4.3
 			},
 			"capabilities": {},
-			"file3D": "tank3.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -282,7 +282,7 @@
 				"height": 4.3
 			},
 			"capabilities": {},
-			"file3D": "tank4.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -329,7 +329,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "tank5.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -358,7 +358,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "DryBulk.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -376,7 +376,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "DryBulk.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -394,7 +394,7 @@
 				"height": 4.3
 			},
 			"capabilities": {},
-			"file3D": "FOOverFlow.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -412,7 +412,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "MudBrineOroSlop.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -430,7 +430,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "tank6.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -459,7 +459,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "tank7.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -488,7 +488,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "tank8.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -517,7 +517,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "sewage.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -535,7 +535,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "tank10.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -564,7 +564,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "tank9.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -593,7 +593,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "tank11.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -622,7 +622,7 @@
 				"height": 9.5
 			},
 			"capabilities": {},
-			"file3D": "tank12.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -651,7 +651,7 @@
 				"height": 3.9
 			},
 			"capabilities": {},
-			"file3D": "EngineRoomLower.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -669,7 +669,7 @@
 				"height": 3.9
 			},
 			"capabilities": {},
-			"file3D": "BowThrusterRoom1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -687,7 +687,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "tank13.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -716,7 +716,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "tank14.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -745,7 +745,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "Motors.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -763,7 +763,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "Motors.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -781,7 +781,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "PropulsionRoomUpper.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -799,7 +799,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "tank15.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -828,7 +828,7 @@
 				"height": 2.4
 			},
 			"capabilities": {},
-			"file3D": "tank17.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -857,7 +857,7 @@
 				"height": 2.4
 			},
 			"capabilities": {},
-			"file3D": "tank16.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -886,7 +886,7 @@
 				"height": 2.4
 			},
 			"capabilities": {},
-			"file3D": "SwitchBoardRoom.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -904,7 +904,7 @@
 				"height": 2.4
 			},
 			"capabilities": {},
-			"file3D": "EngineRoomUpper.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -922,7 +922,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "BowThursterRoom2.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -940,7 +940,7 @@
 				"height": 2.4
 			},
 			"capabilities": {},
-			"file3D": "Workshop.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -958,7 +958,7 @@
 				"height": 5.6
 			},
 			"capabilities": {},
-			"file3D": "ChainTank.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -987,7 +987,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "cover1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1005,7 +1005,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "tank18.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1023,6 +1023,1339 @@
 						[0, 0, 1.45]
 					]
 				}
+			}
+		},
+		{
+			"id": "TankL1B2H2.9fdundefinedFtank19.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 1,
+				"breadth": 2,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"contentDensity": 1000,
+				"volumeCapacity": 4.5553093477052,
+				"lightweight": 58,
+				"fullnessCGMapping": {
+					"fullnesses": [0, 0.25, 0.5, 0.75, 1],
+					"cgs": [
+						[0, 0, 1.45],
+						[0, 0, 0.435],
+						[0, 0, 0.87],
+						[0, 0, 1.16],
+						[0, 0, 1.45]
+					]
+				}
+			}
+		},
+		{
+			"id": "FiremStoreL2.5B1.5H2.9fdundefinedFFiremStore.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 2.5,
+				"breadth": 1.5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 1087.5,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "DeckWorkshopL2.5B3.5H2.9fdundefinedFDeckWorkshop.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 2.5,
+				"breadth": 3.5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 2537.5,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "TankL2B1.5H2.9fdundefinedFtank20.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 2,
+				"breadth": 1.5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"contentDensity": 1000,
+				"volumeCapacity": 6.8329640215578,
+				"lightweight": 87,
+				"fullnessCGMapping": {
+					"fullnesses": [0, 0.25, 0.5, 0.75, 1],
+					"cgs": [
+						[0, 0, 1.45],
+						[0, 0, 0.435],
+						[0, 0, 0.87],
+						[0, 0, 1.16],
+						[0, 0, 1.45]
+					]
+				}
+			}
+		},
+		{
+			"id": "StoreL2B2H2.9fdundefinedFStore1.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 2,
+				"breadth": 2,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 1160,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "ChemL2.5B1.5H2.9fdundefinedFchem.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 2.5,
+				"breadth": 1.5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 1087.5,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "PaintL2.5B1.5H2.9fdundefinedFpaint.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 2.5,
+				"breadth": 1.5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 1087.5,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "Inc&GarbRoomL5B4.5H2.9fdundefinedFInc&GarbRoom.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 5,
+				"breadth": 4.5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 6525,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "RoomL3.5B4.5H2.9fdundefinedFroom1.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 3.5,
+				"breadth": 4.5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 4567.5,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "RoomL3.5B6H2.9fdundefinedFroom2.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 3.5,
+				"breadth": 6,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 6090,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "RoomL1.5B4.5H2.9fdundefinedFroom3.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 1.5,
+				"breadth": 4.5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 1957.5,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "RoomL4B2H2.9fdundefinedFroom4.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 4,
+				"breadth": 2,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 2320,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "RoomL4B3.5H2.9fdundefinedFroom5.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 4,
+				"breadth": 3.5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 4060,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "RoomL3.5B5H2.9fdundefinedFroom6.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 3.5,
+				"breadth": 5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 5075,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "RoomL3.5B6H2.9fdundefinedFroom7.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 3.5,
+				"breadth": 6,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 6090,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "TankL1.5B4.5H2.9fdundefinedFtank21.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 1.5,
+				"breadth": 4.5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"contentDensity": 1000,
+				"volumeCapacity": 15.374169048505049,
+				"lightweight": 195.75,
+				"fullnessCGMapping": {
+					"fullnesses": [0, 0.25, 0.5, 0.75, 1],
+					"cgs": [
+						[0, 0, 1.45],
+						[0, 0, 0.435],
+						[0, 0, 0.87],
+						[0, 0, 1.16],
+						[0, 0, 1.45]
+					]
+				}
+			}
+		},
+		{
+			"id": "RoomL7B5H2.9fdundefinedFroom8.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 7,
+				"breadth": 5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 10150,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "StairsL6B3H2.9fdundefinedFstairs1.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 6,
+				"breadth": 3,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 5220,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "ToiletsL1B2.5H2.9fdundefinedFtoilets1.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 1,
+				"breadth": 2.5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 725,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "DeckOfficeL2.5B6.5H2.9fdundefinedFDeckOffice1.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 2.5,
+				"breadth": 6.5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 4712.5,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "CoverL53.5B15H2fdundefinedFcover2.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 53.5,
+				"breadth": 15,
+				"height": 2
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 160500,
+				"cg": [0, 0, 1]
+			}
+		},
+		{
+			"id": "StabTankL3.5B18H2.9fdundefinedFStabTank.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 3.5,
+				"breadth": 18,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"contentDensity": 1000,
+				"volumeCapacity": 143.4922444527138,
+				"lightweight": 1827,
+				"fullnessCGMapping": {
+					"fullnesses": [0, 0.25, 0.5, 0.75, 1],
+					"cgs": [
+						[0, 0, 1.45],
+						[0, 0, 0.435],
+						[0, 0, 0.87],
+						[0, 0, 1.16],
+						[0, 0, 1.45]
+					]
+				}
+			}
+		},
+		{
+			"id": "FreezerL3.5B2H2.9fdundefinedFfreezer.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 3.5,
+				"breadth": 2,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 2030,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "FridgeL4B1.5H2.9fdundefinedFfridge.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 4,
+				"breadth": 1.5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 1740,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "DryRoomL7.5B3H2.9fdundefinedFDryRoom.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 7.5,
+				"breadth": 3,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 6525,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "RoomL2.5B8H2.9fdundefinedFroom9.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 2.5,
+				"breadth": 8,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 5800,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "ACRoomL7.5B5H2.9fdundefinedFACRoom1.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 7.5,
+				"breadth": 5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 10875,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "RoomL5B5H2.9fdundefinedFroom10.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 5,
+				"breadth": 5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 7250,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "CLL2.5B2H2.9fdundefinedFCL1.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 2.5,
+				"breadth": 2,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 1450,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "ToiletsL2.5B2H2.9fdundefinedFtoilets2.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 2.5,
+				"breadth": 2,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 1450,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "GalleryL5.5B5H2.9fdundefinedFgallery1.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 5.5,
+				"breadth": 5,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 7975,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "StairsL5.5B4H2.9fdundefinedFstairs1.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 5.5,
+				"breadth": 4,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 6380,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "DayRoomL5.5B6H2.9fdundefinedFDayRoom1.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 5.5,
+				"breadth": 6,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 9570,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "MessRoomL4B13H2.9fdundefinedFMessRoom1.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 4,
+				"breadth": 13,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 15080,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "RopeBinL1.5B3H2.9fdundefinedFRopeBin1.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 1.5,
+				"breadth": 3,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 1305,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "StoreL1.5B4H2.9fdundefinedFstore.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 1.5,
+				"breadth": 4,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 1740,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "StoreL6.5B10H2.9fdundefinedFstore2.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 6.5,
+				"breadth": 10,
+				"height": 2.9
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 18850,
+				"cg": [0, 0, 1.45]
+			}
+		},
+		{
+			"id": "SafetyBoatL6.5B3H1fdundefinedFSafetyBoat.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 6.5,
+				"breadth": 3,
+				"height": 1
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 1950,
+				"cg": [0, 0, 0.5]
+			}
+		},
+		{
+			"id": "HoistBaseL3B3H5.4fdundefinedFHoistBase.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 3,
+				"breadth": 3,
+				"height": 5.4
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 4860,
+				"cg": [0, 0, 2.7]
+			}
+		},
+		{
+			"id": "StairsL5.5B4H2.7fdundefinedFstairs1.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 5.5,
+				"breadth": 4,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 5940,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "CableRoomL10.5B14H2.7fdundefinedFCableRoom1.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 10.5,
+				"breadth": 14,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 39690,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "CabinL2.5B4H2.7fdundefinedFcabin1.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 2.5,
+				"breadth": 4,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 2700,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "CabinL4.5B4H2.7fdundefinedFcabin2.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 4.5,
+				"breadth": 4,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 4860,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "TankL5.5B4H5.3fdundefinedFtank22.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 5.5,
+				"breadth": 4,
+				"height": 5.3
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"contentDensity": 1000,
+				"volumeCapacity": 91.57742585214245,
+				"lightweight": 1166,
+				"fullnessCGMapping": {
+					"fullnesses": [0, 0.25, 0.5, 0.75, 1],
+					"cgs": [
+						[0, 0, 2.65],
+						[0, 0, 0.7949999999999999],
+						[0, 0, 1.5899999999999999],
+						[0, 0, 2.12],
+						[0, 0, 2.65]
+					]
+				}
+			}
+		},
+		{
+			"id": "RoomL4.5B8H2.7fdundefinedFroom11.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 4.5,
+				"breadth": 8,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 9720,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "CabinL5B4.5H2.7fdundefinedFcabin3.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 5,
+				"breadth": 4.5,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 6075,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "CabinL5B6.5H2.7fdundefinedFcabin5.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 5,
+				"breadth": 6.5,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 8775,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "CabinL2.5B5H2.7fdundefinedFcabin4.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 2.5,
+				"breadth": 5,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 3375,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "CorridorExtL3.5B13.5H2.7fdundefinedFcorridor.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 3.5,
+				"breadth": 13.5,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 12757.5,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "InstrumentRoomL5.5B3.5H2.7fdundefinedFInstrumentRoom.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 5.5,
+				"breadth": 3.5,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 5197.5,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "CaptainCabinL6B5H2.7fdundefinedFCaptainCabin.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 6,
+				"breadth": 5,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 8100.000000000001,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "ChiefOfficerCabinL3B4.5H2.7fdundefinedFChiefOfficerCabin.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 3,
+				"breadth": 4.5,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 3645.0000000000005,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "FirstOfficerCabinL3B4H2.7fdundefinedFFirstOfficerCabin.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 3,
+				"breadth": 4,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 3240,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "ChiefStewardCabinL6B6H2.7fdundefinedFChiefStewardCabin.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 6,
+				"breadth": 6,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 9720,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "ElectricianCabinL6B6H2.7fdundefinedFElectricianCabin.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 6,
+				"breadth": 6,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 9720,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "StairsL4.5B4H2.7fdundefinedFstairs2.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 4.5,
+				"breadth": 4,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 4860,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "CleanLockerL1.5B2H2.7fdundefinedFSmallRoom.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 1.5,
+				"breadth": 2,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 810,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "BondStoreL1.5B2H2.7fdundefinedFSmallRoom.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 1.5,
+				"breadth": 2,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 810,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "LinenL1.5B2H2.7fdundefinedFSmallRoom.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 1.5,
+				"breadth": 2,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 810,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "ChiefCabinL6B5H2.7fdundefinedFChiefCabin.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 6,
+				"breadth": 5,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 8100.000000000001,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "FirstEngineerCabinL2.5B4H2.7fdundefinedFFirstEngineerCabin.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 2.5,
+				"breadth": 4,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 2700,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "SecondEngineerCabinL2B3.5H2.7fdundefinedFSecondEngineerCabin.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 2,
+				"breadth": 3.5,
+				"height": 2.7
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 1890.0000000000002,
+				"cg": [0, 0, 1.35]
+			}
+		},
+		{
+			"id": "HoistL1B9H4.15fdundefinedFhoist.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 1,
+				"breadth": 9,
+				"height": 4.15
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 3735.0000000000005,
+				"cg": [0, 0, 2.075]
+			}
+		},
+		{
+			"id": "AccessStairsL4B5H4.15fdundefinedFAccessStairs1.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 4,
+				"breadth": 5,
+				"height": 4.15
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 8300,
+				"cg": [0, 0, 2.075]
+			}
+		},
+		{
+			"id": "AccessStairsL4B5H4.15fdundefinedFAccessStairs2.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 4,
+				"breadth": 5,
+				"height": 4.15
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 8300,
+				"cg": [0, 0, 2.075]
+			}
+		},
+		{
+			"id": "ShipHandingL7B8H4.15fdundefinedFShipHanding.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 7,
+				"breadth": 8,
+				"height": 4.15
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 23240.000000000004,
+				"cg": [0, 0, 2.075]
+			}
+		},
+		{
+			"id": "MainRoomL8B16H4.15fdundefinedFMainRoom.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 8,
+				"breadth": 16,
+				"height": 4.15
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 53120.00000000001,
+				"cg": [0, 0, 2.075]
+			}
+		},
+		{
+			"id": "NavigationRoomL9B8H4.15fdundefinedFNavigationRoom.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 9,
+				"breadth": 8,
+				"height": 4.15
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 29880.000000000004,
+				"cg": [0, 0, 2.075]
+			}
+		},
+		{
+			"id": "EmGenRoomL11B6H5fdundefinedFEmGenRoom.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 11,
+				"breadth": 6,
+				"height": 5
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 33000,
+				"cg": [0, 0, 2.5]
+			}
+		},
+		{
+			"id": "CommunicationL11B3H5fdundefinedFCommunicationRoom.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 11,
+				"breadth": 3,
+				"height": 5
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 16500,
+				"cg": [0, 0, 2.5]
+			}
+		},
+		{
+			"id": "AerialL0.5B0.5H2fdundefinedFaerial.stl",
+			"affiliations": {},
+			"boxDimensions": {
+				"length": 0.5,
+				"breadth": 0.5,
+				"height": 2
+			},
+			"capabilities": {},
+			"file3D": "",
+			"baseState": {
+				"fullness": 0.5
+			},
+			"weightInformation": {
+				"lightweight": 50,
+				"cg": [0, 0, 1]
 			}
 		}
 	],

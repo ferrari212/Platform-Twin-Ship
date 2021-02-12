@@ -21,8 +21,7 @@ function CreatePost(props) {
 	async function handleSubmit(e) {
 		e.preventDefault()
 		try {
-			// const response = await Axios.post("/create-post", { title, body, token: appState.user.token })
-			const response = await Axios.post("/create-post", { title, description, ship, token: appState.user.token })
+			const response = await Axios.post("/create-version", { title, description, ship, token: appState.user.token })
 
 			// Redirect to new post url
 			appDispatch({ type: "flashMessage", value: "You created a new ship version.", clearData: [] })

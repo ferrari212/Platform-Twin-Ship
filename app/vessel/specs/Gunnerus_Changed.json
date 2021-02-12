@@ -1,5 +1,7 @@
 {
-	"attributes": {},
+	"attributes": {
+		"GLTFUrl": "https://ferrari212.github.io/vesseljs/examples/specs/GLTF_files/Gunnerus.glb"
+	},
 	"designState": {
 		"calculationParameters": {
 			"LWL_design": 34.9,

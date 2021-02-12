@@ -13,7 +13,6 @@ function HeaderLoggedIn(props) {
 	}
 
 	function ReturnVersionButton() {
-		console.log("count", appState.user.versions.length)
 		if (appState.user.versions.length) {
 			return (
 				<Dropdown.Toggle size="sm" variant="success" id="dropdown-basic" className="mr-2">
@@ -44,10 +43,9 @@ function HeaderLoggedIn(props) {
 	}
 
 	function Ship3DButton() {
-		console.log("count", appState.user.versions.length)
+		// console.log("count", appState.user.versions.length)
 
 		if (appState.user.versions.length) {
-			console.log("passou")
 			return (
 				<Link className="btn btn-sm btn-success mr-2" to={`/three-model/${appState.user.username}`}>
 					Show 3D
@@ -78,7 +76,7 @@ function HeaderLoggedIn(props) {
 				<ReturnVersionButton />
 				<ReturnDropdown />
 
-				<Link className="btn btn-sm btn-success mr-2 success" to="/create-post">
+				<Link className="btn btn-sm btn-success mr-2 success" to="/create-version">
 					Create Ship Version
 				</Link>
 

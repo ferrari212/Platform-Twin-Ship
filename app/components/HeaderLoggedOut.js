@@ -14,7 +14,7 @@ function HeaderLoggedOut(props) {
 			const response = await Axios.post("/login", { username, password })
 
 			if (response.data) {
-				const versions = await Axios.get(`/profile/${username}/posts`, { cancelToken: ourRequest.token })
+				const versions = await Axios.get(`/profile/${username.toLowerCase()}/posts`, { cancelToken: ourRequest.token })
 				response.data = { ...response.data, versions: versions.data, shipId: 0 }
 
 				appDispatch({ type: "login", data: response.data })

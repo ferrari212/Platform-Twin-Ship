@@ -90,8 +90,9 @@ function Main() {
 				const ourRequest = Axios.CancelToken.source()
 
 				try {
-					const versions = await Axios.get(`/profile/${component.username}/posts`, { cancelToken: ourRequest.token })
-					console.log(versions)
+					const versions = await Axios.get(`/profile/${component.username.toLowerCase()}/posts`, { cancelToken: ourRequest.token })
+					// console.log(versions)
+					// debugger
 
 					dispatch({ type: "setVersion", data: versions.data })
 				} catch (e) {
@@ -130,7 +131,7 @@ function Main() {
 							<Route path="/post/:id/edit" exact>
 								<EditPost />
 							</Route>
-							<Route path="/create-post">
+							<Route path="/create-version">
 								<CreatePost />
 							</Route>
 							<Route path="/about-us">

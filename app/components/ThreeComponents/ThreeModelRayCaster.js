@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom"
 import Axios from "axios"
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
 import { Skybox } from "../../vessel/libs/skybox_from_examples_r118"
 import { Ocean } from "../../vessel/libs/Configurable_ocean2"
 import { Vessel } from "../../vessel/build/vessel"
@@ -17,9 +18,12 @@ import TableInfo from "../../snippets/TableInfo"
 
 import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
 import AnalysisChart from "../ChartComponents/AnalysisChart"
+import GUI from "../GUI"
 
 var oSize = 512
 const skybox = new Skybox(oSize)
+
+// console.log(GLTFLoader)
 
 class ThreeModelRayCaster extends Component {
 	constructor(props) {
@@ -178,7 +182,17 @@ class ThreeModelRayCaster extends Component {
 
 	removeShip = () => {
 		var deletedShip = this.scene.getObjectByName("Ship3D")
+		var deletedShipGLTF = this.scene.getObjectByName("ModelGLTF")
 		this.scene.remove(deletedShip)
+		this.scene.remove(deletedShipGLTF)
+	}
+
+	// Update current state with changes from controls
+	handleUpdate = newData => {
+		console.log(newData)
+		// this.setState(prevState => ({
+		// 	data: { ...prevState.data, ...newData }
+		// }))
 	}
 
 	handleWindowResize = () => {
@@ -232,6 +246,7 @@ class ThreeModelRayCaster extends Component {
 				<div ref={ref => (this.mount = ref)}>
 					<p id="tooltip" />
 					<div id="tableinfo"></div>
+					<GUI />
 				</div>
 				<LifeCycleBar />
 				{switchElement(this.props.user.shipStage, this.state)}

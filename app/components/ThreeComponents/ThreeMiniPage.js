@@ -70,7 +70,7 @@ class ThreeMiniPage extends Component {
 		)
 
 		// set some distance from a cube that is located at z = 0
-		this.camera.position.set(oSize * 0.03, oSize * 0.03, oSize * 0.03)
+		this.camera.position.set(oSize * 0.05, oSize * 0.05, oSize * 0.04)
 
 		this.controls = new OrbitControls(this.camera, this.mount)
 		this.renderer = new THREE.WebGLRenderer()
