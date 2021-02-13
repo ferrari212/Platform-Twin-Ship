@@ -1,32 +1,31 @@
 import React from "react"
-import DatGui, { DatBoolean, DatColor, DatNumber, DatString } from "react-dat-gui"
+import { Form } from "react-bootstrap"
 
 class GUI extends React.Component {
-	state = {
-		data: {
-			package: "react-dat-gui",
-			power: 9000,
-			isAwesome: true,
-			feelsLike: "#2FA1D6"
-		}
+	constructor(props) {
+		super(props)
+
+		this.checked = false
 	}
 
-	// Update current state with changes from controls
-	handleUpdate = newData =>
-		this.setState(prevState => ({
-			data: { ...prevState.data, ...newData }
-		}))
+	handleChange = e => {
+		e.preventDefault()
+		this.checked = !this.checked
+		this.props.showGLTF(this.checked)
+	}
 
 	render() {
-		const { data } = this.state
-
 		return (
-			<DatGui className="react-dat-gui-style" data={data} onUpdate={this.handleUpdate}>
-				<DatString path="package" label="Package" />
-				<DatNumber path="power" label="Power" min={9000} max={9999} step={1} />
-				<DatBoolean path="isAwesome" label="Awesome?" />
-				<DatColor path="feelsLike" label="Feels Like" />
-			</DatGui>
+			<table className="table table-dark dat-gui-style">
+				<tbody>
+					<tr>
+						<td>Show GLTF</td>
+						<td>
+							<Form.Check type="checkbox" aria-label="option 1" onClick={this.handleChange} />
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		)
 	}
 }

@@ -118,7 +118,7 @@ function Main() {
 					<Header />
 					<Suspense fallback={<LoadingDotsIcon></LoadingDotsIcon>}>
 						<Switch>
-							<Route path="/three-model/:username">{state.user.versions.length > 0 ? <ThreeModelRayCaster user={state.user} addScenarioStatus={true} /> : ""}</Route>
+							<Route path="/three-model/:username">{state.user.versions.length > 0 ? <ThreeModelRayCaster user={state.user} /> : ""}</Route>
 							<Route path="/profile/:username">
 								<Profile />
 							</Route>
