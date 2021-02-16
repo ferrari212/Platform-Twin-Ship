@@ -1,7 +1,9 @@
 import React, { Component } from "react"
 import * as d3 from "d3"
 
-class ConsumptionChart extends Component {
+import { Vessel } from "../../vessel/build/vessel"
+
+class D3Chart extends Component {
 	constructor(props) {
 		super(props)
 	}
@@ -12,9 +14,12 @@ class ConsumptionChart extends Component {
 		const w = 600
 		const h = 400
 
-		console.log(this.mount)
-
 		this.drawBarChart(data)
+	}
+
+	componentDidUpdate(prevProps, prevStates) {
+		console.log(this.props)
+		// this.vesselModel = new Vessel(this.props.props.state.newShip)
 	}
 
 	drawBarChart(data) {
@@ -84,8 +89,14 @@ class ConsumptionChart extends Component {
 	}
 
 	render() {
-		return <div ref={ref => (this.mount = ref)} className="col-sm-6  text-center "></div>
+		return (
+			<div className="container-fluid align-items-center p-3">
+				<div className="row">
+					<div ref={ref => (this.mount = ref)} className="col-sm-6  text-center "></div>
+				</div>
+			</div>
+		)
 	}
 }
 
-export default ConsumptionChart
+export default D3Chart

@@ -8,8 +8,9 @@ h4 {
 }
 
 #free-bar {
-	position: absolute;
-	bottom: 25%;
+	position: fixed;
+	bottom: 15%;
+	z-index: 101;
 }
 
 #free-table {
@@ -205,6 +206,15 @@ h4 {
 .form-group textarea {
 	position: relative;
 	z-index: 2;
+}
+
+.dat-gui-style {
+	position: absolute;
+	position: absolute;
+	top: 15vh;
+	right: 5vw;
+	width: 20vw;
+	/* background-color: white; */
 }
 
 /* textarea.tall-textarea {

@@ -1,5 +1,5 @@
 import * as THREE from "three"
-import ImageSky from "./textures/skyboxsun25degtest1.png"
+import ImageSky from "./textures/skyboxsun25.jpg"
 
 function Skybox(size) {
 	// load skybox (reusing example code to test the water shading fast)

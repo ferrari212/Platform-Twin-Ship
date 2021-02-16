@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react"
 import { useParams, Link, withRouter } from "react-router-dom"
 import Axios from "axios"
 import Page from "./Page"
-import ThreeMiniPage from "./ThreeMiniPage"
+import ThreeMiniPage from "./ThreeComponents/ThreeMiniPage"
 import Renderjson from "renderjson"
 import LoadingDotsIcon from "./LoadingDotsIcon"
 import ReactMarkdown from "react-markdown"
@@ -16,8 +16,6 @@ function ViewSinglePost(props) {
 	const { id } = useParams()
 	const [isLoading, setIsLoading] = useState(true)
 	const [post, setPost] = useState()
-
-	console.log(appState)
 
 	useEffect(() => {
 		const ourRequest = Axios.CancelToken.source()
@@ -63,20 +61,21 @@ function ViewSinglePost(props) {
 		return false
 	}
 
-	async function deleteHandler() {
+	async function deleteHandler(e) {
+		e.preventDefault()
 		const areYouSure = window.confirm("Do you really want to delete this ship version?")
 		if (areYouSure) {
 			try {
 				const response = await Axios.delete(`/post/${id}`, { data: { token: appState.user.token } })
 				if (response.data == "Success") {
 					// 1. Display flash message
-					appDispatch({ type: "flashMessage", value: "Post was successfully deleted" })
+					appDispatch({ type: "flashMessage", value: "Version was successfully deleted", clearData: [] })
 
 					// 2. Redirec back to the user main page
 					props.history.push(`/profile/${appState.user.username}`)
 				}
 			} catch (e) {
-				console.log("There was a error:", e)
+				console.warn("There was a error:", e)
 			}
 		}
 	}

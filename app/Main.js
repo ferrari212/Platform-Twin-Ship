@@ -4,7 +4,7 @@ import { useImmerReducer } from "use-immer"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
 import Axios from "axios"
 
-Axios.defaults.baseURL = process.env.BACKENDURL || "https://ferrari--complex-back-end.herokuapp.com"
+Axios.defaults.baseURL = process.env.BACKENDURL || "https://platform-twin-ship.herokuapp.com"
 
 import StateContext from "./StateContext"
 import DispatchContext from "./DispatchContext"
@@ -18,7 +18,7 @@ import About from "./components/About"
 import Terms from "./components/Terms"
 const CreatePost = React.lazy(() => import("./components/CreatePost"))
 const ViewSinglePost = React.lazy(() => import("./components/ViewSinglePost"))
-const ThreeModelRayCaster = React.lazy(() => import("./components/ThreeModelRayCaster"))
+const ThreeModelRayCaster = React.lazy(() => import("./components/ThreeComponents/ThreeModelRayCaster"))
 import FlashMessages from "./components/FlashMessages"
 import Profile from "./components/Profile"
 import EditPost from "./components/EditPost"
@@ -34,7 +34,11 @@ function Main() {
 			username: localStorage.getItem("complexappUsername"),
 			avatar: localStorage.getItem("complexappAvatar"),
 			versions: [],
-			shipId: 0
+			shipId: 0,
+			shipStage: {
+				lifeCycle: "project",
+				method: "simulate"
+			}
 		}
 	}
 
@@ -59,6 +63,15 @@ function Main() {
 
 			case "flashMessage":
 				draft.flashMessages.push(action.value)
+				draft.user.versions = action.clearData
+				return
+
+			case "setAnalysis":
+				if (action.command) {
+					draft.user.shipStage.method = "analyse"
+				} else {
+					draft.user.shipStage.method = "simulate"
+				}
 				return
 		}
 	}
@@ -67,22 +80,20 @@ function Main() {
 
 	useEffect(() => {
 		if (state.loggedIn) {
-			// var versionsLocalStorage = state.user.versions.map(e => {
-			// 	console.log(e)
-			// 	return JSON.stringify(e)
-			// })
-
 			localStorage.setItem("complexappToken", state.user.token)
 			localStorage.setItem("complexappUsername", state.user.username)
 			localStorage.setItem("complexappAvatar", state.user.avatar)
-			// localStorage.setItem("complexappVersions", versionsLocalStorage)
+			// localStorage.setItem("complexappVersions", state.user.versions)
 			localStorage.setItem("complexappShipIndex", state.user.shipId)
 
 			async function getVersions(component) {
 				const ourRequest = Axios.CancelToken.source()
 
 				try {
-					const versions = await Axios.get(`/profile/${component.username}/posts`, { cancelToken: ourRequest.token })
+					const versions = await Axios.get(`/profile/${component.username.toLowerCase()}/posts`, { cancelToken: ourRequest.token })
+					// console.log(versions)
+					// debugger
+
 					dispatch({ type: "setVersion", data: versions.data })
 				} catch (e) {
 					console.log("There was a problem.", e)
@@ -90,16 +101,14 @@ function Main() {
 			}
 
 			if (state.user.versions.length === 0) getVersions(state.user)
-
-			// console.log(versionsLocalStorage)
 		} else {
 			localStorage.removeItem("complexappToken")
 			localStorage.removeItem("complexappUsername")
 			localStorage.removeItem("complexappAvatar")
-			localStorage.removeItem("complexappVersions")
+			// localStorage.removeItem("complexappVersions")
 			localStorage.removeItem("complexappShipIndex")
 		}
-	}, [state.loggedIn])
+	}, [state.loggedIn, state.user.versions])
 
 	return (
 		<StateContext.Provider value={state}>
@@ -109,7 +118,7 @@ function Main() {
 					<Header />
 					<Suspense fallback={<LoadingDotsIcon></LoadingDotsIcon>}>
 						<Switch>
-							<Route path="/three-model/:username">{state.user.versions.length > 0 ? <ThreeModelRayCaster user={state.user} addScenarioStatus={true} /> : ""}</Route>
+							<Route path="/three-model/:username">{state.user.versions.length > 0 ? <ThreeModelRayCaster user={state.user} /> : ""}</Route>
 							<Route path="/profile/:username">
 								<Profile />
 							</Route>
@@ -122,7 +131,7 @@ function Main() {
 							<Route path="/post/:id/edit" exact>
 								<EditPost />
 							</Route>
-							<Route path="/create-post">
+							<Route path="/create-version">
 								<CreatePost />
 							</Route>
 							<Route path="/about-us">

@@ -12,6 +12,49 @@ function HeaderLoggedIn(props) {
 		appDispatch({ type: "logout" })
 	}
 
+	function ReturnVersionButton() {
+		if (appState.user.versions.length) {
+			return (
+				<Dropdown.Toggle size="sm" variant="success" id="dropdown-basic" className="mr-2">
+					{displayTitleString(appState)}
+				</Dropdown.Toggle>
+			)
+		}
+		return ""
+	}
+
+	function ReturnDropdown() {
+		if (appState.user.versions.length) {
+			var titles = appState.user.versions.map(x => x.title)
+
+			return (
+				<Dropdown.Menu>
+					{titles.map((version, id) => {
+						return (
+							<Dropdown.Item key={id} onSelect={setDisplayedShip} eventKey={id}>
+								{version}
+							</Dropdown.Item>
+						)
+					})}
+				</Dropdown.Menu>
+			)
+		}
+		return ""
+	}
+
+	function Ship3DButton() {
+		// console.log("count", appState.user.versions.length)
+
+		if (appState.user.versions.length) {
+			return (
+				<Link className="btn btn-sm btn-success mr-2" to={`/three-model/${appState.user.username}`}>
+					Show 3D
+				</Link>
+			)
+		}
+		return ""
+	}
+
 	// Initial Use of Button: Insert the ship version as reducer
 	var setDisplayedShip = e => {
 		appDispatch({ type: "changeShip", shipId: e })
@@ -23,14 +66,6 @@ function HeaderLoggedIn(props) {
 		return version ? version.title : ""
 	}
 
-	var titles = []
-
-	if (typeof appState.user.versions === "object") {
-		titles = appState.user.versions.map(x => x.title)
-	}
-
-	console.log(titles)
-
 	return (
 		<Dropdown>
 			<div className="flex-row my-3 my-md-0">
@@ -38,28 +73,15 @@ function HeaderLoggedIn(props) {
 					<img className="small-header-avatar" src={appState.user.avatar} />
 				</Link>
 
-				<Dropdown.Toggle size="sm" variant="success" id="dropdown-basic" className="mr-2">
-					{displayTitleString(appState)}
-				</Dropdown.Toggle>
+				<ReturnVersionButton />
+				<ReturnDropdown />
 
-				<Dropdown.Menu>
-					{console.log(appState.user.versions)}
-
-					{appState.user.versions.map((version, id) => {
-						return (
-							<Dropdown.Item key={id} onSelect={setDisplayedShip} eventKey={id}>
-								{version.title}
-							</Dropdown.Item>
-						)
-					})}
-				</Dropdown.Menu>
-
-				<Link className="btn btn-sm btn-success mr-2 success" to="/create-post">
+				<Link className="btn btn-sm btn-success mr-2 success" to="/create-version">
 					Create Ship Version
 				</Link>
-				<Link className="btn btn-sm btn-success mr-2" to={`/three-model/${appState.user.username}`}>
-					Show 3D
-				</Link>
+
+				<Ship3DButton />
+
 				<Link onClick={handleLogout} to="/" className="btn btn-sm btn-danger" to="/">
 					Sign Out
 				</Link>

@@ -1,15 +1,15 @@
 import React, { useEffect, useState, Component } from "react"
 import * as THREE from "three"
-import Page from "./Page"
+import Page from "../Page"
 import Axios from "axios"
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
-import { Skybox } from "../vessel/libs/skybox_from_examples_r118"
-import { Ocean } from "../vessel/libs/Configurable_ocean2"
-import { Vessel } from "../vessel/build/vessel"
-import { Ship3D } from "../vessel/build/Ship3D"
+import { Skybox } from "../../vessel/libs/skybox_from_examples_r118"
+import { Ocean } from "../../vessel/libs/Configurable_ocean2"
+import { Vessel } from "../../vessel/build/vessel"
+import { Ship3D } from "../../vessel/build/Ship3D"
 
-import GunnerusTeste from "../vessel/specs/Gunnerus.json"
+import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
 
 var oSize = 512
 const skybox = new Skybox(oSize)
@@ -31,6 +31,9 @@ class ThreeMiniPage extends Component {
 		this.getData(this)
 		this.sceneSetup()
 
+		this.addScenario()
+		this.ship = new Vessel.Ship(JSON.parse(this.props.ship))
+
 		window.addEventListener("resize", this.handleWindowResize)
 
 		console.log("Component did Mount!")
@@ -42,12 +45,12 @@ class ThreeMiniPage extends Component {
 		// Make the if else of the posting or notF
 		if (prevProps.ship !== this.props.ship) {
 			this.removeShip()
+			this.ship = new Vessel.Ship(this.state.newShip)
 			this.setState({ newShip: JSON.parse(this.props.ship) })
 		} else {
-			this.ship = new Vessel.Ship(this.state.newShip)
-			if (this.addScenarioStatus) this.addScenario()
-			this.addShip()
-			this.startAnimationLoop()
+			// if (this.addScenarioStatus) this.addScenario()
+			if (!this.scene.getObjectByName("Ship3D")) this.addShip()
+			if (this.requestID === undefined) this.startAnimationLoop()
 		}
 	}
 
@@ -67,7 +70,7 @@ class ThreeMiniPage extends Component {
 		)
 
 		// set some distance from a cube that is located at z = 0
-		this.camera.position.set(oSize * 0.03, oSize * 0.03, oSize * 0.03)
+		this.camera.position.set(oSize * 0.05, oSize * 0.05, oSize * 0.04)
 
 		this.controls = new OrbitControls(this.camera, this.mount)
 		this.renderer = new THREE.WebGLRenderer()
@@ -87,19 +90,12 @@ class ThreeMiniPage extends Component {
 
 		this.useZUp()
 
-		const skybox = new Skybox()
-		skybox.name = "Skybox"
-		this.scene.add(skybox)
+		this.scene.background = new THREE.Color(0xa9cce3)
+		const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
+		const mainLight = new THREE.DirectionalLight(0xffffff, 1)
+		mainLight.position.set(100, 100, 100)
+		this.scene.add(ambientLight, mainLight)
 
-		this.ocean = new Ocean({
-			parentGUI: false,
-			sunDir: sun.position.clone().normalize(),
-			size: oSize,
-			segments: 127
-		})
-		this.ocean.name = "Ocean"
-		console.log(this.ocean)
-		this.scene.add(this.ocean)
 		this.scene.rotation.x = -Math.PI / 2
 	}
 
@@ -148,15 +144,10 @@ class ThreeMiniPage extends Component {
 	removeShip = () => {
 		// const INDEX = this.scene.children.findIndex(element => element.name === "Ship3D")
 		var deletedShip = this.scene.getObjectByName("Ship3D")
-		console.log(deletedShip)
 		this.scene.remove(deletedShip)
 	}
 
 	startAnimationLoop = () => {
-		if (this.addScenarioStatus) {
-			this.ocean.water.material.uniforms.time.value += 1 / 60
-		}
-
 		this.renderer.render(this.scene, this.camera)
 		this.requestID = window.requestAnimationFrame(this.startAnimationLoop)
 	}

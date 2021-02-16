@@ -72,8 +72,8 @@ const spec = {
 	]
 }
 
-const BarChart = createClassFromSpec({
+const BarConfig = createClassFromSpec({
 	spec
 })
 
-export default BarChart
+export default BarConfig
