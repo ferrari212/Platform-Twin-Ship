@@ -24,7 +24,7 @@ function Footer() {
 				</a>
 				. Author:{" "}
 				<a href="http://shiptodata.com/" className="text-muted">
-					Felipe Ferrari de Oliveira.
+					Felipe Ferrari.
 				</a>
 			</p>
 		</footer>

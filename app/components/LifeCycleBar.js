@@ -2,10 +2,11 @@ import React, { useContext } from "react"
 import StateContext from "../StateContext"
 import DispatchContext from "../DispatchContext"
 import ReactTooltip from "react-tooltip"
+import * as Scroll from "react-scroll"
 
 import ImageFunctions from "../images/functions-black-24dp.svg"
-import ImageSimulate from "../images/waves-24px.svg"
-import ImageCompare from "../images/compare_arrows-black-24dp.svg"
+import ImageSimulate from "../images/close-black-24dp.svg"
+import ImageCompare from "../images/code-24px.svg"
 import ImageCode from "../images/download-black-24dp.svg"
 
 function LifeCycleBar() {
@@ -31,6 +32,10 @@ function LifeCycleBar() {
 	function startAnlysis(e) {
 		e.preventDefault()
 		appDispatch({ type: "setAnalysis", command: true })
+		Scroll.animateScroll.scrollTo(window.innerHeight, {
+			delay: 100,
+			smooth: true
+		})
 	}
 
 	function endAnlysis(e) {
@@ -44,13 +49,13 @@ function LifeCycleBar() {
 				<div className="col-sm"></div>
 				<div className="col-sm-7"></div>
 				<div className="col-sm">
-					<a id="free-button" href="" onClick={startAnlysis} data-tip="Analysis" data-for="analysis">
+					<a id="free-button" href="" onClick={startAnlysis} data-tip="Create Analysis" data-for="analysis">
 						<img src={ImageFunctions} />
 					</a>
 					<ReactTooltip id="analysis" className="custom-tooptip" />{" "}
 				</div>
 				<div className="col-sm">
-					<a id="free-button" href="" onClick={endAnlysis} data-tip="Simulation" data-for="simulation">
+					<a id="free-button" href="" onClick={endAnlysis} data-tip="Close Analysis" data-for="simulation">
 						<img src={ImageSimulate} />
 					</a>
 					<ReactTooltip id="simulation" className="custom-tooptip" />{" "}
