@@ -35,10 +35,8 @@ function Main() {
 			avatar: localStorage.getItem("complexappAvatar"),
 			versions: [],
 			shipId: 0,
-			shipStage: {
-				lifeCycle: "project",
-				method: "simulate"
-			}
+			lifeCycle: localStorage.getItem("complexappShipLifeCycle"),
+			method: localStorage.getItem("complexappShipMethod")
 		}
 	}
 
@@ -68,10 +66,12 @@ function Main() {
 
 			case "setAnalysis":
 				if (action.command) {
-					draft.user.shipStage.method = "analyse"
+					draft.user.method = "analyse"
 				} else {
-					draft.user.shipStage.method = "simulate"
+					draft.user.method = "simulate"
 				}
+				return
+			default:
 				return
 		}
 	}
@@ -85,6 +85,8 @@ function Main() {
 			localStorage.setItem("complexappAvatar", state.user.avatar)
 			// localStorage.setItem("complexappVersions", state.user.versions)
 			localStorage.setItem("complexappShipIndex", state.user.shipId)
+			localStorage.setItem("complexappShipLifeCycle", state.user.lifeCycle)
+			localStorage.setItem("complexappShipMethod", state.user.method)
 
 			async function getVersions(component) {
 				const ourRequest = Axios.CancelToken.source()
@@ -107,6 +109,8 @@ function Main() {
 			localStorage.removeItem("complexappAvatar")
 			// localStorage.removeItem("complexappVersions")
 			localStorage.removeItem("complexappShipIndex")
+			localStorage.removeItem("complexappShipLifeCycle")
+			localStorage.removeItem("complexappShipMethod")
 		}
 	}, [state.loggedIn, state.user.versions])
 
