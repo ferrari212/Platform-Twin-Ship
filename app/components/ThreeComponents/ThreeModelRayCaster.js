@@ -262,10 +262,11 @@ class ThreeModelRayCaster extends Component {
 		function switchElement(prop, state) {
 			if (Boolean(state) && Boolean(prop)) {
 				var teste = prop.method
+				console.log(prop, state)
 
 				switch (teste) {
 					case "analyse":
-						return <AnalysisChart state={state} Vessel={Vessel} />
+						return <AnalysisChart state={state} />
 
 					default:
 						return null
@@ -293,7 +294,7 @@ class ThreeModelRayCaster extends Component {
 				</div>
 				{showGLTF(this, this.state)}
 				<LifeCycleBar />
-				{switchElement(this.props.user.shipStage, this.state)}
+				{switchElement(this.props.user, this.state)}
 			</Page>
 		)
 	}

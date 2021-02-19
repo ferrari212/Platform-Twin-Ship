@@ -4,12 +4,12 @@ const Dotenv = require("dotenv-webpack")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const TerserPlugin = require("terser-webpack-plugin")
 const fse = require("fs-extra")
 
 /*
-  Because I didn't bother making CSS part of our
-  webpack workflow for this project I'm just
-  manually copying our CSS file to the DIST folder. 
+  Making CSS part of our by just manually copying
+  CSS file to the DIST folder. 
 */
 class RunAfterCompile {
 	apply(compiler) {
@@ -32,6 +32,17 @@ config = {
 		publicPath: "/",
 		path: path.resolve(__dirname, "app"),
 		filename: "bundled.js"
+	},
+	optimization: {
+		minimize: true,
+		minimizer: [
+			new TerserPlugin({
+				terserOptions: {
+					keep_classnames: false,
+					keep_fnames: true
+				}
+			})
+		]
 	},
 	plugins: [
 		new Dotenv(),
