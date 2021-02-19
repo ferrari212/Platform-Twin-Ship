@@ -214,8 +214,6 @@ function AnalysisChart(props) {
 	}
 
 	function returnAnalysis(params) {
-		console.log(params)
-		debugger
 		try {
 			var models = new VesselModels(params)
 
