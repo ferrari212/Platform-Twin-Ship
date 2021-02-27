@@ -8,8 +8,6 @@ export default class ToolTip {
 	constructor(mouse, elementTag = "tooltip") {
 		this.mouse = mouse
 		this.element = document.getElementById(elementTag)
-
-		// console.log(element.style.visibility)
 	}
 
 	upDate(intersected) {

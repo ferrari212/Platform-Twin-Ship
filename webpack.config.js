@@ -33,17 +33,6 @@ config = {
 		path: path.resolve(__dirname, "app"),
 		filename: "bundled.js"
 	},
-	optimization: {
-		minimize: true,
-		minimizer: [
-			new TerserPlugin({
-				terserOptions: {
-					keep_classnames: false,
-					keep_fnames: true
-				}
-			})
-		]
-	},
 	plugins: [
 		new Dotenv(),
 		new HtmlWebpackPlugin({
@@ -77,6 +66,23 @@ config = {
 						}
 					}
 				]
+			},
+			{
+				test: /\.(gltf)$/,
+				use: [
+					{
+						loader: "gltf-webpack-loader"
+					}
+				]
+			},
+			{
+				test: /\.(bin)$/,
+				use: [
+					{
+						loader: "file-loader",
+						options: {}
+					}
+				]
 			}
 		]
 	}
@@ -93,6 +99,17 @@ if (currentTask == "webpackDev" || currentTask == "dev") {
 }
 
 if (currentTask == "webpackBuild") {
+	config.optimization = {
+		minimize: true,
+		minimizer: [
+			new TerserPlugin({
+				terserOptions: {
+					keep_classnames: false,
+					keep_fnames: true
+				}
+			})
+		]
+	}
 	config.plugins.push(new CleanWebpackPlugin(), new RunAfterCompile())
 	config.mode = "production"
 	config.output = {

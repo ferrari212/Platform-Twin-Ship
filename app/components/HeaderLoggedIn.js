@@ -1,22 +1,26 @@
 import React, { useEffect, useContext } from "react"
 import { Link } from "react-router-dom"
-import { Dropdown } from "react-bootstrap"
+import { Dropdown, Badge } from "react-bootstrap"
 import DispatchContext from "../DispatchContext"
 import StateContext from "../StateContext"
+
+import ShipObject from "../snippets/ShipObject"
 
 function HeaderLoggedIn(props) {
 	const appDispatch = useContext(DispatchContext)
 	const appState = useContext(StateContext)
+
+	var ship = new ShipObject(appState.user)
 
 	function handleLogout() {
 		appDispatch({ type: "logout" })
 	}
 
 	function ReturnVersionButton() {
-		if (appState.user.versions.length) {
+		if (ship.version) {
 			return (
 				<Dropdown.Toggle size="sm" variant="success" id="dropdown-basic" className="mr-2">
-					{displayTitleString(appState)}
+					{ship.version.title}
 				</Dropdown.Toggle>
 			)
 		}
@@ -43,12 +47,18 @@ function HeaderLoggedIn(props) {
 	}
 
 	function Ship3DButton() {
-		// console.log("count", appState.user.versions.length)
-
 		if (appState.user.versions.length) {
+			var GLTFUrl = ship.shipObj.attributes.GLTFUrl || undefined
+
+			// Insert the verification for the operation fase
+			var lifeCyclePhase = GLTFUrl ? "Detailing" : "Initial Design"
+
 			return (
 				<Link className="btn btn-sm btn-success mr-2" to={`/three-model/${appState.user.username}`}>
-					Show 3D
+					Show 3D &nbsp;{" "}
+					<Badge pill variant="light">
+						{lifeCyclePhase}
+					</Badge>
 				</Link>
 			)
 		}
@@ -58,12 +68,6 @@ function HeaderLoggedIn(props) {
 	// Initial Use of Button: Insert the ship version as reducer
 	var setDisplayedShip = e => {
 		appDispatch({ type: "changeShip", shipId: e })
-	}
-
-	var displayTitleString = e => {
-		const id = e.user.shipId
-		const version = e.user.versions[id]
-		return version ? version.title : ""
 	}
 
 	return (
