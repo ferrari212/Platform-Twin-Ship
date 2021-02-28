@@ -53,6 +53,7 @@ function Main() {
 
 			case "changeShip":
 				draft.user.shipId = action.shipId
+				draft.user.method = "undefined"
 				return
 
 			case "setVersion":

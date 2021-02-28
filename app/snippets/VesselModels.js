@@ -38,9 +38,6 @@ export default class VesselModels {
 		this.wavMo = new Vessel.WaveMotion(this.ship, this.shipState, this.wave)
 		this.wavMo.output.push("rollAmp")
 		this.wavMo.writeOutput()
-		debugger
-		// this.getWaveResponse(1, 1, 0)
-		// debugger
 	}
 
 	setSpeed(speed) {

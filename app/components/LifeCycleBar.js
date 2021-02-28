@@ -5,9 +5,10 @@ import ReactTooltip from "react-tooltip"
 import * as Scroll from "react-scroll"
 
 import ImageFunctions from "../images/functions-black-24dp.svg"
-import ImageSimulate from "../images/close-black-24dp.svg"
+import ImageClose from "../images/close-black-24dp.svg"
 import ImageCompare from "../images/code-24px.svg"
 import ImageCode from "../images/download-black-24dp.svg"
+import ImagePrint from "../images/print-black-24dp.svg"
 
 import ShipObject from "../snippets/ShipObject"
 
@@ -43,14 +44,29 @@ function LifeCycleBar() {
 		appDispatch({ type: "setAnalysis", command: false })
 	}
 
+	// function printContentButton() {
+	// 	if (appState.user.method === "analyse") {
+	// 		return (
+	// 			<div className="p-3 bd-highlight">
+	// 				<a id="free-button" href="" onClick={endAnlysis} data-tip="Print Analysis" data-for="print">
+	// 					<img src={ImagePrint} />
+	// 				</a>
+	// 				<ReactTooltip id="print" className="custom-tooptip" />{" "}
+	// 			</div>
+	// 		)
+	// 	} else {
+	// 		return ""
+	// 	}
+	// }
+
 	function setButtons() {
 		if (appState.user.method === "analyse") {
 			return (
 				<div className="p-3 bd-highlight">
-					<a id="free-button" href="" onClick={endAnlysis} data-tip="Close Analysis" data-for="simulation">
-						<img src={ImageSimulate} />
+					<a id="free-button" href="" onClick={endAnlysis} data-tip="Close Analysis" data-for="close">
+						<img src={ImageClose} />
 					</a>
-					<ReactTooltip id="simulation" className="custom-tooptip" />{" "}
+					<ReactTooltip id="close" className="custom-tooptip" />{" "}
 				</div>
 			)
 		} else {
@@ -80,6 +96,7 @@ function LifeCycleBar() {
 					</a>
 					<ReactTooltip id="dowload" className="custom-tooptip" />{" "}
 				</div>
+				{/* {appState.user ? printContentButton() : ""} */}
 				{appState.user ? setButtons() : ""}
 			</div>
 		</div>

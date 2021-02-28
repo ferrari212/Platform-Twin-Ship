@@ -7,6 +7,7 @@ import VesselModels from "../../snippets/VesselModels"
 
 import ResistanceModule from "../AnalysisComponent/ResistanceModule"
 import HydrostaticModule from "../AnalysisComponent/HydrostaticModule"
+import ResponseModule from "../AnalysisComponent/ResponseModule"
 
 function AnalysisChart(props) {
 	function returnAnalysis(params) {
@@ -42,6 +43,22 @@ function AnalysisChart(props) {
 								<Card.Body>
 									<div>
 										<HydrostaticModule models={models} />
+									</div>
+								</Card.Body>
+							</Accordion.Collapse>
+						</Card>
+					</Accordion>
+					<Accordion defaultActiveKey="2">
+						<Card>
+							<Card.Header>
+								<Accordion.Toggle as={Button} variant="secondary" eventKey="2">
+									Test Response
+								</Accordion.Toggle>
+							</Card.Header>
+							<Accordion.Collapse eventKey="2">
+								<Card.Body>
+									<div>
+										<ResponseModule models={models} />
 									</div>
 								</Card.Body>
 							</Accordion.Collapse>
