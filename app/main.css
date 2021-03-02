@@ -48,6 +48,36 @@ h4 {
 	box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
 }
 
+/* LOADER */
+#loader-wrapper {
+	width: 100%;
+	/* height: 100%; */
+	text-align: center;
+	position: absolute;
+	/* top: 0; */
+	left: 0;
+	background-color: #295773;
+	color: #fff;
+	font-family: Helvetica;
+	z-index: 105;
+}
+.loader-wrapper-content {
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+	position: relative;
+	margin-top: 12%;
+	border-radius: 50%;
+	vertical-align: middle;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+/* END LOADER */
+
 .header-bar {
 	background-color: #295773;
 }
@@ -214,7 +244,9 @@ h4 {
 	top: 15vh;
 	right: 5vw;
 	width: 20vw;
-	/* background-color: white; */
+	background-color: white;
+	/* border-radius: 5%; */
+	border-radius: 10px;
 }
 
 /* textarea.tall-textarea {
@@ -614,6 +646,7 @@ h4 {
 	-webkit-animation-fill-mode: infinite;
 	animation-fill-mode: infinite;
 }
+/* END: Dots Loading Animation */
 
 @keyframes opacitychange {
 	0%,

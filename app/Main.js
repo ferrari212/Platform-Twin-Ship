@@ -18,7 +18,7 @@ import About from "./components/About"
 import Terms from "./components/Terms"
 const CreatePost = React.lazy(() => import("./components/CreatePost"))
 const ViewSinglePost = React.lazy(() => import("./components/ViewSinglePost"))
-const ThreeModelRayCaster = React.lazy(() => import("./components/ThreeComponents/ThreeModelRayCaster"))
+import ThreeSwitch from "./components/ThreeComponents/ThreeSwitch"
 import FlashMessages from "./components/FlashMessages"
 import Profile from "./components/Profile"
 import EditPost from "./components/EditPost"
@@ -53,6 +53,7 @@ function Main() {
 
 			case "changeShip":
 				draft.user.shipId = action.shipId
+				draft.user.method = "undefined"
 				return
 
 			case "setVersion":
@@ -68,7 +69,9 @@ function Main() {
 				if (action.command) {
 					draft.user.method = "analyse"
 				} else {
-					draft.user.method = "simulate"
+					// The simulate version must be done
+					// draft.user.method = "simulate"
+					draft.user.method = "undefined"
 				}
 				return
 			default:
@@ -122,7 +125,7 @@ function Main() {
 					<Header />
 					<Suspense fallback={<LoadingDotsIcon></LoadingDotsIcon>}>
 						<Switch>
-							<Route path="/three-model/:username">{state.user.versions.length > 0 ? <ThreeModelRayCaster user={state.user} /> : ""}</Route>
+							<Route path="/three-model/:username">{state.user.versions.length > 0 ? <ThreeSwitch user={state.user} /> : ""}</Route>
 							<Route path="/profile/:username">
 								<Profile />
 							</Route>

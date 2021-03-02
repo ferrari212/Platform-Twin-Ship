@@ -59,6 +59,7 @@ class ThreeModelRayCaster extends Component {
 
 		var prevIndex = prevProps.user.shipId
 		var prevVersion = prevProps.user.versions[prevIndex].ship
+
 		var newIndex = this.props.user.shipId
 		var newVersion = this.props.user.versions[newIndex].ship
 
@@ -143,11 +144,9 @@ class ThreeModelRayCaster extends Component {
 		if (version.length !== 0) {
 			this.setState(() => {
 				var newShip = JSON.parse(version)
-				var GLTFPath = newShip.attributes.GLTFUrl
 				return {
 					newShip: newShip,
-					ship: new Vessel.Ship(newShip),
-					GLTFPath: GLTFPath
+					ship: new Vessel.Ship(newShip)
 				}
 			})
 		}
@@ -168,25 +167,6 @@ class ThreeModelRayCaster extends Component {
 		this.ship3D.show = "on"
 		this.scene.add(this.ship3D)
 
-		var loaderGLTF = new GLTFLoader()
-
-		if (this.state.GLTFPath) {
-			loaderGLTF.load(this.state.GLTFPath, gltf => {
-				var shipGLTF = gltf.scene
-				shipGLTF.rotation.x = Math.PI / 2
-				shipGLTF.rotation.y = -Math.PI / 2
-				shipGLTF.position.x = -0.5
-				shipGLTF.name = "ModelGLTF"
-				shipGLTF.visible = false
-
-				if (shipGLTF.material) {
-					shipGLTF.material.side = THREE.DoubleSide
-				}
-
-				this.scene.add(shipGLTF)
-			})
-		}
-
 		if (this.addScenarioStatus) {
 			const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
 			const mainLight = new THREE.DirectionalLight(0xffffff, 1)
@@ -200,32 +180,7 @@ class ThreeModelRayCaster extends Component {
 
 	removeShip = () => {
 		var deletedShip = this.scene.getObjectByName("Ship3D")
-		var deletedShipGLTF = this.scene.getObjectByName("ModelGLTF")
 		this.scene.remove(deletedShip)
-		this.scene.remove(deletedShipGLTF)
-	}
-
-	// Update current state with changes from controls
-	showGLTF = status => {
-		try {
-			var ship3D = this.scene.getObjectByName("Ship3D")
-			var modelGLTF = this.scene.getObjectByName("ModelGLTF")
-
-			ship3D.visible = !status
-			modelGLTF.visible = status
-
-			// The ray caster is not working properly when
-			// it get multiple objects. @ferrari212
-			if (status) {
-				modelGLTF.layers.enableAll()
-				ship3D.layers.disableAll()
-			} else {
-				ship3D.layers.enableAll()
-				modelGLTF.layers.disableAll()
-			}
-		} catch (error) {
-			console.warn("Model is still being loaded, wait for using the check box")
-		}
 	}
 
 	handleWindowResize = () => {
@@ -275,24 +230,12 @@ class ThreeModelRayCaster extends Component {
 			return null
 		}
 
-		function showGLTF(self, state) {
-			if (Boolean(state)) {
-				var GLTFPath = state.GLTFPath
-
-				if (Boolean(GLTFPath)) return <GUI showGLTF={self.showGLTF} />
-
-				return null
-			}
-			return null
-		}
-
 		return (
 			<Page title="Three-js" className="" wide={this.props.wide}>
 				<div ref={ref => (this.mount = ref)}>
 					<p id="tooltip" />
 					<div id="tableinfo"></div>
 				</div>
-				{showGLTF(this, this.state)}
 				<LifeCycleBar />
 				{switchElement(this.props.user, this.state)}
 			</Page>
