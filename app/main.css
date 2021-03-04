@@ -267,7 +267,7 @@ h4 {
 	margin: 0;
 }
 
-/* Search Overaly */
+/* Search Overlay Logic */
 .search-overlay {
 	display: flex;
 	flex-direction: column;
@@ -308,6 +308,8 @@ h4 {
 	margin: 0;
 	margin-right: 10px;
 }
+
+/* End of Search Overlay Logic */
 
 .live-search-field {
 	background-color: transparent;

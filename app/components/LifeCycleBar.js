@@ -7,6 +7,7 @@ import * as Scroll from "react-scroll"
 import ImageFunctions from "../images/functions-black-24dp.svg"
 import ImageClose from "../images/close-black-24dp.svg"
 import ImageCompare from "../images/code-24px.svg"
+import ImageAdd from "../images/add-black-24dp.svg"
 import ImageCode from "../images/download-black-24dp.svg"
 import ImagePrint from "../images/print-black-24dp.svg"
 
@@ -28,6 +29,11 @@ function LifeCycleBar() {
 		link.setAttribute("download", fileName)
 
 		link.click()
+	}
+
+	function handeInsertState(e) {
+		e.preventDefault()
+		appDispatch({ type: "openInsertState" })
 	}
 
 	function startAnlysis(e) {
@@ -96,7 +102,12 @@ function LifeCycleBar() {
 					</a>
 					<ReactTooltip id="dowload" className="custom-tooptip" />{" "}
 				</div>
-				{/* {appState.user ? printContentButton() : ""} */}
+				<div className="p-3 bd-highlight">
+					<a id="free-button" href="" onClick={handeInsertState} data-tip="Create State" data-for="state">
+						<img src={ImageAdd} />
+					</a>
+					<ReactTooltip id="state" className="custom-tooptip" />{" "}
+				</div>
 				{appState.user ? setButtons() : ""}
 			</div>
 		</div>

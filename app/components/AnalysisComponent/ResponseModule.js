@@ -38,7 +38,6 @@ function ResponseModule(prop) {
 
 			// Define the wave angles 90 is side waves and 180 is head waves
 			var angles = [90, 105, 120, 135, 150, 165, 180]
-			// var frequencies = [0.01, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]
 
 			var possibleColors = ["rgba(41, 85, 115, 0.6)", "rgba(115, 69, 41, 0.6)", "rgba(1, 28, 64, 0.6)", "rgba(64, 37, 1, 0.6)", "rgba(138, 103, 83, 0.6)", "rgba(166, 13, 13, 0.6)", "rgba(205, 135, 68, 0.6)"]
 

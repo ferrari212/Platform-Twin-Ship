@@ -1,4 +1,7 @@
 export default class DataChartStructure {
+	// Class returns the object format for Chart.js
+	// xLabel: Object containing the label and dataset of the structure
+
 	constructor(xLabel) {
 		this.chartData = {
 			labels: [],

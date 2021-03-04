@@ -2,6 +2,7 @@ import React, { useState, useReducer, useEffect, Component, Suspense } from "rea
 import ReactDOM from "react-dom"
 import { useImmerReducer } from "use-immer"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
+import { CSSTransition } from "react-transition-group"
 import Axios from "axios"
 
 Axios.defaults.baseURL = process.env.BACKENDURL || "https://platform-twin-ship.herokuapp.com"
@@ -21,6 +22,7 @@ const ViewSinglePost = React.lazy(() => import("./components/ViewSinglePost"))
 import ThreeSwitch from "./components/ThreeComponents/ThreeSwitch"
 import FlashMessages from "./components/FlashMessages"
 import Profile from "./components/Profile"
+import InsertState from "./components/InsertState"
 import EditPost from "./components/EditPost"
 import NotFound from "./components/NotFound"
 import LoadingDotsIcon from "./components/LoadingDotsIcon"
@@ -37,7 +39,8 @@ function Main() {
 			shipId: 0,
 			lifeCycle: localStorage.getItem("complexappShipLifeCycle"),
 			method: localStorage.getItem("complexappShipMethod")
-		}
+		},
+		isInsertStateOpen: false
 	}
 
 	function ourReducer(draft, action) {
@@ -74,6 +77,14 @@ function Main() {
 					draft.user.method = "undefined"
 				}
 				return
+			case "openInsertState":
+				draft.isInsertStateOpen = true
+				return
+
+			case "closeInsertState":
+				draft.isInsertStateOpen = false
+				return
+
 			default:
 				return
 		}
@@ -151,6 +162,13 @@ function Main() {
 								<NotFound />
 							</Route>
 						</Switch>
+						<CSSTransition timeout={330} in={state.isInsertStateOpen} classNames="search-overlay" unmountOnExit>
+							<div className="search-overlay">
+								<Suspense fallback="">
+									<InsertState />
+								</Suspense>
+							</div>
+						</CSSTransition>
 					</Suspense>
 					<Footer />
 				</BrowserRouter>

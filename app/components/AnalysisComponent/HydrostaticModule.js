@@ -1,6 +1,7 @@
 import React from "react"
 
 import DataChartStructure from "../../snippets/DataChartStructure"
+import extract from "../../snippets/extract"
 import LineChart from "../ChartComponents/LineChart"
 
 function HydrostaticModule(prop) {
@@ -26,6 +27,14 @@ function HydrostaticModule(prop) {
 			var datasetCm = dataCoeff.pushDataSet("Cm", "rgba(1, 28, 64, 0.6)")
 			var datasetCp = dataCoeff.pushDataSet("Cp", "rgba(138, 103, 83, 0.6)")
 			var datasetCWp = dataCoeff.pushDataSet("Cwp", "rgba(166, 13, 13, 0.6)")
+
+			var designDraft = models.shipState.calculationParameters.Draft_design
+			var currentResults = models.ship.structure.hull.calculateAttributesAtDraft(designDraft)
+
+			// Filter the values
+			var keys = ["Vs", "LCB", "LCF", "KB", "BMt", "BMl", "KB", "Cb", "Cm", "Cp", "Cwp"]
+			var units = ["m³", "m", "m", "m", "m", "m", "m", "", "", "", ""]
+			var filtered = extract(currentResults, keys)
 
 			var draft = 0.25
 			var drafts = []
@@ -76,6 +85,34 @@ function HydrostaticModule(prop) {
 					<div className="row">
 						<div className="col-lg-12  text-center ">
 							<LineChart chartData={dataCoeff.chartData} textTitle="Adm. Coefficients" xLabel="Draft (m)" yLabel="Displacement (m)" />
+						</div>
+					</div>
+					<br />
+					<div className="row align-items-center text-center justify-content-center">
+						<h4>Hydrostatic in the design draft = {designDraft.toFixed(2)} m</h4>
+					</div>
+					<div className="row align-items-center text-center justify-content-center">
+						<div className="col-lg-6 ">
+							<table className="table">
+								<thead class="thead-dark">
+									<tr>
+										<th scope="col">Variable</th>
+										<th scope="col">Value</th>
+										<th scope="col">Unit</th>
+									</tr>
+								</thead>
+								<tbody>
+									{keys.map((value, id) => {
+										return (
+											<tr>
+												<td>{value}</td>
+												<td>{filtered[value].toFixed(2)}</td>
+												<td>{units[id]}</td>
+											</tr>
+										)
+									})}
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
