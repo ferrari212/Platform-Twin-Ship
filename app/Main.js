@@ -36,6 +36,7 @@ function Main() {
 			username: localStorage.getItem("complexappUsername"),
 			avatar: localStorage.getItem("complexappAvatar"),
 			versions: [],
+			newState: undefined,
 			shipId: 0,
 			lifeCycle: localStorage.getItem("complexappShipLifeCycle"),
 			method: localStorage.getItem("complexappShipMethod")
@@ -77,11 +78,13 @@ function Main() {
 					draft.user.method = "undefined"
 				}
 				return
+
 			case "openInsertState":
 				draft.isInsertStateOpen = true
 				return
 
 			case "closeInsertState":
+				draft.user.newState = action.data
 				draft.isInsertStateOpen = false
 				return
 
@@ -97,7 +100,6 @@ function Main() {
 			localStorage.setItem("complexappToken", state.user.token)
 			localStorage.setItem("complexappUsername", state.user.username)
 			localStorage.setItem("complexappAvatar", state.user.avatar)
-			// localStorage.setItem("complexappVersions", state.user.versions)
 			localStorage.setItem("complexappShipIndex", state.user.shipId)
 			localStorage.setItem("complexappShipLifeCycle", state.user.lifeCycle)
 			localStorage.setItem("complexappShipMethod", state.user.method)
@@ -107,8 +109,6 @@ function Main() {
 
 				try {
 					const versions = await Axios.get(`/profile/${component.username.toLowerCase()}/posts`, { cancelToken: ourRequest.token })
-					// console.log(versions)
-					// debugger
 
 					dispatch({ type: "setVersion", data: versions.data })
 				} catch (e) {
@@ -121,7 +121,6 @@ function Main() {
 			localStorage.removeItem("complexappToken")
 			localStorage.removeItem("complexappUsername")
 			localStorage.removeItem("complexappAvatar")
-			// localStorage.removeItem("complexappVersions")
 			localStorage.removeItem("complexappShipIndex")
 			localStorage.removeItem("complexappShipLifeCycle")
 			localStorage.removeItem("complexappShipMethod")

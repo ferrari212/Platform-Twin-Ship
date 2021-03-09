@@ -27,7 +27,7 @@ function ResistanceModule(prop) {
 				dataPower.xLabel.push(type)
 			}
 
-			for (let v = 0; v <= Math.floor(models.v_proj * 1.2); v++) {
+			for (let v = 1; v <= Math.floor(models.v_proj * 1.2); v++) {
 				models.hullRes.setSpeed(v)
 
 				dataResitance.xLabel.push(v.toFixed(0))

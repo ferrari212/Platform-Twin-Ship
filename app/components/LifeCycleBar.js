@@ -5,6 +5,7 @@ import ReactTooltip from "react-tooltip"
 import * as Scroll from "react-scroll"
 
 import ImageFunctions from "../images/functions-black-24dp.svg"
+import ImageSimulations from "../images/waves-24px.svg"
 import ImageClose from "../images/close-black-24dp.svg"
 import ImageCompare from "../images/code-24px.svg"
 import ImageAdd from "../images/add-black-24dp.svg"
@@ -31,25 +32,6 @@ function LifeCycleBar() {
 		link.click()
 	}
 
-	function handeInsertState(e) {
-		e.preventDefault()
-		appDispatch({ type: "openInsertState" })
-	}
-
-	function startAnlysis(e) {
-		e.preventDefault()
-		appDispatch({ type: "setAnalysis", command: true })
-		Scroll.animateScroll.scrollTo(window.innerHeight, {
-			delay: 100,
-			smooth: true
-		})
-	}
-
-	function endAnlysis(e) {
-		e.preventDefault()
-		appDispatch({ type: "setAnalysis", command: false })
-	}
-
 	// function printContentButton() {
 	// 	if (appState.user.method === "analyse") {
 	// 		return (
@@ -65,24 +47,96 @@ function LifeCycleBar() {
 	// 	}
 	// }
 
+	function handeInsertState(e) {
+		e.preventDefault()
+		appDispatch({ type: "openInsertState" })
+	}
+
+	// MAKE A FUNCTION GENERAL TO USE
+	// function openInsertState(e) {
+	// 	e.preventDefault()
+	// var command = e.currentTarget.dataset.for
+	// }
+
+	function startAnlysis(e) {
+		debugger
+		var command = e.currentTarget.dataset.for
+		e.preventDefault()
+		appDispatch({ type: command, command: true })
+		Scroll.animateScroll.scrollTo(window.innerHeight, {
+			delay: 100,
+			smooth: true
+		})
+	}
+
+	function startSimulation(e) {
+		debugger
+		e.preventDefault()
+		appDispatch({ type: "setSimulation", command: true })
+		Scroll.animateScroll.scrollTo(window.innerHeight, {
+			delay: 100,
+			smooth: true
+		})
+	}
+
+	function endAnlysis(e) {
+		e.preventDefault()
+		appDispatch({ type: "setAnalysis", command: false })
+	}
+
 	function setButtons() {
-		if (appState.user.method === "analyse") {
-			return (
-				<div className="p-3 bd-highlight">
-					<a id="free-button" href="" onClick={endAnlysis} data-tip="Close Analysis" data-for="close">
-						<img src={ImageClose} />
-					</a>
-					<ReactTooltip id="close" className="custom-tooptip" />{" "}
-				</div>
-			)
+		if (appState.user.method === "analyse" || appState.user.method === "simulate") {
+			if (appState.user.method === "analyse") {
+				return (
+					<>
+						<div className="p-3 bd-highlight">
+							<a id="free-button" href="" onClick={startAnlysis} data-tip="Create Simulation" data-for="setSimulation">
+								<img src={ImageSimulations} />
+							</a>
+							<ReactTooltip id="setSimulation" className="custom-tooptip" />{" "}
+						</div>
+						<div className="p-3 bd-highlight">
+							<a id="free-button" href="" onClick={endAnlysis} data-tip="Close Analysis" data-for="close-analysis">
+								<img src={ImageClose} />
+							</a>
+							<ReactTooltip id="close-analysis" className="custom-tooptip" />{" "}
+						</div>
+					</>
+				)
+			} else {
+				return (
+					<>
+						<div className="p-3 bd-highlight">
+							<a id="free-button" href="" onClick={endAnlysis} data-tip="Close Analysis" data-for="close-analysis">
+								<img src={ImageClose} />
+							</a>
+							<ReactTooltip id="close-analysis" className="custom-tooptip" />{" "}
+						</div>
+						<div className="p-3 bd-highlight">
+							<a id="free-button" href="" onClick={startAnlysis} data-tip="Create Analysis" data-for="setAnalysis">
+								<img src={ImageFunctions} />
+							</a>
+							<ReactTooltip id="setAnalysis" className="custom-tooptip" />{" "}
+						</div>
+					</>
+				)
+			}
 		} else {
 			return (
-				<div className="p-3 bd-highlight">
-					<a id="free-button" href="" onClick={startAnlysis} data-tip="Create Analysis" data-for="analysis">
-						<img src={ImageFunctions} />
-					</a>
-					<ReactTooltip id="analysis" className="custom-tooptip" />{" "}
-				</div>
+				<>
+					<div className="p-3 bd-highlight">
+						<a id="free-button" href="" onClick={startAnlysis} data-tip="Create Simulation" data-for="setSimulation">
+							<img src={ImageSimulations} />
+						</a>
+						<ReactTooltip id="setSimulation" className="custom-tooptip" />{" "}
+					</div>
+					<div className="p-3 bd-highlight">
+						<a id="free-button" href="" onClick={startAnlysis} data-tip="Create Simulation" data-for="setAnalysis">
+							<img src={ImageFunctions} />
+						</a>
+						<ReactTooltip id="setAnalysis" className="custom-tooptip" />{" "}
+					</div>
+				</>
 			)
 		}
 	}

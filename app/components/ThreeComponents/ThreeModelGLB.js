@@ -11,6 +11,7 @@ import { Vessel } from "../../vessel/build/vessel"
 import { renderRayCaster } from "../../vessel/snippets/renderRayCaster"
 
 import ToolTip from "../../snippets/ToolTip"
+import ShipObject from "../../snippets/ShipObject"
 
 // import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
 import GunnerusTeste from "../../vessel/specs/Gunnerus.gltf"
@@ -44,6 +45,7 @@ class ThreeModelRayCaster extends Component {
 		this.height = this.mount.clientHeight
 		this.top = this.mount.offsetTop
 
+		// Add ShipObject class here -> Later pass it to the switch
 		var Id = this.props.user.shipId
 		var version = this.props.user.versions[Id].ship
 		this.setShipDataTemporary(this, version)
@@ -56,8 +58,11 @@ class ThreeModelRayCaster extends Component {
 	componentDidUpdate(prevProps, prevStates) {
 		console.log("Component did Update!", prevProps, prevStates)
 
+		// Use ShipObject class here
 		var prevIndex = prevProps.user.shipId
 		var prevVersion = prevProps.user.versions[prevIndex].ship
+
+		// Use ShipObject class here
 		var newIndex = this.props.user.shipId
 		var newVersion = this.props.user.versions[newIndex].ship
 

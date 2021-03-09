@@ -28,7 +28,6 @@ class ThreeModelRayCaster extends Component {
 		super(props)
 
 		this.addScenarioStatus = true
-		this.height = this.props.height
 		this.intersected = undefined
 		this.mouse = new THREE.Vector2(0.5, 0.5)
 
@@ -45,6 +44,7 @@ class ThreeModelRayCaster extends Component {
 
 		this.mount.addEventListener("mousemove", this.onMouseMove, false)
 
+		// Add ShipObject class here -> Later pass it to the switch
 		var Id = this.props.user.shipId
 		var version = this.props.user.versions[Id].ship
 		this.setShipDataTemporary(this, version)
@@ -57,9 +57,11 @@ class ThreeModelRayCaster extends Component {
 	componentDidUpdate(prevProps, prevStates) {
 		console.log("Component did Update!", prevProps, prevStates)
 
+		// Use ShipObject class here
 		var prevIndex = prevProps.user.shipId
 		var prevVersion = prevProps.user.versions[prevIndex].ship
 
+		// Use ShipObject class here
 		var newIndex = this.props.user.shipId
 		var newVersion = this.props.user.versions[newIndex].ship
 
@@ -76,6 +78,10 @@ class ThreeModelRayCaster extends Component {
 
 			if (this.requestID === undefined) this.startAnimationLoop()
 		}
+	}
+
+	componentWillUnmount() {
+		delete this.startAnimationLoop
 	}
 
 	sceneSetup = () => {

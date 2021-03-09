@@ -49,14 +49,14 @@ function CreatePost(props) {
 					<label htmlFor="post-title" className="text-muted mb-1">
 						<small>Title</small>
 					</label>
-					<input onChange={e => setTitle(e.target.value)} autoFocus name="title" id="post-title" className="form-control form-control-lg form-control-title" type="text" placeholder="" autoComplete="off" />
+					<input onChange={e => setTitle(e.target.value)} autoFocus name="title" id="post-title" className="form-control form-control-lg form-control-title" type="text" placeholder="Insert project name" autoComplete="off" />
 				</div>
 
 				<div className="form-group">
 					<label htmlFor="post-description" className="text-muted mb-1 d-block">
 						<small>Description</small>
 					</label>
-					<textarea onChange={e => setDescription(e.target.value)} name="description" id="post-description" className="description-content tall-textarea form-control form-control-sm" type="text"></textarea>
+					<textarea onChange={e => setDescription(e.target.value)} name="description" id="post-description" className="description-content tall-textarea form-control form-control-sm" type="text" placeholder="Insert project description"></textarea>
 				</div>
 
 				<div className="form-group">

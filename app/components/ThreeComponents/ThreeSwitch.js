@@ -1,16 +1,16 @@
 import React, { useEffect } from "react"
 
+import ShipObject from "../../snippets/ShipObject"
+
 const ThreeModelRayCaster = React.lazy(() => import("./ThreeModelRayCaster"))
 const ThreeModelGLB = React.lazy(() => import("./ThreeModelGLB"))
 
 function ThreeSwitch(props) {
 	var logicalProcess = () => {
-		var Id = props.user.shipId
-		var version = props.user.versions[Id].ship
+		var ship = new ShipObject(props.user)
 
-		if (typeof version === "string") {
-			var ship = JSON.parse(version)
-			if (Boolean(ship.attributes.GLTFUrl)) return "GLB"
+		if (typeof ship.version.ship === "string") {
+			if (Boolean(ship.shipObj.attributes.GLTFUrl)) return "GLB"
 			return "RayCaster"
 		}
 
@@ -22,7 +22,12 @@ function ThreeSwitch(props) {
 
 		switch (key) {
 			case "RayCaster":
-				return <ThreeModelRayCaster user={props.user} />
+				return (
+					<>
+						<ThreeModelRayCaster user={props.user} />
+						{props.user.newState ? <div>There is a new state to be inserted</div> : ""}
+					</>
+				)
 
 			case "GLB":
 				return <ThreeModelGLB user={props.user} />

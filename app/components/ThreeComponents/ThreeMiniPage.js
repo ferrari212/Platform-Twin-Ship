@@ -5,7 +5,6 @@ import Axios from "axios"
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { Skybox } from "../../vessel/libs/skybox_from_examples_r118"
-import { Ocean } from "../../vessel/libs/Configurable_ocean2"
 import { Vessel } from "../../vessel/build/vessel"
 import { Ship3D } from "../../vessel/build/Ship3D"
 
@@ -18,7 +17,6 @@ class ThreeMiniPage extends Component {
 	constructor(props) {
 		super(props)
 
-		this.addScenarioStatus = this.props.addScenarioStatus || false
 		this.addLifeCycle = this.props.addLifeCycle || false
 		this.height = this.props.height
 		this.ship = this.props.ship
@@ -48,10 +46,13 @@ class ThreeMiniPage extends Component {
 			this.ship = new Vessel.Ship(this.state.newShip)
 			this.setState({ newShip: JSON.parse(this.props.ship) })
 		} else {
-			// if (this.addScenarioStatus) this.addScenario()
 			if (!this.scene.getObjectByName("Ship3D")) this.addShip()
 			if (this.requestID === undefined) this.startAnimationLoop()
 		}
+	}
+
+	componentWillUnmount() {
+		delete this.startAnimationLoop
 	}
 
 	sceneSetup = () => {
