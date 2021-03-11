@@ -94,7 +94,7 @@ function HydrostaticModule(prop) {
 					<div className="row align-items-center text-center justify-content-center">
 						<div className="col-lg-6 ">
 							<table className="table">
-								<thead class="thead-dark">
+								<thead className="thead-dark">
 									<tr>
 										<th scope="col">Variable</th>
 										<th scope="col">Value</th>
@@ -104,7 +104,7 @@ function HydrostaticModule(prop) {
 								<tbody>
 									{keys.map((value, id) => {
 										return (
-											<tr>
+											<tr key={id}>
 												<td>{value}</td>
 												<td>{filtered[value].toFixed(2)}</td>
 												<td>{units[id]}</td>

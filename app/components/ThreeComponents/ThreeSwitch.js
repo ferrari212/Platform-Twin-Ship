@@ -4,9 +4,23 @@ import ShipObject from "../../snippets/ShipObject"
 
 const ThreeModelRayCaster = React.lazy(() => import("./ThreeModelRayCaster"))
 const ThreeModelGLB = React.lazy(() => import("./ThreeModelGLB"))
+const ThreeSimulation = React.lazy(() => import("./ThreeSimulation"))
 
 function ThreeSwitch(props) {
 	var logicalProcess = () => {
+		// Maybe insert later a switch function to decide for every simulation
+		// switch (props.user.method) {
+		// 	case value:
+
+		// 		break;
+		// 	case "simulate":
+
+		// 		break;
+
+		// 	default:
+		// 		return;
+		// }
+
 		var ship = new ShipObject(props.user)
 
 		if (typeof ship.version.ship === "string") {
@@ -18,13 +32,15 @@ function ThreeSwitch(props) {
 	}
 
 	function ChooseModel() {
+		if (props.user.method === "simulate") return <ThreeSimulation user={props.user} />
+
 		var key = logicalProcess()
 
 		switch (key) {
 			case "RayCaster":
 				return (
 					<>
-						<ThreeModelRayCaster user={props.user} />
+						{props.user.method === "simulate" ? <ThreeSimulation user={props.user} /> : <ThreeModelRayCaster user={props.user} />}
 						{props.user.newState ? <div>There is a new state to be inserted</div> : ""}
 					</>
 				)

@@ -69,17 +69,30 @@ function Main() {
 				draft.user.versions = action.clearData
 				return
 
-			case "setAnalysis":
-				if (action.command) {
-					draft.user.method = "analyse"
-				} else {
-					// The simulate version must be done
-					// draft.user.method = "simulate"
-					draft.user.method = "undefined"
-				}
-				return
+			// Get away with the set analysis and simulation
+			// case "setAnalysis":
+			// 	debugger
+			// 	if (action.status) {
+			// 		draft.user.method = "analyse"
+			// 	} else {
+			// 		// The simulate version must be done
+			// 		// draft.user.method = "simulate"
+			// 		draft.user.method = "undefined"
+			// 	}
+			// 	return
+
+			// case "setSimulation":
+			// 	if (action.status) {
+			// 		draft.user.method = "simulate"
+			// 	} else {
+			// 		// The simulate version must be done
+			// 		// draft.user.method = "simulate"
+			// 		draft.user.method = "undefined"
+			// 	}
+			// 	return
 
 			case "openInsertState":
+				alert("The openInsertState was triggered")
 				draft.isInsertStateOpen = true
 				return
 
@@ -89,7 +102,23 @@ function Main() {
 				return
 
 			default:
-				return
+			case "handleCalculation":
+				switch (action.status) {
+					case "setAnalysis":
+						draft.user.method = "analyse"
+						break
+
+					case "setSimulation":
+						draft.user.method = "simulate"
+						break
+
+					case "closeAnalysis":
+						draft.user.method = "undefined"
+						break
+
+					default:
+						break
+				}
 		}
 	}
 

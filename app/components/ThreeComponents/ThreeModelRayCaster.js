@@ -4,6 +4,7 @@ import Page from "../Page"
 import LifeCycleBar from "../LifeCycleBar"
 import { useParams } from "react-router-dom"
 import Axios from "axios"
+import * as Scroll from "react-scroll"
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
@@ -121,18 +122,12 @@ class ThreeModelRayCaster extends Component {
 
 		this.useZUp()
 
-		const skybox = new Skybox()
-		skybox.name = "Skybox"
-		this.scene.add(skybox)
+		this.scene.background = new THREE.Color(0xa9cce3)
+		const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
+		const mainLight = new THREE.DirectionalLight(0xffffff, 1)
+		mainLight.position.set(100, 100, 100)
+		this.scene.add(ambientLight, mainLight)
 
-		this.ocean = new Ocean({
-			parentGUI: false,
-			sunDir: sun.position.clone().normalize(),
-			size: oSize,
-			segments: 127
-		})
-		this.ocean.name = "Ocean"
-		this.scene.add(this.ocean)
 		this.scene.rotation.x = -Math.PI / 2
 	}
 
@@ -173,15 +168,15 @@ class ThreeModelRayCaster extends Component {
 		this.ship3D.show = "on"
 		this.scene.add(this.ship3D)
 
-		if (this.addScenarioStatus) {
-			const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
-			const mainLight = new THREE.DirectionalLight(0xffffff, 1)
-			mainLight.position.set(1, 1, 1)
-			this.scene.add(ambientLight, mainLight)
+		// if (this.addScenarioStatus) {
+		// 	const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
+		// 	const mainLight = new THREE.DirectionalLight(0xffffff, 1)
+		// 	mainLight.position.set(1, 1, 1)
+		// 	this.scene.add(ambientLight, mainLight)
 
-			this.scene.rotation.x = -Math.PI / 2
-			this.addScenarioStatus = false
-		}
+		// 	this.scene.rotation.x = -Math.PI / 2
+		// 	this.addScenarioStatus = false
+		// }
 	}
 
 	removeShip = () => {
@@ -199,9 +194,9 @@ class ThreeModelRayCaster extends Component {
 	}
 
 	startAnimationLoop = () => {
-		if (this.ocean.name) {
-			this.ocean.water.material.uniforms.time.value += 1 / 60
-		}
+		// if (this.ocean.name) {
+		// 	this.ocean.water.material.uniforms.time.value += 1 / 60
+		// }
 
 		this.renderer.render(this.scene, this.camera)
 		this.requestID = window.requestAnimationFrame(this.startAnimationLoop)
@@ -227,7 +222,16 @@ class ThreeModelRayCaster extends Component {
 
 				switch (teste) {
 					case "analyse":
-						return <AnalysisChart state={state} />
+						return (
+							<>
+								<AnalysisChart state={state} />
+								{Scroll.animateScroll.scrollTo(window.innerHeight, {
+									delay: 100,
+									duration: 2000,
+									smooth: true
+								})}
+							</>
+						)
 
 					default:
 						return null

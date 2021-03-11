@@ -2,7 +2,6 @@ import React, { useContext } from "react"
 import StateContext from "../StateContext"
 import DispatchContext from "../DispatchContext"
 import ReactTooltip from "react-tooltip"
-import * as Scroll from "react-scroll"
 
 import ImageFunctions from "../images/functions-black-24dp.svg"
 import ImageSimulations from "../images/waves-24px.svg"
@@ -32,56 +31,20 @@ function LifeCycleBar() {
 		link.click()
 	}
 
-	// function printContentButton() {
-	// 	if (appState.user.method === "analyse") {
-	// 		return (
-	// 			<div className="p-3 bd-highlight">
-	// 				<a id="free-button" href="" onClick={endAnlysis} data-tip="Print Analysis" data-for="print">
-	// 					<img src={ImagePrint} />
-	// 				</a>
-	// 				<ReactTooltip id="print" className="custom-tooptip" />{" "}
-	// 			</div>
-	// 		)
-	// 	} else {
-	// 		return ""
-	// 	}
-	// }
-
-	function handeInsertState(e) {
+	function handleInsertState(e) {
 		e.preventDefault()
 		appDispatch({ type: "openInsertState" })
 	}
 
-	// MAKE A FUNCTION GENERAL TO USE
-	// function openInsertState(e) {
-	// 	e.preventDefault()
-	// var command = e.currentTarget.dataset.for
-	// }
-
-	function startAnlysis(e) {
-		debugger
+	function handleCalculation(e) {
 		var command = e.currentTarget.dataset.for
 		e.preventDefault()
-		appDispatch({ type: command, command: true })
-		Scroll.animateScroll.scrollTo(window.innerHeight, {
-			delay: 100,
-			smooth: true
-		})
-	}
-
-	function startSimulation(e) {
-		debugger
-		e.preventDefault()
-		appDispatch({ type: "setSimulation", command: true })
-		Scroll.animateScroll.scrollTo(window.innerHeight, {
-			delay: 100,
-			smooth: true
-		})
+		appDispatch({ type: "handleCalculation", status: command })
 	}
 
 	function endAnlysis(e) {
 		e.preventDefault()
-		appDispatch({ type: "setAnalysis", command: false })
+		appDispatch({ type: "setAnalysis", status: false })
 	}
 
 	function setButtons() {
@@ -90,16 +53,16 @@ function LifeCycleBar() {
 				return (
 					<>
 						<div className="p-3 bd-highlight">
-							<a id="free-button" href="" onClick={startAnlysis} data-tip="Create Simulation" data-for="setSimulation">
+							<a id="free-button" href="" onClick={handleCalculation} data-tip="Create Simulation" data-for="setSimulation">
 								<img src={ImageSimulations} />
 							</a>
 							<ReactTooltip id="setSimulation" className="custom-tooptip" />{" "}
 						</div>
 						<div className="p-3 bd-highlight">
-							<a id="free-button" href="" onClick={endAnlysis} data-tip="Close Analysis" data-for="close-analysis">
+							<a id="free-button" href="" onClick={handleCalculation} data-tip="Close Analysis" data-for="closeAnalysis">
 								<img src={ImageClose} />
 							</a>
-							<ReactTooltip id="close-analysis" className="custom-tooptip" />{" "}
+							<ReactTooltip id="closeAnalysis" className="custom-tooptip" />{" "}
 						</div>
 					</>
 				)
@@ -107,13 +70,13 @@ function LifeCycleBar() {
 				return (
 					<>
 						<div className="p-3 bd-highlight">
-							<a id="free-button" href="" onClick={endAnlysis} data-tip="Close Analysis" data-for="close-analysis">
+							<a id="free-button" href="" onClick={handleCalculation} data-tip="Close Analysis" data-for="closeAnalysis">
 								<img src={ImageClose} />
 							</a>
-							<ReactTooltip id="close-analysis" className="custom-tooptip" />{" "}
+							<ReactTooltip id="closeAnalysis" className="custom-tooptip" />{" "}
 						</div>
 						<div className="p-3 bd-highlight">
-							<a id="free-button" href="" onClick={startAnlysis} data-tip="Create Analysis" data-for="setAnalysis">
+							<a id="free-button" href="" onClick={handleCalculation} data-tip="Create Analysis" data-for="setAnalysis">
 								<img src={ImageFunctions} />
 							</a>
 							<ReactTooltip id="setAnalysis" className="custom-tooptip" />{" "}
@@ -125,13 +88,13 @@ function LifeCycleBar() {
 			return (
 				<>
 					<div className="p-3 bd-highlight">
-						<a id="free-button" href="" onClick={startAnlysis} data-tip="Create Simulation" data-for="setSimulation">
+						<a id="free-button" href="" onClick={handleCalculation} data-tip="Create Simulation" data-for="setSimulation">
 							<img src={ImageSimulations} />
 						</a>
 						<ReactTooltip id="setSimulation" className="custom-tooptip" />{" "}
 					</div>
 					<div className="p-3 bd-highlight">
-						<a id="free-button" href="" onClick={startAnlysis} data-tip="Create Simulation" data-for="setAnalysis">
+						<a id="free-button" href="" onClick={handleCalculation} data-tip="Create Analysis" data-for="setAnalysis">
 							<img src={ImageFunctions} />
 						</a>
 						<ReactTooltip id="setAnalysis" className="custom-tooptip" />{" "}
@@ -157,7 +120,7 @@ function LifeCycleBar() {
 					<ReactTooltip id="dowload" className="custom-tooptip" />{" "}
 				</div>
 				<div className="p-3 bd-highlight">
-					<a id="free-button" href="" onClick={handeInsertState} data-tip="Create State" data-for="state">
+					<a id="free-button" href="" onClick={handleInsertState} data-tip="Create State" data-for="state">
 						<img src={ImageAdd} />
 					</a>
 					<ReactTooltip id="state" className="custom-tooptip" />{" "}
