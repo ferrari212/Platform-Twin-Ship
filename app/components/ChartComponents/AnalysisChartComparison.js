@@ -4,15 +4,28 @@ import { Accordion, Card, Button } from "react-bootstrap"
 import Page from "../Page"
 
 import VesselModels from "../../snippets/VesselModels"
+import { Vessel } from "../../vessel/build/vessel"
 
 import ResistanceModule from "../AnalysisComponent/ResistanceModule"
 import HydrostaticModule from "../AnalysisComponent/HydrostaticModule"
 import ResponseModule from "../AnalysisComponent/ResponseModule"
 
-function AnalysisChart(props) {
-	function returnAnalysis(params) {
+function AnalysisChartComparison(props) {
+	debugger
+	function returnAnalysis(params, newState) {
 		try {
-			var models = new VesselModels(params)
+			var newParams = JSON.parse(JSON.stringify(params))
+			Object.assign(newParams.designState.calculationParameters, newState)
+
+			var ship = {
+				currentState: new Vessel.Ship(params),
+				newState: new Vessel.Ship(newParams)
+			}
+
+			var models = {
+				currentState: new VesselModels(ship.currentState),
+				newState: new VesselModels(ship.newState)
+			}
 
 			return (
 				<div>
@@ -26,7 +39,7 @@ function AnalysisChart(props) {
 							<Accordion.Collapse eventKey="0">
 								<Card.Body>
 									<div>
-										<ResistanceModule models={models} />
+										<ResistanceModule models={models.currentState} />
 									</div>
 								</Card.Body>
 							</Accordion.Collapse>
@@ -42,7 +55,7 @@ function AnalysisChart(props) {
 							<Accordion.Collapse eventKey="1">
 								<Card.Body>
 									<div>
-										<HydrostaticModule models={models} />
+										<HydrostaticModule models={models.currentState} />
 									</div>
 								</Card.Body>
 							</Accordion.Collapse>
@@ -58,7 +71,7 @@ function AnalysisChart(props) {
 							<Accordion.Collapse eventKey="2">
 								<Card.Body>
 									<div>
-										<ResponseModule models={models} />
+										<ResponseModule models={models.currentState} />
 									</div>
 								</Card.Body>
 							</Accordion.Collapse>
@@ -73,11 +86,12 @@ function AnalysisChart(props) {
 	}
 
 	return (
-		<Page title="Analyisis" wide={true}>
+		<Page title="Analyisis Comparison" wide={true}>
+			<h1>This will be a analysis Comparison</h1>
 			{/* Get out of .state pass just the ship */}
-			{returnAnalysis(props.state.ship)}
+			{returnAnalysis(props.state, props.newState)}
 		</Page>
 	)
 }
 
-export default AnalysisChart
+export default AnalysisChartComparison

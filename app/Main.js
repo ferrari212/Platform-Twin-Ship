@@ -36,7 +36,7 @@ function Main() {
 			username: localStorage.getItem("complexappUsername"),
 			avatar: localStorage.getItem("complexappAvatar"),
 			versions: [],
-			newState: undefined,
+			newState: "",
 			shipId: 0,
 			lifeCycle: localStorage.getItem("complexappShipLifeCycle"),
 			method: localStorage.getItem("complexappShipMethod")
@@ -58,6 +58,7 @@ function Main() {
 			case "changeShip":
 				draft.user.shipId = action.shipId
 				draft.user.method = "undefined"
+				draft.user.newState = ""
 				return
 
 			case "setVersion":
@@ -92,7 +93,6 @@ function Main() {
 			// 	return
 
 			case "openInsertState":
-				alert("The openInsertState was triggered")
 				draft.isInsertStateOpen = true
 				return
 

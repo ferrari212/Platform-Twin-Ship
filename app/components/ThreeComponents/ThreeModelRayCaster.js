@@ -16,8 +16,8 @@ import { renderRayCaster } from "../../vessel/snippets/renderRayCaster"
 
 import ToolTip from "../../snippets/ToolTip"
 import TableInfo from "../../snippets/TableInfo"
+import ShipObject from "../../snippets/ShipObject"
 
-import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
 import AnalysisChart from "../ChartComponents/AnalysisChart"
 import GUI from "../GUI"
 
@@ -28,7 +28,6 @@ class ThreeModelRayCaster extends Component {
 	constructor(props) {
 		super(props)
 
-		this.addScenarioStatus = true
 		this.intersected = undefined
 		this.mouse = new THREE.Vector2(0.5, 0.5)
 
@@ -45,10 +44,9 @@ class ThreeModelRayCaster extends Component {
 
 		this.mount.addEventListener("mousemove", this.onMouseMove, false)
 
-		// Add ShipObject class here -> Later pass it to the switch
-		var Id = this.props.user.shipId
-		var version = this.props.user.versions[Id].ship
-		this.setShipDataTemporary(this, version)
+		//  Later pass the ship object to the switch function
+		var version = new ShipObject(this.props.user)
+		this.setShipDataTemporary(this, version.shipObj)
 
 		window.addEventListener("resize", this.handleWindowResize)
 
@@ -82,6 +80,7 @@ class ThreeModelRayCaster extends Component {
 	}
 
 	componentWillUnmount() {
+		window.cancelAnimationFrame(this.startAnimationLoop)
 		delete this.startAnimationLoop
 	}
 
@@ -142,12 +141,11 @@ class ThreeModelRayCaster extends Component {
 	}
 
 	setShipDataTemporary = (context, version) => {
-		if (version.length !== 0) {
+		if (version) {
 			this.setState(() => {
-				var newShip = JSON.parse(version)
 				return {
-					newShip: newShip,
-					ship: new Vessel.Ship(newShip)
+					newShip: version,
+					ship: new Vessel.Ship(version)
 				}
 			})
 		}
@@ -167,16 +165,6 @@ class ThreeModelRayCaster extends Component {
 		this.ship3D.name = "Ship3D"
 		this.ship3D.show = "on"
 		this.scene.add(this.ship3D)
-
-		// if (this.addScenarioStatus) {
-		// 	const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
-		// 	const mainLight = new THREE.DirectionalLight(0xffffff, 1)
-		// 	mainLight.position.set(1, 1, 1)
-		// 	this.scene.add(ambientLight, mainLight)
-
-		// 	this.scene.rotation.x = -Math.PI / 2
-		// 	this.addScenarioStatus = false
-		// }
 	}
 
 	removeShip = () => {
@@ -199,7 +187,12 @@ class ThreeModelRayCaster extends Component {
 		// }
 
 		this.renderer.render(this.scene, this.camera)
-		this.requestID = window.requestAnimationFrame(this.startAnimationLoop)
+
+		try {
+			this.requestID = window.requestAnimationFrame(this.startAnimationLoop)
+		} catch (error) {
+			return null
+		}
 
 		// Apply the function RayCaster
 		this.intersected = renderRayCaster(this.mouse, this.camera, this.scene, this.intersected)

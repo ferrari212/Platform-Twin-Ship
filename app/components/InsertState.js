@@ -148,7 +148,6 @@ function InsertState() {
 					var value = newState.value[key]
 					var max = 1.25 * value
 					var min = 0.75 * value
-					// debugger
 
 					return (
 						<div key={index} className="form-group">

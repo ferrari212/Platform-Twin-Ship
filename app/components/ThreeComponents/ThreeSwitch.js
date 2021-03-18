@@ -1,55 +1,45 @@
 import React, { useEffect } from "react"
 
 import ShipObject from "../../snippets/ShipObject"
+import AnalysisChartComparison from "../ChartComponents/AnalysisChartComparison"
 
 const ThreeModelRayCaster = React.lazy(() => import("./ThreeModelRayCaster"))
 const ThreeModelGLB = React.lazy(() => import("./ThreeModelGLB"))
 const ThreeSimulation = React.lazy(() => import("./ThreeSimulation"))
 
 function ThreeSwitch(props) {
-	var logicalProcess = () => {
-		// Maybe insert later a switch function to decide for every simulation
-		// switch (props.user.method) {
-		// 	case value:
+	var ship = new ShipObject(props.user)
 
-		// 		break;
-		// 	case "simulate":
-
-		// 		break;
-
-		// 	default:
-		// 		return;
-		// }
-
-		var ship = new ShipObject(props.user)
-
+	var logicalProcess = ship => {
 		if (typeof ship.version.ship === "string") {
 			if (Boolean(ship.shipObj.attributes.GLTFUrl)) return "GLB"
 			return "RayCaster"
 		}
 
-		return undefined
+		return null
 	}
 
 	function ChooseModel() {
 		if (props.user.method === "simulate") return <ThreeSimulation user={props.user} />
 
-		var key = logicalProcess()
+		var key = logicalProcess(ship)
+
+		function checkStatus(user) {
+			if (user.newState) {
+				return <AnalysisChartComparison state={ship.shipObj} newState={user.newState} />
+			}
+			return <>{user.method === "simulate" ? <ThreeSimulation user={props.user} /> : <ThreeModelRayCaster user={props.user} />}</>
+		}
 
 		switch (key) {
 			case "RayCaster":
-				return (
-					<>
-						{props.user.method === "simulate" ? <ThreeSimulation user={props.user} /> : <ThreeModelRayCaster user={props.user} />}
-						{props.user.newState ? <div>There is a new state to be inserted</div> : ""}
-					</>
-				)
+				return checkStatus(props.user)
 
 			case "GLB":
 				return <ThreeModelGLB user={props.user} />
 
 			default:
-				return ""
+				return null
 		}
 	}
 

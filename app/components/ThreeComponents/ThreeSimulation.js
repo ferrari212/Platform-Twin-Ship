@@ -13,7 +13,7 @@ import { Vessel } from "../../vessel/build/vessel"
 import { Ship3D } from "../../vessel/build/Ship3D"
 import { renderRayCaster } from "../../vessel/snippets/renderRayCaster"
 
-import TableInfo from "../../snippets/TableInfo"
+import ShipObject from "../../snippets/ShipObject"
 
 import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
 import AnalysisChart from "../ChartComponents/AnalysisChart"
@@ -26,23 +26,22 @@ class ThreeSimulation extends Component {
 	constructor(props) {
 		super(props)
 
-		this.addScenarioStatus = true
-		this.intersected = undefined
-
 		console.log("Constructor")
 	}
 
 	componentDidMount() {
 		// Globals
 
+		//  Later pass the ship object to the switch function
+		// The view size may be changed late, this will be passed inside SceneSetup
+		var version = new ShipObject(this.props.user)
+		this.viewInitialPoint = 1.5 * version.shipObj.designState.calculationParameters["LWL_design"]
+		this.setShipDataTemporary(this, version.shipObj)
+		// debugger
+
 		this.sceneSetup()
 
 		this.addScenario()
-
-		// Add ShipObject class here -> Later pass it to the switch
-		var Id = this.props.user.shipId
-		var version = this.props.user.versions[Id].ship
-		this.setShipDataTemporary(this, version)
 
 		window.addEventListener("resize", this.handleWindowResize)
 
@@ -69,8 +68,6 @@ class ThreeSimulation extends Component {
 
 			if (!this.scene.getObjectByName("Ship3D")) this.addShip()
 
-			this.tableInfo = new TableInfo(this.ship3D, "tableinfo")
-
 			if (this.requestID === undefined) this.startAnimationLoop()
 		}
 	}
@@ -95,7 +92,7 @@ class ThreeSimulation extends Component {
 		)
 
 		// set some distance from a cube that is located at z = 0
-		this.camera.position.set(oSize * 0.03, oSize * 0.03, oSize * 0.03)
+		this.camera.position.set(this.viewInitialPoint, this.viewInitialPoint, this.viewInitialPoint)
 
 		this.controls = new OrbitControls(this.camera, this.mount)
 		this.controls.maxDistance = 200
@@ -110,9 +107,10 @@ class ThreeSimulation extends Component {
 	}
 
 	addScenario = () => {
+		const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
 		const sun = new THREE.DirectionalLight(0xffffff, 2)
 		sun.position.set(-512, -246, 128)
-		this.scene.add(sun)
+		this.scene.add(ambientLight, sun)
 
 		this.useZUp()
 
@@ -132,12 +130,11 @@ class ThreeSimulation extends Component {
 	}
 
 	setShipDataTemporary = (context, version) => {
-		if (version.length !== 0) {
+		if (version) {
 			this.setState(() => {
-				var newShip = JSON.parse(version)
 				return {
-					newShip: newShip,
-					ship: new Vessel.Ship(newShip)
+					newShip: version,
+					ship: new Vessel.Ship(version)
 				}
 			})
 		}
@@ -157,16 +154,6 @@ class ThreeSimulation extends Component {
 		this.ship3D.name = "Ship3D"
 		this.ship3D.show = "on"
 		this.scene.add(this.ship3D)
-
-		if (this.addScenarioStatus) {
-			const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
-			const mainLight = new THREE.DirectionalLight(0xffffff, 1)
-			mainLight.position.set(1, 1, 1)
-			this.scene.add(ambientLight, mainLight)
-
-			this.scene.rotation.x = -Math.PI / 2
-			this.addScenarioStatus = false
-		}
 	}
 
 	removeShip = () => {
@@ -211,9 +198,7 @@ class ThreeSimulation extends Component {
 
 		return (
 			<Page title="Three-js" className="" wide={this.props.wide}>
-				<div ref={ref => (this.mount = ref)}>
-					<div id="tableinfo"></div>
-				</div>
+				<div ref={ref => (this.mount = ref)}></div>
 				<h1>YOU ARE IN A SIMULATION EXAMPLE</h1>
 				<LifeCycleBar />
 				{switchElement(this.props.user, this.state)}
