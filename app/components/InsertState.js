@@ -7,33 +7,49 @@ import extract from "../snippets/extract"
 
 function InsertState() {
 	const [title, setTitle] = useState()
-	const [description, setDescription] = useState()
+	// const [description, setDescription] = useState() // Better use the same desctiption from the title
 
 	const appDispatch = useContext(DispatchContext)
 	const appState = useContext(StateContext)
 
 	var newState = {
 		value: {
-			LWL_design: 0,
-			BWL: 0,
+			LOA: 0,
+			BOA: 0,
 			Draft_design: 0,
 			speed: 0
 		},
 		units: {
-			LWL_design: "m",
-			BWL: "m",
+			LOA: "m",
+			BOA: "m",
 			Draft_design: "m",
 			speed: "knots"
 		}
 	}
 
-	var keys = Object.keys(newState.value).map(key => key)
+	var keys = Object.keys(newState.value).map(key => key) //problem in this part
 
-	var test = new ShipObject(appState.user)
+	var ship = new ShipObject(appState.user)
 
-	var testObj = extract(test.shipObj.designState.calculationParameters, keys)
+	var testObj = {
+		designState: { calculationParameters: {} },
+		structure: { hull: { attributes: {} } }
+	}
 
-	newState.value = Object.assign(newState.value, testObj)
+	var calculationParameters = ship.shipObj.designState.calculationParameters
+	var attributes = ship.shipObj.structure.hull.attributes
+
+	Object.assign(newState.value, extract(calculationParameters, keys))
+
+	console.log("Test Object", testObj)
+
+	Object.assign(newState.value, extract(attributes, keys))
+
+	console.log("Test Object", testObj)
+
+	// newState.value = Object.assign(newState.value, testObj)
+
+	keys.forEach(key => (newState.value[key] = calculationParameters[key] || attributes[key] || 10)) // The default value is 10 that is most attributed to the speed @ferrari212
 
 	const [state, setState] = useState(newState.value)
 
@@ -130,7 +146,7 @@ function InsertState() {
 					<label htmlFor="post-title" className="text-muted mb-1">
 						<small>Title</small>
 					</label>
-					<input defaultValue={`New state from ${test.version.title}`} onChange={e => setTitle(e.target.value)} autoFocus name="title" id="post-title" className="form-control form-control-title" type="text" placeholder="Insert state name based on the project" autoComplete="off" />
+					<input defaultValue={`New state from ${ship.version.title}`} onChange={e => setTitle(e.target.value)} autoFocus name="title" id="post-title" className="form-control form-control-title" type="text" placeholder="Insert state name based on the project" autoComplete="off" />
 				</div>
 
 				{/* Take the object and save with the description of state of tile */}
@@ -138,7 +154,7 @@ function InsertState() {
 					<label htmlFor="post-description" className="text-muted mb-1 d-block">
 						<small>Description</small>
 					</label>
-					<textarea defaultValue={`New state for ${test.version.title}`} onChange={e => setDescription(e.target.value)} name="description" id="post-description" className="description-content small-textarea form-control form-control-sm" type="text"></textarea>
+					<textarea defaultValue={`New state for ${ship.version.title}`} onChange={e => setDescription(e.target.value)} name="description" id="post-description" className="description-content small-textarea form-control form-control-sm" type="text"></textarea>
 				</div>
 
 				<button onClick={() => handleAddFields()}>Test Button</button> */}

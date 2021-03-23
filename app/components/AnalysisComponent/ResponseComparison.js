@@ -7,7 +7,7 @@ function ResponseModule(prop) {
 	function TestComponent() {
 		try {
 			// Define Models
-			var models = prop.models
+			var models = prop.currentState
 			var dataHeave = new DataChartStructure()
 			var dataRoll = new DataChartStructure()
 			var dataPitch = new DataChartStructure()

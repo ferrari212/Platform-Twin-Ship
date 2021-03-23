@@ -2,6 +2,7 @@ import React from "react"
 
 import DataChartStructure from "../../snippets/DataChartStructure"
 import extract from "../../snippets/extract"
+
 import LineChart from "../ChartComponents/LineChart"
 
 function HydrostaticModule(prop) {
@@ -19,7 +20,7 @@ function HydrostaticModule(prop) {
 			var datasetLCF = dataCenter.pushDataSet("LCF", "rgba(115, 69, 41, 0.6)")
 
 			var datasetKB = dataBuoyancy.pushDataSet("KB", "rgba(41, 85, 115, 0.6)")
-			var datasetBMt = dataBuoyancy.pushDataSet("KMt", "rgba(1, 28, 64, 0.6)")
+			var datasetBMt = dataBuoyancy.pushDataSet("BMt", "rgba(1, 28, 64, 0.6)")
 			var datasetBMl = dataBuoyancy.pushDataSet("0.1 x KMl", "rgba(138, 103, 83, 0.6)")
 			var datasetGMt = dataBuoyancy.pushDataSet("GMt", "rgba(166, 13, 13, 0.6)")
 
@@ -84,7 +85,7 @@ function HydrostaticModule(prop) {
 					</div>
 					<div className="row">
 						<div className="col-lg-12  text-center ">
-							<LineChart chartData={dataCoeff.chartData} textTitle="Adm. Coefficients" xLabel="Draft (m)" yLabel="Displacement (m)" />
+							<LineChart chartData={dataCoeff.chartData} textTitle="Adm. Coefficients" xLabel="Draft (m)" yLabel="" />
 						</div>
 					</div>
 					<br />

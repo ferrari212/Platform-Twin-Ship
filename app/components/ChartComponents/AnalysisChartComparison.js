@@ -6,16 +6,36 @@ import Page from "../Page"
 import VesselModels from "../../snippets/VesselModels"
 import { Vessel } from "../../vessel/build/vessel"
 
-import ResistanceModule from "../AnalysisComponent/ResistanceModule"
-import HydrostaticModule from "../AnalysisComponent/HydrostaticModule"
+import ResistanceComparison from "../AnalysisComponent/ResistanceComparison"
+import HydrostaticComparison from "../AnalysisComponent/HydrostaticComparison"
 import ResponseModule from "../AnalysisComponent/ResponseModule"
 
 function AnalysisChartComparison(props) {
-	debugger
 	function returnAnalysis(params, newState) {
 		try {
 			var newParams = JSON.parse(JSON.stringify(params))
-			Object.assign(newParams.designState.calculationParameters, newState)
+			var keys = Object.keys(newState).map(key => key)
+
+			var calculationParameters = newParams.designState.calculationParameters
+			var attributes = newParams.structure.hull.attributes
+
+			keys
+				.filter(function (prop) {
+					if (calculationParameters[prop] === undefined) {
+						return false
+					}
+					return true
+				})
+				.map(prop => (calculationParameters[prop] = newState[prop]))
+
+			keys
+				.filter(function (prop) {
+					if (attributes[prop] === undefined) {
+						return false
+					}
+					return true
+				})
+				.map(prop => (attributes[prop] = newState[prop]))
 
 			var ship = {
 				currentState: new Vessel.Ship(params),
@@ -39,7 +59,7 @@ function AnalysisChartComparison(props) {
 							<Accordion.Collapse eventKey="0">
 								<Card.Body>
 									<div>
-										<ResistanceModule models={models.currentState} />
+										<ResistanceComparison currentState={models.currentState} newState={models.newState} />
 									</div>
 								</Card.Body>
 							</Accordion.Collapse>
@@ -55,7 +75,7 @@ function AnalysisChartComparison(props) {
 							<Accordion.Collapse eventKey="1">
 								<Card.Body>
 									<div>
-										<HydrostaticModule models={models.currentState} />
+										<HydrostaticComparison currentState={models.currentState} newState={models.newState} />
 									</div>
 								</Card.Body>
 							</Accordion.Collapse>

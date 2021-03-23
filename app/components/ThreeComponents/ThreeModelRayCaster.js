@@ -18,8 +18,9 @@ import ToolTip from "../../snippets/ToolTip"
 import TableInfo from "../../snippets/TableInfo"
 import ShipObject from "../../snippets/ShipObject"
 
-import AnalysisChart from "../ChartComponents/AnalysisChart"
-import GUI from "../GUI"
+const AnalysisChart = React.lazy(() => import("../ChartComponents/AnalysisChart"))
+// import AnalysisChart from "../ChartComponents/AnalysisChart"
+// import GUI from "../GUI"
 
 var oSize = 512
 const skybox = new Skybox(oSize)

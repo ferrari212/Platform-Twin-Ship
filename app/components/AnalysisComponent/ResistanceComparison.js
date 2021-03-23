@@ -1,57 +1,109 @@
 import React from "react"
 
 import DataChartStructure from "../../snippets/DataChartStructure"
-import LineChart from "../ChartComponents/LineChart"
-import PieChart from "../ChartComponents/PieChart"
+import extract from "../../snippets/extract"
 
-function ResistanceModule(prop) {
+import LineChart from "../ChartComponents/LineChart"
+import RadarChart from "../ChartComponents/RadarChart"
+
+function ResistanceComparison(prop) {
 	function TestComponent() {
 		try {
-			var models = prop.models
+			var currentState = prop.currentState
+			var newState = prop.newState
+
+			var v_proj = currentState.v_proj
+
 			var dataResitance = new DataChartStructure()
 			var dataPower = new DataChartStructure()
 
-			var datasetCalmResist = dataResitance.pushDataSet("Calm Water", "rgba(1, 28, 64, 0.6)")
-			var datasetViscous = dataResitance.pushDataSet("Viscous", "rgba(115, 69, 41, 0.6)")
-			var datasetWave = dataResitance.pushDataSet("Wave", "rgba(41, 85, 115, 0.6)")
-			var datasetTotal = dataResitance.pushDataSet("Total", "rgba(138, 103, 83, 0.6)")
+			var datasetResistance = dataResitance.pushDataSet("Current State", "rgba(138, 103, 83, 0.6)")
+			var datasetNewResistance = dataResitance.pushDataSet("New State", "rgba(41, 85, 115, 0.6)")
 
-			var pieColor = ["rgba(1, 28, 64, 0.6)", "rgba(41, 85, 115, 0.6)", "rgba(166, 13, 13, 0.6)"]
-			var hoverPieColor = ["rgba(1, 28, 64, 1)", "rgba(41, 85, 115, 1)", "rgba(166, 13, 13, 1)"]
-			var datasetPower = dataPower.pushDataSet("Power percentage", pieColor, hoverPieColor)
+			var pieColor = ["rgba(1, 28, 64, 0.6)", "rgba(166, 13, 13, 0.6)"]
+			var hoverPieColor = ["rgba(1, 28, 64, 1)", "rgba(166, 13, 13, 1)"]
+			var datasetPower = dataPower.pushDataSet("Power percentage", pieColor[0], hoverPieColor[0])
+			var newDatasetPower = dataPower.pushDataSet("Power percentage", pieColor[1], hoverPieColor[1])
 
-			if (isNaN(models.hullRes.calmResistance.Rt)) throw "Resistance not possible to be calculated"
+			if (isNaN(currentState.hullRes.calmResistance.Rt)) throw "Resistance not possible to be calculated, possible main dimensions out of allowed range"
 
-			for (let type of Object.keys(models.percentages)) {
-				datasetPower.push(models.percentages[type].toFixed(2))
+			for (let type of Object.keys(currentState.percentages)) {
+				datasetPower.push(currentState.percentages[type].toFixed(2))
+				newDatasetPower.push(newState.percentages[type].toFixed(2))
 				dataPower.xLabel.push(type)
 			}
 
-			for (let v = 1; v <= Math.floor(models.v_proj * 1.2); v++) {
-				models.hullRes.setSpeed(v)
+			for (let v = 0; v <= Math.floor(v_proj * 1.2); v++) {
+				currentState.hullRes.setSpeed(v)
+				newState.hullRes.setSpeed(v)
 
 				dataResitance.xLabel.push(v.toFixed(0))
-				datasetCalmResist.push(models.hullRes.calmResistance.Rt.toFixed(2))
-				datasetViscous.push(models.hullRes.calmResistance.Rf.toFixed(2))
-				datasetWave.push(models.hullRes.calmResistance.Rw.toFixed(2))
-				datasetTotal.push(models.hullRes.totalResistance.Rtadd.toFixed(2))
+				datasetNewResistance.push(v ? newState.hullRes.totalResistance.Rtadd.toFixed(2) : "0")
+				datasetResistance.push(v ? currentState.hullRes.totalResistance.Rtadd.toFixed(2) : "0")
 			}
 
+			// Filter the values
+			var keys = ["Rf", "Rt", "Rw", "t", "w", "etah", "Pe", "Rtadd"]
+			var units = ["N", "N", "N", "", "", "", "W", "N"]
+			var precision = [0, 0, 0, 2, 2, 2, 0, 0]
+			currentState.hullRes.setSpeed(v_proj)
+			newState.hullRes.setSpeed(v_proj)
+			var filteredCurrentState = {}
+			var filteredNewState = {}
+			Object.assign(filteredCurrentState, extract(currentState.hullRes.calmResistance, keys))
+			Object.assign(filteredCurrentState, extract(currentState.hullRes.efficiency, keys))
+			Object.assign(filteredCurrentState, extract(currentState.hullRes.totalResistance, keys))
+			Object.assign(filteredNewState, extract(newState.hullRes.calmResistance, keys))
+			Object.assign(filteredNewState, extract(newState.hullRes.efficiency, keys))
+			Object.assign(filteredNewState, extract(newState.hullRes.totalResistance, keys))
+
 			return (
-				<div className="row">
-					<div className="col-lg-6  text-center ">
-						<LineChart chartData={dataResitance.chartData} textTitle="Resistence by Velocity" xLabel="Ship Speed (Knots)" yLabel="Resistence (N)" legendPosition="top" />
+				<>
+					<div className="row">
+						<div className="col-lg-6  text-center ">
+							<LineChart chartData={dataResitance.chartData} textTitle="Resistence X Velocity" xLabel="Ship Speed (Knots)" yLabel="Resistence (N)" legendPosition="top" />
+						</div>
+						<div className="col-lg-6  text-center ">
+							<RadarChart chartData={dataPower.chartData} textTitle={`Power % for ${v_proj} knots`} />
+						</div>
 					</div>
-					<div className="col-lg-6  text-center ">
-						<PieChart chartData={dataPower.chartData} textTitle={`Power % for ${models.v_proj} knots`} />
+					<br />
+					<div className="row align-items-center text-center justify-content-center">
+						<h4>Resistance comparison in the design speed = {v_proj.toFixed(2)} m/s </h4>
 					</div>
-				</div>
+					<div className="row align-items-center text-center justify-content-center">
+						<div className="col-lg-6 ">
+							<table className="table">
+								<thead className="thead-dark">
+									<tr>
+										<th scope="col">Variable</th>
+										<th scope="col">Preview Value</th>
+										<th scope="col">New Value</th>
+										<th scope="col">Unit</th>
+										<th scope="col">Variation</th>
+									</tr>
+								</thead>
+								<tbody>
+									{keys.map((value, id) => {
+										return (
+											<tr key={id}>
+												<td>{value}</td>
+												<td>{filteredCurrentState[value].toFixed(precision[id])}</td>
+												<td>{filteredNewState[value].toFixed(precision[id])}</td>
+												<td>{units[id]}</td>
+												<td style={{ color: filteredNewState[value] < filteredCurrentState[value] ? "#295773" : "#A60D0D" }}>{((100 * (filteredNewState[value] - filteredCurrentState[value])) / filteredCurrentState[value]).toFixed(2)}%</td>
+											</tr>
+										)
+									})}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</>
 			)
 		} catch (error) {
 			return <div>Error found: {error}</div>
 		}
-
-		return <h1>Tese</h1>
 	}
 
 	return (
@@ -61,4 +113,4 @@ function ResistanceModule(prop) {
 	)
 }
 
-export default ResistanceModule
+export default ResistanceComparison

@@ -4,48 +4,56 @@ import DataChartStructure from "../../snippets/DataChartStructure"
 import extract from "../../snippets/extract"
 import LineChart from "../ChartComponents/LineChart"
 
-function HydrostaticModule(prop) {
+function HydrostaticComparison(prop) {
 	function TestComponent() {
 		try {
-			var models = prop.models
+			var currentState = prop.currentState
+			var newState = prop.newState
+
+			// var currentState = prop.models
 			var dataDisp = new DataChartStructure()
 			var dataCenter = new DataChartStructure()
 			var dataBuoyancy = new DataChartStructure()
-			var dataCoeff = new DataChartStructure()
+			var dataCoeffVolume = new DataChartStructure()
 
-			var datasetDisp = dataDisp.pushDataSet("Disp", "rgba(138, 103, 83, 0.6)")
+			var datasetDisp = dataDisp.pushDataSet("Current", "rgba(1, 28, 64, 0.6)")
+			var datasetDispNewState = dataDisp.pushDataSet("New", "rgba(138, 103, 83, 0.6)")
 
 			var datasetLCB = dataCenter.pushDataSet("LCB", "rgba(1, 28, 64, 0.6)")
 			var datasetLCF = dataCenter.pushDataSet("LCF", "rgba(115, 69, 41, 0.6)")
 
 			var datasetKB = dataBuoyancy.pushDataSet("KB", "rgba(41, 85, 115, 0.6)")
-			var datasetBMt = dataBuoyancy.pushDataSet("KMt", "rgba(1, 28, 64, 0.6)")
+			var datasetBMt = dataBuoyancy.pushDataSet("BMt", "rgba(1, 28, 64, 0.6)")
 			var datasetBMl = dataBuoyancy.pushDataSet("0.1 x KMl", "rgba(138, 103, 83, 0.6)")
 			var datasetGMt = dataBuoyancy.pushDataSet("GMt", "rgba(166, 13, 13, 0.6)")
 
-			var datasetCb = dataCoeff.pushDataSet("Cb", "rgba(41, 85, 115, 0.6)")
-			var datasetCm = dataCoeff.pushDataSet("Cm", "rgba(1, 28, 64, 0.6)")
-			var datasetCp = dataCoeff.pushDataSet("Cp", "rgba(138, 103, 83, 0.6)")
-			var datasetCWp = dataCoeff.pushDataSet("Cwp", "rgba(166, 13, 13, 0.6)")
+			var datasetLCBCurrent = dataCoeffVolume.pushDataSet("Current LCB", "rgba(41, 85, 115, 0.6)")
+			var datasetLCBNew = dataCoeffVolume.pushDataSet("New LCB", "rgba(166, 13, 13, 0.6)")
+			var datasetLCFCurrent = dataCoeffVolume.pushDataSet("Current LCF", "rgba(1, 28, 64, 0.6)")
+			var datasetLCFNew = dataCoeffVolume.pushDataSet("New LCF", "rgba(138, 103, 83, 0.6)")
 
-			var designDraft = models.shipState.calculationParameters.Draft_design
-			var currentResults = models.ship.structure.hull.calculateAttributesAtDraft(designDraft)
+			var currentDesignDraft = currentState.shipState.calculationParameters.Draft_design
+			var currentResults = currentState.ship.structure.hull.calculateAttributesAtDraft(currentDesignDraft)
+			var newDesignDraft = newState.shipState.calculationParameters.Draft_design
+			var newResults = newState.ship.structure.hull.calculateAttributesAtDraft(newDesignDraft)
 
 			// Filter the values
 			var keys = ["Vs", "LCB", "LCF", "KB", "BMt", "BMl", "KB", "Cb", "Cm", "Cp", "Cwp"]
 			var units = ["m³", "m", "m", "m", "m", "m", "m", "", "", "", ""]
-			var filtered = extract(currentResults, keys)
+			var filteredCurrentState = extract(currentResults, keys)
+			var filteredNewState = extract(newResults, keys)
 
 			var draft = 0.25
 			var drafts = []
 			var draftVariation = 0.25
 
-			var Weight = models.ship.getWeight(models.shipState)
+			var Weight = currentState.ship.getWeight(currentState.shipState)
 			var CG = Weight.cg.z
 
-			while (draft <= models.ship.structure.hull.attributes.Depth) {
+			while (draft <= currentState.ship.structure.hull.attributes.Depth) {
 				drafts.push(draft.toFixed(2))
-				var attributes = models.ship.structure.hull.calculateAttributesAtDraft(draft)
+				var attributes = currentState.ship.structure.hull.calculateAttributesAtDraft(draft)
+				var newAttributes = newState.ship.structure.hull.calculateAttributesAtDraft(draft)
 
 				datasetDisp.push(attributes["Vs"].toFixed(2))
 				datasetLCB.push(attributes["LCB"].toFixed(2))
@@ -54,10 +62,12 @@ function HydrostaticModule(prop) {
 				datasetBMt.push(attributes["BMt"].toFixed(2))
 				datasetBMl.push((0.1 * attributes["BMl"]).toFixed(2))
 				datasetGMt.push((attributes["KB"] + attributes["BMt"] - CG).toFixed(2))
-				datasetCb.push(attributes["Cb"].toFixed(2))
-				datasetCm.push(attributes["Cm"].toFixed(2))
-				datasetCp.push(attributes["Cp"].toFixed(2))
-				datasetCWp.push(attributes["Cwp"].toFixed(2))
+				datasetLCBCurrent.push(attributes["LCB"].toFixed(2))
+				datasetLCFCurrent.push(attributes["LCF"].toFixed(2))
+
+				datasetDispNewState.push(newAttributes["Vs"].toFixed(2))
+				datasetLCBNew.push(newAttributes["LCB"].toFixed(2))
+				datasetLCFNew.push(newAttributes["LCF"].toFixed(2))
 
 				draft = draft + draftVariation
 			}
@@ -65,16 +75,36 @@ function HydrostaticModule(prop) {
 			dataDisp.setLabels(drafts)
 			dataCenter.setLabels(drafts)
 			dataBuoyancy.setLabels(drafts)
-			dataCoeff.setLabels(drafts)
+			dataCoeffVolume.setLabels(drafts)
+
+			function chooseSymbol(currentValue, newValue) {
+				var variation = ((100 * (newValue - currentValue)) / currentValue).toFixed(1) + "%"
+
+				if (currentValue.toFixed(2) !== newValue.toFixed(2)) {
+					if (currentValue < newValue) {
+						return (
+							<td style={{ color: "#295773" }}>
+								{variation}
+								<i className="fas fa-arrow-up"></i>
+							</td>
+						)
+					}
+					return (
+						<td style={{ color: "#A60D0D" }}>
+							{variation}
+							<i className="fas fa-arrow-down"></i>
+						</td>
+					)
+				} else {
+					return <td>=</td>
+				}
+			}
 
 			return (
 				<div className="container-fluid align-items-center p-3">
 					<div className="row">
-						<div className="col-lg-6  text-center ">
-							<LineChart chartData={dataDisp.chartData} textTitle="Displacement x Draft" xLabel="Draft (m)" yLabel="Displacement (m^3)" displayLegend="false" />
-						</div>
-						<div className="col-lg-6  text-center ">
-							<LineChart chartData={dataCenter.chartData} textTitle="Longitudinal Centers" xLabel="Draft (m)" yLabel="Value (m)" legendPosition="top" />
+						<div className="col-lg-12  text-center ">
+							<LineChart chartData={dataDisp.chartData} textTitle="Displacement x Draft" xLabel="Draft (m)" yLabel="Displacement (m^3)" legendPosition="top" />
 						</div>
 					</div>
 					<div className="row">
@@ -84,12 +114,16 @@ function HydrostaticModule(prop) {
 					</div>
 					<div className="row">
 						<div className="col-lg-12  text-center ">
-							<LineChart chartData={dataCoeff.chartData} textTitle="Adm. Coefficients" xLabel="Draft (m)" yLabel="Displacement (m)" />
+							<LineChart chartData={dataCoeffVolume.chartData} textTitle="Adm. Coefficients" xLabel="Draft (m)" yLabel="" legendPosition="top" />
 						</div>
 					</div>
 					<br />
 					<div className="row align-items-center text-center justify-content-center">
-						<h4>Hydrostatic in the design draft = {designDraft.toFixed(2)} m</h4>
+						<h4>
+							Comparison for current state in the draft = {currentDesignDraft.toFixed(2)} m,
+							<br />
+							and new state in the draft = {newDesignDraft.toFixed(2)} m.
+						</h4>
 					</div>
 					<div className="row align-items-center text-center justify-content-center">
 						<div className="col-lg-6 ">
@@ -97,8 +131,10 @@ function HydrostaticModule(prop) {
 								<thead className="thead-dark">
 									<tr>
 										<th scope="col">Variable</th>
-										<th scope="col">Value</th>
+										<th scope="col">Preview Value</th>
+										<th scope="col">New Value</th>
 										<th scope="col">Unit</th>
+										<th scope="col">Variation</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -106,8 +142,10 @@ function HydrostaticModule(prop) {
 										return (
 											<tr key={id}>
 												<td>{value}</td>
-												<td>{filtered[value].toFixed(2)}</td>
+												<td>{filteredCurrentState[value].toFixed(2)}</td>
+												<td>{filteredNewState[value].toFixed(2)}</td>
 												<td>{units[id]}</td>
+												{chooseSymbol(filteredCurrentState[value], filteredNewState[value])}
 											</tr>
 										)
 									})}
@@ -129,4 +167,4 @@ function HydrostaticModule(prop) {
 	return <TestComponent />
 }
 
-export default HydrostaticModule
+export default HydrostaticComparison
