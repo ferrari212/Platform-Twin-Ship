@@ -10,7 +10,6 @@ function HydrostaticComparison(prop) {
 			var currentState = prop.currentState
 			var newState = prop.newState
 
-			// var currentState = prop.models
 			var dataDisp = new DataChartStructure()
 			var dataCenter = new DataChartStructure()
 			var dataBuoyancy = new DataChartStructure()

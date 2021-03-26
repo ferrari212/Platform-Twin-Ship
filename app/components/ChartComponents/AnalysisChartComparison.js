@@ -8,7 +8,7 @@ import { Vessel } from "../../vessel/build/vessel"
 
 import ResistanceComparison from "../AnalysisComponent/ResistanceComparison"
 import HydrostaticComparison from "../AnalysisComponent/HydrostaticComparison"
-import ResponseModule from "../AnalysisComponent/ResponseModule"
+import ResponseComparison from "../AnalysisComponent/ResponseComparison"
 
 function AnalysisChartComparison(props) {
 	function returnAnalysis(params, newState) {
@@ -91,7 +91,7 @@ function AnalysisChartComparison(props) {
 							<Accordion.Collapse eventKey="2">
 								<Card.Body>
 									<div>
-										<ResponseModule models={models.currentState} />
+										<ResponseComparison currentState={models.currentState} newState={models.newState} />
 									</div>
 								</Card.Body>
 							</Accordion.Collapse>
