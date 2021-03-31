@@ -70,7 +70,7 @@ function LifeCycleBar() {
 				return (
 					<>
 						<div className="p-3 bd-highlight">
-							<a id="free-button" href="" onClick={handleCalculation} data-tip="Close Analysis" data-for="closeAnalysis">
+							<a id="free-button" href="" onClick={handleCalculation} data-tip="Close Simulation" data-for="closeAnalysis">
 								<img src={ImageClose} />
 							</a>
 							<ReactTooltip id="closeAnalysis" className="custom-tooptip" />{" "}

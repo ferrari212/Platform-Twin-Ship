@@ -7,8 +7,8 @@ import * as Scroll from "react-scroll"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
 import { Skybox } from "../../vessel/libs/skybox_from_examples_r118"
-import { Ocean } from "../../vessel/libs/Configurable_ocean2"
 import { Vessel } from "../../vessel/build/vessel"
+import { Ship3D } from "../../vessel/build/Ship3D"
 import { renderRayCaster } from "../../vessel/snippets/renderRayCaster"
 
 import ToolTip from "../../snippets/ToolTip"
@@ -23,13 +23,14 @@ import Tree from "../Tree"
 var oSize = 512
 const skybox = new Skybox(oSize)
 
-class ThreeModelRayCaster extends Component {
+class ThreeModelGLB extends Component {
 	constructor(props) {
 		super(props)
 
 		this.addScenarioStatus = true
 		this.intersected = undefined
 		this.mouse = new THREE.Vector2(0.5, 0.5)
+		this.map = {}
 
 		console.log("Constructor")
 	}
@@ -71,7 +72,11 @@ class ThreeModelRayCaster extends Component {
 
 			this.setShipDataTemporary(this, newVersion)
 		} else {
-			if (!this.scene.getObjectByName("ModelGLTF")) this.addShip()
+			this.ship = new Vessel.Ship(this.state.newShip)
+
+			if (!this.scene.getObjectByName("ModelGLTF")) {
+				this.addShip()
+			}
 			// if (this.requestID === undefined) this.startAnimationLoop()
 		}
 	}
@@ -145,11 +150,30 @@ class ThreeModelRayCaster extends Component {
 	}
 
 	addShip = () => {
+		this.ship3D = new Ship3D(this.ship, {
+			stlPath: "specs/STL files/Gunnerus",
+			upperColor: 0x33aa33,
+			lowerColor: 0xaa3333,
+			hullOpacity: 1,
+			deckOpacity: 1,
+			objectOpacity: 1
+		})
+
+		// Pass later on with the value of the title
+		this.ship3D.name = "Ship3D"
+		this.ship3D.show = "on"
+		this.scene.add(this.ship3D)
+
+		// Unnable each of the parts
+		this.ship3D.decks.children.forEach(e => e.layers.disable(0))
+		this.ship3D.hull3D.children.forEach(e => e.layers.disable(0))
+		this.ship3D.blocks.children.forEach(e => e.layers.disable(0))
+
 		var loaderGLTF = new GLTFLoader()
 
-		// Temporarilly the GLB is in the folder
-		// the code bellow allows the user to
-		// access the git hub url.
+		// Temporarilly the GLB is in the folder to reduce the time for getting the model
+		// The code bellow allows the user to
+		// access the git hub url: @ferrari212
 		// var url = this.state.GLTFPath;
 		var url = GunnerusTeste
 		var fadeTarget = document.getElementById("loader-wrapper")
@@ -170,6 +194,15 @@ class ThreeModelRayCaster extends Component {
 				}
 
 				this.scene.add(this.shipGLTF)
+
+				var root = this.scene.getObjectByName("RootNode")
+
+				Object.assign(this.map, this.setUpMap(root))
+				// this.map = this.setUpMap(root)
+				// root.getObjectByName("Hull_0").material.side = THREE.DoubleSide
+				// root.getObjectByName("Hull_1").material.side = THREE.DoubleSide
+				// root.getObjectByName("Hull_2").material.side = THREE.DoubleSide
+				// root.getObjectByName("Hull_3").material.side = THREE.DoubleSide
 
 				this.startAnimationLoop()
 
@@ -193,16 +226,6 @@ class ThreeModelRayCaster extends Component {
 				console.error(error)
 			}
 		)
-
-		// if (this.addScenarioStatus) {
-		// 	const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
-		// 	const mainLight = new THREE.DirectionalLight(0xffffff, 1)
-		// 	mainLight.position.set(1, 1, 1)
-		// 	this.scene.add(ambientLight, mainLight)
-
-		// 	this.scene.rotation.x = -Math.PI / 2
-		// 	this.addScenarioStatus = false
-		// }
 	}
 
 	removeShip = () => {
@@ -226,6 +249,84 @@ class ThreeModelRayCaster extends Component {
 			}
 		} catch (error) {
 			console.warn("Model is still being loaded, wait for using the check box")
+		}
+	}
+
+	setUpMap = root => {
+		var map = {
+			//50 hangar
+			111.1: ["decks", 2, "Deck"],
+			111.2: ["bulkheads", 2, "AB", "B23", "FB"],
+			111.41: ["hull side", 2, "Hull_0", "Hull_1", "Hull_3"],
+			111.71: ["hull bottom", 2, "Hull_2"],
+			112: ["superstructure", 2],
+			// 331.11: ["frame", 2, "SH_GROUP_A_FRAME_ROV_HANGAR"],
+			//"331.11": ["crane", 2, [1, 4, 49]],
+			// 411.1: ["engines", 2, "NOGVA_Scania_bk_l", "NOGVA_Scania_bk_c", "NOGVA_Scania_bk_r"],
+			413.1: ["propeller", 2, "PTS_Propeller", "PTS_PropellerFrame", "STB_PropellerFrame", "STB_Propeller"],
+			433.1: ["thruster", 2, "Thruster_Front"]
+		}
+
+		root.getObjectByName("Hull_0").material.side = THREE.DoubleSide
+		root.getObjectByName("Hull_1").material.side = THREE.DoubleSide
+		root.getObjectByName("Hull_2").material.side = THREE.DoubleSide
+		root.getObjectByName("Hull_3").material.side = THREE.DoubleSide
+
+		// This supStructObj should merge in map, the reason that obstruct
+		// the complete integration is there is some of elements who had children
+		// which the toggle function is not able to map @ferrai212
+		var supStructObj = {
+			Decals: ["112"],
+			vesselShared_bridge_2: ["112"],
+			VesselGlass: ["111.41"],
+			bridgeGlass: ["112"],
+			WhitePaint: ["112"],
+			bridgeInside: ["112"],
+			WindowCover: ["112"],
+			BluePaint: ["112"],
+			bridgeBlue: ["112"],
+			bridge: ["112"],
+			radar: ["112", "112"],
+			safeRing: ["112", "112"],
+			Stairs: ["112", "112"],
+			vesselShared: ["112"],
+			vesselShared_bridge: ["112", "112", "112"],
+			Exhaust: ["112"],
+			Railing: ["111.41"]
+		}
+
+		root.children.forEach((e, i) => {
+			var objectName = e.name
+			var keyName = supStructObj[objectName]
+
+			if (!keyName) {
+				return
+			}
+
+			if (keyName.length === 1) {
+				map[keyName[0]].push(objectName)
+			} else {
+				for (let i = 0; i < e.children.length; i++) {
+					const name = e.children[i].name
+					map[keyName[0]].push(name)
+				}
+			}
+		})
+
+		return map
+	}
+
+	callBackMap = name => {
+		console.log("Returned here ", name)
+		debugger
+
+		var object = this.scene.getObjectByName(name)
+
+		// It is necessary to check if the element is inside
+		// and in case it is not just do nothing. This is
+		// necessary due
+		if (object) {
+			object.layers.toggle()
 		}
 	}
 
@@ -282,6 +383,8 @@ class ThreeModelRayCaster extends Component {
 			<Page title="Three-js" className="" wide={this.props.wide}>
 				<div ref={ref => (this.mount = ref)}>
 					<p id="tooltip" />
+					<Tree map={this.map} callBackMap={this.callBackMap} />
+					{console.log(this)}
 				</div>
 				<LifeCycleBar />
 
@@ -295,11 +398,10 @@ class ThreeModelRayCaster extends Component {
 						</h1>
 					</div>
 				</div>
-				<Tree />
 				{switchElement(this.props.user, this.state)}
 			</Page>
 		)
 	}
 }
 
-export default ThreeModelRayCaster
+export default ThreeModelGLB

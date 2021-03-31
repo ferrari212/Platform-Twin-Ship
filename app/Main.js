@@ -70,28 +70,6 @@ function Main() {
 				draft.user.versions = action.clearData
 				return
 
-			// Get away with the set analysis and simulation
-			// case "setAnalysis":
-			// 	debugger
-			// 	if (action.status) {
-			// 		draft.user.method = "analyse"
-			// 	} else {
-			// 		// The simulate version must be done
-			// 		// draft.user.method = "simulate"
-			// 		draft.user.method = "undefined"
-			// 	}
-			// 	return
-
-			// case "setSimulation":
-			// 	if (action.status) {
-			// 		draft.user.method = "simulate"
-			// 	} else {
-			// 		// The simulate version must be done
-			// 		// draft.user.method = "simulate"
-			// 		draft.user.method = "undefined"
-			// 	}
-			// 	return
-
 			case "openInsertState":
 				draft.isInsertStateOpen = true
 				return
