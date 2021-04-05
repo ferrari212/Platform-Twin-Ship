@@ -275,6 +275,8 @@ Returns an object with the index and an interpolation parameter mu that gives th
 			maxY = 0,
 			minY = 0
 		let L = array.length
+		let foundMinY = false // Marker to find the maximun non zero point
+		let foundMaxY = false // Marker to find the maximun non zero point
 		for (let i = 0; i < L; i++) {
 			let e = array[i]
 			A += e.A
@@ -282,9 +284,21 @@ Returns an object with the index and an interpolation parameter mu that gives th
 			yc += e.yc * e.A
 			if (!isNaN(e.maxX) && e.maxX > maxX) maxX = e.maxX
 			if (!isNaN(e.minX) && e.minX < minX) minX = e.minX
-			if (!isNaN(e.maxY) && e.maxY > maxY) maxY = e.maxY
-			if (!isNaN(e.minY) && e.minY < minY) minY = e.minY
+			if (!isNaN(e.maxY) && e.maxY > maxY && !foundMaxY && foundMinY) {
+				maxY = e.maxY
+				if (e.A === 0) {
+					foundMaxY = true
+				}
+			}
+			if (!isNaN(e.minY) && !foundMinY) {
+				if (e.A !== 0) {
+					minY = e.minY
+					foundMinY = true //Sets the first not null or zero point
+				}
+			}
 		}
+		if (!foundMaxY) maxY = array[L - 1].maxY //if foundMaxY is false then the ship is a barge and a different logic must apply @ferrari212
+
 		let Ix = 0
 		let Iy = 0
 
@@ -942,7 +956,7 @@ Suggested calculations to do:
 			let decks = Object.values(this.decks)
 			for (let i = 0; i < decks.length; i++) {
 				let d = decks[i]
-				let zc = d.zFloor + 0.5 * d.thickness
+				let zc = d.zFloor + 0.5 * d.thickness // An approximation for the CG in the main deck
 				let yc = d.yCentre
 				let b = d.breadth
 				let wlc = this.hull.waterlineCalculation(zc, { minX: d.xAft, maxX: d.xFwd, minY: yc - 0.5 * b, maxY: yc + 0.5 * b })

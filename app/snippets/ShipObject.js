@@ -9,10 +9,10 @@ export default class ShipObject {
 		this.id = user.shipId
 		var versions = user.versions
 		this.version = versions[this.id]
-		this.shipObj = this.version ? this.getObject(this.version.ship) : undefined
+		this.shipObj = this.version ? this.parseInfo(this.version.ship) : undefined
 	}
 
-	getObject(shipString) {
+	parseInfo(shipString) {
 		return Boolean(shipString) ? JSON.parse(shipString) : undefined
 	}
 }

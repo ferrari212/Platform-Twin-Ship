@@ -1,6 +1,8 @@
 import React from "react"
 
 import DataChartStructure from "../../snippets/DataChartStructure"
+import extract from "../../snippets/extract"
+
 import LineChart from "../ChartComponents/LineChart"
 import PieChart from "../ChartComponents/PieChart"
 
@@ -27,25 +29,69 @@ function ResistanceModule(prop) {
 				dataPower.xLabel.push(type)
 			}
 
+			// This is just to clear out data
+			models.hullRes.setSpeed(1)
+			models.hullRes.writeOutput()
+
 			for (let v = 0; v <= Math.floor(models.v_proj * 1.2); v++) {
 				models.hullRes.setSpeed(v)
 
 				dataResitance.xLabel.push(v.toFixed(0))
-				datasetCalmResist.push(models.hullRes.calmResistance.Rt.toFixed(2))
-				datasetViscous.push(models.hullRes.calmResistance.Rf.toFixed(2))
-				datasetWave.push(models.hullRes.calmResistance.Rw.toFixed(2))
-				datasetTotal.push(models.hullRes.totalResistance.Rtadd.toFixed(2))
+				datasetCalmResist.push(v ? models.hullRes.calmResistance.Rt.toFixed(2) : "0")
+				datasetViscous.push(v ? models.hullRes.calmResistance.Rf.toFixed(2) : "0")
+				datasetWave.push(v ? models.hullRes.calmResistance.Rw.toFixed(2) : "0")
+				datasetTotal.push(v ? models.hullRes.totalResistance.Rtadd.toFixed(2) : "0")
 			}
 
+			// Filter the values
+			var keys = ["Rf", "Rt", "Rw", "t", "w", "etah", "Pe", "Rtadd"]
+			var units = ["N", "N", "N", "", "", "", "W", "N"]
+			var precision = [0, 0, 0, 2, 2, 2, 0, 0]
+			models.hullRes.setSpeed(models.v_proj)
+			var filtered = {}
+			Object.assign(filtered, extract(models.hullRes.calmResistance, keys))
+			Object.assign(filtered, extract(models.hullRes.efficiency, keys))
+			Object.assign(filtered, extract(models.hullRes.totalResistance, keys))
+
 			return (
-				<div className="row">
-					<div className="col-lg-6  text-center ">
-						<LineChart chartData={dataResitance.chartData} textTitle="Resistence by Velocity" xLabel="Ship Speed (Knots)" yLabel="Resistence (N)" legendPosition="top" />
+				<>
+					<div className="row">
+						<div className="col-lg-6  text-center ">
+							<LineChart chartData={dataResitance.chartData} textTitle="Resistence X Velocity" xLabel="Ship Speed (Knots)" yLabel="Resistence (N)" legendPosition="top" />
+						</div>
+						<div className="col-lg-6  text-center ">
+							<PieChart chartData={dataPower.chartData} textTitle={`Power % for ${models.v_proj} knots`} />
+						</div>
 					</div>
-					<div className="col-lg-6  text-center ">
-						<PieChart chartData={dataPower.chartData} textTitle={`Power % for ${models.v_proj} knots`} />
+					<br />
+					<div className="row align-items-center text-center justify-content-center">
+						<h4>Resistance in the design speed = {models.v_proj.toFixed(2)} knots </h4>
 					</div>
-				</div>
+					<div className="row align-items-center text-center justify-content-center">
+						<div className="col-lg-6 ">
+							<table className="table">
+								<thead className="thead-dark">
+									<tr>
+										<th scope="col">Variable</th>
+										<th scope="col">Value</th>
+										<th scope="col">Unit</th>
+									</tr>
+								</thead>
+								<tbody>
+									{keys.map((value, id) => {
+										return (
+											<tr key={id}>
+												<td>{value}</td>
+												<td>{filtered[value].toFixed(precision[id])}</td>
+												<td>{units[id]}</td>
+											</tr>
+										)
+									})}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</>
 			)
 		} catch (error) {
 			return <div>Error found: {error}</div>

@@ -3,11 +3,13 @@ import React from "react"
 import DataChartStructure from "../../snippets/DataChartStructure"
 import LineChart from "../ChartComponents/LineChart"
 
-function ResponseModule(prop) {
+function ResponseComparison(prop) {
 	function TestComponent() {
 		try {
 			// Define Models
-			var models = prop.models
+			var currentState = prop.currentState
+			var newState = prop.newState
+
 			var dataHeave = new DataChartStructure()
 			var dataRoll = new DataChartStructure()
 			var dataPitch = new DataChartStructure()
@@ -23,8 +25,10 @@ function ResponseModule(prop) {
 			dataSetRollACC = []
 			dataSetPitchACC = []
 
-			models.wavMo.setSpeed(0)
-			models.wave.setWaveDef(1, 1, 1)
+			currentState.wavMo.setSpeed(0)
+			currentState.wave.setWaveDef(1, 1, 1)
+			newState.wavMo.setSpeed(0)
+			newState.wave.setWaveDef(1, 1, 1)
 
 			var freq = 0.2
 			var maxFreq = 3
@@ -37,29 +41,53 @@ function ResponseModule(prop) {
 			} while (freq <= maxFreq)
 
 			// Define the wave angles 90 is side waves and 180 is head waves
-			var angles = [90, 105, 120, 135, 150, 165, 180]
+			var colors = ["rgba(41, 85, 115, 0.6)", "rgba(1, 28, 64, 0.6)", "rgba(115, 69, 41, 0.6)", "rgba(166, 13, 13, 0.6)", "rgba(138, 103, 83, 0.6)", "rgba(166, 13, 13, 0.6)", "rgba(205, 135, 68, 0.6)"]
 
-			var possibleColors = ["rgba(41, 85, 115, 0.6)", "rgba(115, 69, 41, 0.6)", "rgba(1, 28, 64, 0.6)", "rgba(64, 37, 1, 0.6)", "rgba(138, 103, 83, 0.6)", "rgba(166, 13, 13, 0.6)", "rgba(205, 135, 68, 0.6)"]
+			dataSetHeave.push(dataHeave.pushDataSet(`Current 90°`, colors[0]))
+			dataSetHeave.push(dataHeave.pushDataSet(`Current 180°`, colors[1]))
+			dataSetRoll.push(dataRoll.pushDataSet(`Current 90°`, colors[0]))
+			dataSetPitch.push(dataPitch.pushDataSet(`Current 180`, colors[1]))
+			dataSetHeaveACC.push(dataHeaveACC.pushDataSet(`Current 90°`, colors[0]))
+			dataSetHeaveACC.push(dataHeaveACC.pushDataSet(`Current 180°`, colors[1]))
+			dataSetRollACC.push(dataRollACC.pushDataSet(`Current 90°`, colors[0]))
+			dataSetPitchACC.push(dataPitchACC.pushDataSet(`Current 90°`, colors[0]))
 
-			angles.forEach((angle, index) => {
-				var color = possibleColors[index % possibleColors.length]
-				dataSetHeave.push(dataHeave.pushDataSet(`${angle}°`, color))
-				dataSetRoll.push(dataRoll.pushDataSet(`${angle}°`, color))
-				dataSetPitch.push(dataPitch.pushDataSet(`${angle}°`, color))
-				dataSetHeaveACC.push(dataHeaveACC.pushDataSet(`${angle}°`, color))
-				dataSetRollACC.push(dataRollACC.pushDataSet(`${angle}°`, color))
-				dataSetPitchACC.push(dataPitchACC.pushDataSet(`${angle}°`, color))
+			dataSetHeave.push(dataHeave.pushDataSet(`New 90°`, colors[2]))
+			dataSetHeave.push(dataHeave.pushDataSet(`New 180°`, colors[3]))
+			dataSetRoll.push(dataRoll.pushDataSet(`New 90°`, colors[2]))
+			dataSetPitch.push(dataPitch.pushDataSet(`New 180°`, colors[3]))
+			dataSetHeaveACC.push(dataHeaveACC.pushDataSet(`New 90°`, colors[2]))
+			dataSetHeaveACC.push(dataHeaveACC.pushDataSet(`New 180°`, colors[3]))
+			dataSetRollACC.push(dataRollACC.pushDataSet(`New 90°`, colors[2]))
+			dataSetPitchACC.push(dataPitchACC.pushDataSet(`New 90°`, colors[2]))
 
-				frequencies.forEach(freq => {
-					var resp = models.getWaveResponse(freq, 1, angle)
+			frequencies.forEach(freq => {
+				var currentResponse90 = currentState.getWaveResponse(freq, 1, 90)
+				var newResponse90 = newState.getWaveResponse(freq, 1, 90)
+				var currentResponse180 = currentState.getWaveResponse(freq, 1, 180)
+				var newResponse180 = newState.getWaveResponse(freq, 1, 180)
 
-					dataSetHeave[index].push(resp["heaveAmp"].toFixed(3))
-					dataSetRoll[index].push(resp["rollAmp"].toFixed(3))
-					dataSetPitch[index].push(resp["pitchAmp"].toFixed(4))
-					dataSetHeaveACC[index].push(resp["heaveAcc"].toFixed(3))
-					dataSetRollACC[index].push(resp["rollAmp"].toFixed(3))
-					dataSetPitchACC[index].push(resp["pitchAcc"].toFixed(3))
-				})
+				dataSetHeave[0].push(currentResponse90["heaveAmp"].toFixed(3))
+				dataSetHeave[1].push(currentResponse180["heaveAmp"].toFixed(3))
+				dataSetHeave[2].push(newResponse90["heaveAmp"].toFixed(3))
+				dataSetHeave[3].push(newResponse180["heaveAmp"].toFixed(3))
+
+				dataSetRoll[0].push(currentResponse90["rollAmp"].toFixed(3))
+				dataSetRoll[1].push(newResponse90["rollAmp"].toFixed(3))
+
+				dataSetPitch[0].push(currentResponse180["pitchAmp"].toFixed(4))
+				dataSetPitch[1].push(newResponse180["pitchAmp"].toFixed(4))
+
+				dataSetHeaveACC[0].push(currentResponse90["heaveAcc"].toFixed(3))
+				dataSetHeaveACC[1].push(currentResponse180["heaveAcc"].toFixed(3))
+				dataSetHeaveACC[2].push(newResponse90["heaveAcc"].toFixed(3))
+				dataSetHeaveACC[3].push(newResponse180["heaveAcc"].toFixed(3))
+
+				dataSetRollACC[0].push(currentResponse90["rollAmp"].toFixed(3))
+				dataSetRollACC[1].push(newResponse90["rollAmp"].toFixed(3))
+
+				dataSetPitchACC[0].push(currentResponse180["pitchAcc"].toFixed(3))
+				dataSetPitchACC[1].push(newResponse180["pitchAcc"].toFixed(3))
 			})
 
 			frequencies = frequencies.map(freq => freq.toFixed(2))
@@ -105,6 +133,7 @@ function ResponseModule(prop) {
 				</div>
 			)
 		} catch (error) {
+			console.warn(error)
 			return (
 				<div className="container-fluid align-items-center p-3">
 					<div>Error found: {error}</div>
@@ -116,4 +145,4 @@ function ResponseModule(prop) {
 	return <TestComponent />
 }
 
-export default ResponseModule
+export default ResponseComparison

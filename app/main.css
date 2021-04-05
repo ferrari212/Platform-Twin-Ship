@@ -132,7 +132,7 @@ h4 {
 
 .description-content {
 	font-size: 1.2rem;
-	line-height: 1.75;
+	line-height: 1.2;
 	color: #292929;
 }
 
@@ -267,7 +267,7 @@ h4 {
 	margin: 0;
 }
 
-/* Search Overaly */
+/* Search Overlay Logic */
 .search-overlay {
 	display: flex;
 	flex-direction: column;
@@ -308,6 +308,8 @@ h4 {
 	margin: 0;
 	margin-right: 10px;
 }
+
+/* End of Search Overlay Logic */
 
 .live-search-field {
 	background-color: transparent;

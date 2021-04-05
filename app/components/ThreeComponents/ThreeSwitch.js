@@ -1,24 +1,42 @@
 import React, { useEffect } from "react"
 
+import ShipObject from "../../snippets/ShipObject"
+import AnalysisChartComparison from "../ChartComponents/AnalysisChartComparison"
+
 const ThreeModelRayCaster = React.lazy(() => import("./ThreeModelRayCaster"))
 const ThreeModelGLB = React.lazy(() => import("./ThreeModelGLB"))
+const ThreeSimulation = React.lazy(() => import("./ThreeSimulation"))
 
 function ThreeSwitch(props) {
-	var logicalProcess = () => {
-		var Id = props.user.shipId
-		var version = props.user.versions[Id].ship
+	var ship = new ShipObject(props.user)
 
-		if (typeof version === "string") {
-			var ship = JSON.parse(version)
-			if (Boolean(ship.attributes.GLTFUrl)) return "GLB"
+	var logicalProcess = ship => {
+		if (typeof ship.version.ship === "string") {
+			if (Boolean(ship.shipObj.attributes.GLTFUrl)) return "GLB"
 			return "RayCaster"
 		}
 
-		return undefined
+		return null
 	}
 
 	function ChooseModel() {
-		var key = logicalProcess()
+		if (props.user.method === "simulate") {
+			return <ThreeSimulation user={props.user} />
+		}
+
+		if (props.user.newState) {
+			return <AnalysisChartComparison state={ship.shipObj} newState={props.user.newState} />
+		}
+
+		// Checking Status this way is deprecated @ferrari212
+		// function checkStatus(user) {
+		// 	if (user.newState) {
+		// 		return <AnalysisChartComparison state={ship.shipObj} newState={user.newState} />
+		// 	}
+		// 	return <>{user.method === "simulate" ? <ThreeSimulation user={props.user} /> : <ThreeModelRayCaster user={props.user} />}</>
+		// }
+
+		var key = logicalProcess(ship)
 
 		switch (key) {
 			case "RayCaster":
@@ -28,7 +46,7 @@ function ThreeSwitch(props) {
 				return <ThreeModelGLB user={props.user} />
 
 			default:
-				return ""
+				return null
 		}
 	}
 

@@ -4,21 +4,22 @@ import Page from "../Page"
 import LifeCycleBar from "../LifeCycleBar"
 import { useParams } from "react-router-dom"
 import Axios from "axios"
+import * as Scroll from "react-scroll"
 
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
 import { Skybox } from "../../vessel/libs/skybox_from_examples_r118"
-import { Ocean } from "../../vessel/libs/Configurable_ocean2"
 import { Vessel } from "../../vessel/build/vessel"
 import { Ship3D } from "../../vessel/build/Ship3D"
 import { renderRayCaster } from "../../vessel/snippets/renderRayCaster"
 
 import ToolTip from "../../snippets/ToolTip"
 import TableInfo from "../../snippets/TableInfo"
+import ShipObject from "../../snippets/ShipObject"
 
-import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
-import AnalysisChart from "../ChartComponents/AnalysisChart"
-import GUI from "../GUI"
+const AnalysisChart = React.lazy(() => import("../ChartComponents/AnalysisChart"))
+// import AnalysisChart from "../ChartComponents/AnalysisChart"
+// import GUI from "../GUI"
 
 var oSize = 512
 const skybox = new Skybox(oSize)
@@ -27,8 +28,6 @@ class ThreeModelRayCaster extends Component {
 	constructor(props) {
 		super(props)
 
-		this.addScenarioStatus = true
-		this.height = this.props.height
 		this.intersected = undefined
 		this.mouse = new THREE.Vector2(0.5, 0.5)
 
@@ -45,9 +44,9 @@ class ThreeModelRayCaster extends Component {
 
 		this.mount.addEventListener("mousemove", this.onMouseMove, false)
 
-		var Id = this.props.user.shipId
-		var version = this.props.user.versions[Id].ship
-		this.setShipDataTemporary(this, version)
+		//  Later pass the ship object to the switch function
+		var version = new ShipObject(this.props.user)
+		this.setShipDataTemporary(this, version.shipObj)
 
 		window.addEventListener("resize", this.handleWindowResize)
 
@@ -57,9 +56,11 @@ class ThreeModelRayCaster extends Component {
 	componentDidUpdate(prevProps, prevStates) {
 		console.log("Component did Update!", prevProps, prevStates)
 
+		// Use ShipObject class here
 		var prevIndex = prevProps.user.shipId
 		var prevVersion = prevProps.user.versions[prevIndex].ship
 
+		// Use ShipObject class here
 		var newIndex = this.props.user.shipId
 		var newVersion = this.props.user.versions[newIndex].ship
 
@@ -76,6 +77,11 @@ class ThreeModelRayCaster extends Component {
 
 			if (this.requestID === undefined) this.startAnimationLoop()
 		}
+	}
+
+	componentWillUnmount() {
+		window.cancelAnimationFrame(this.startAnimationLoop)
+		delete this.startAnimationLoop
 	}
 
 	sceneSetup = () => {
@@ -98,7 +104,7 @@ class ThreeModelRayCaster extends Component {
 
 		this.controls = new OrbitControls(this.camera, this.mount)
 		this.controls.maxDistance = 200
-		this.renderer = new THREE.WebGLRenderer()
+		this.renderer = new THREE.WebGLRenderer({ antialias: true })
 		this.renderer.setSize(width, height)
 		this.mount.appendChild(this.renderer.domElement) // mount using React ref
 
@@ -115,18 +121,12 @@ class ThreeModelRayCaster extends Component {
 
 		this.useZUp()
 
-		const skybox = new Skybox()
-		skybox.name = "Skybox"
-		this.scene.add(skybox)
+		this.scene.background = new THREE.Color(0xa9cce3)
+		const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
+		const mainLight = new THREE.DirectionalLight(0xffffff, 1)
+		mainLight.position.set(100, 100, 100)
+		this.scene.add(ambientLight, mainLight)
 
-		this.ocean = new Ocean({
-			parentGUI: false,
-			sunDir: sun.position.clone().normalize(),
-			size: oSize,
-			segments: 127
-		})
-		this.ocean.name = "Ocean"
-		this.scene.add(this.ocean)
 		this.scene.rotation.x = -Math.PI / 2
 	}
 
@@ -141,12 +141,11 @@ class ThreeModelRayCaster extends Component {
 	}
 
 	setShipDataTemporary = (context, version) => {
-		if (version.length !== 0) {
+		if (version) {
 			this.setState(() => {
-				var newShip = JSON.parse(version)
 				return {
-					newShip: newShip,
-					ship: new Vessel.Ship(newShip)
+					newShip: version,
+					ship: new Vessel.Ship(version)
 				}
 			})
 		}
@@ -166,16 +165,6 @@ class ThreeModelRayCaster extends Component {
 		this.ship3D.name = "Ship3D"
 		this.ship3D.show = "on"
 		this.scene.add(this.ship3D)
-
-		if (this.addScenarioStatus) {
-			const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
-			const mainLight = new THREE.DirectionalLight(0xffffff, 1)
-			mainLight.position.set(1, 1, 1)
-			this.scene.add(ambientLight, mainLight)
-
-			this.scene.rotation.x = -Math.PI / 2
-			this.addScenarioStatus = false
-		}
 	}
 
 	removeShip = () => {
@@ -193,12 +182,17 @@ class ThreeModelRayCaster extends Component {
 	}
 
 	startAnimationLoop = () => {
-		if (this.ocean.name) {
-			this.ocean.water.material.uniforms.time.value += 1 / 60
-		}
+		// if (this.ocean.name) {
+		// 	this.ocean.water.material.uniforms.time.value += 1 / 60
+		// }
 
 		this.renderer.render(this.scene, this.camera)
-		this.requestID = window.requestAnimationFrame(this.startAnimationLoop)
+
+		try {
+			this.requestID = window.requestAnimationFrame(this.startAnimationLoop)
+		} catch (error) {
+			return null
+		}
 
 		// Apply the function RayCaster
 		this.intersected = renderRayCaster(this.mouse, this.camera, this.scene, this.intersected)
@@ -221,7 +215,16 @@ class ThreeModelRayCaster extends Component {
 
 				switch (teste) {
 					case "analyse":
-						return <AnalysisChart state={state} />
+						return (
+							<>
+								<AnalysisChart state={state} />
+								{Scroll.animateScroll.scrollTo(window.innerHeight, {
+									delay: 100,
+									duration: 2000,
+									smooth: true
+								})}
+							</>
+						)
 
 					default:
 						return null

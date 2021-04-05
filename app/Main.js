@@ -2,6 +2,7 @@ import React, { useState, useReducer, useEffect, Component, Suspense } from "rea
 import ReactDOM from "react-dom"
 import { useImmerReducer } from "use-immer"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
+import { CSSTransition } from "react-transition-group"
 import Axios from "axios"
 
 Axios.defaults.baseURL = process.env.BACKENDURL || "https://platform-twin-ship.herokuapp.com"
@@ -21,6 +22,7 @@ const ViewSinglePost = React.lazy(() => import("./components/ViewSinglePost"))
 import ThreeSwitch from "./components/ThreeComponents/ThreeSwitch"
 import FlashMessages from "./components/FlashMessages"
 import Profile from "./components/Profile"
+import InsertState from "./components/InsertState"
 import EditPost from "./components/EditPost"
 import NotFound from "./components/NotFound"
 import LoadingDotsIcon from "./components/LoadingDotsIcon"
@@ -34,10 +36,12 @@ function Main() {
 			username: localStorage.getItem("complexappUsername"),
 			avatar: localStorage.getItem("complexappAvatar"),
 			versions: [],
+			newState: "",
 			shipId: 0,
 			lifeCycle: localStorage.getItem("complexappShipLifeCycle"),
 			method: localStorage.getItem("complexappShipMethod")
-		}
+		},
+		isInsertStateOpen: false
 	}
 
 	function ourReducer(draft, action) {
@@ -54,6 +58,7 @@ function Main() {
 			case "changeShip":
 				draft.user.shipId = action.shipId
 				draft.user.method = "undefined"
+				draft.user.newState = ""
 				return
 
 			case "setVersion":
@@ -65,17 +70,33 @@ function Main() {
 				draft.user.versions = action.clearData
 				return
 
-			case "setAnalysis":
-				if (action.command) {
-					draft.user.method = "analyse"
-				} else {
-					// The simulate version must be done
-					// draft.user.method = "simulate"
-					draft.user.method = "undefined"
-				}
+			case "openInsertState":
+				draft.isInsertStateOpen = true
 				return
+
+			case "closeInsertState":
+				draft.user.newState = action.data
+				draft.isInsertStateOpen = false
+				return
+
 			default:
-				return
+			case "handleCalculation":
+				switch (action.status) {
+					case "setAnalysis":
+						draft.user.method = "analyse"
+						break
+
+					case "setSimulation":
+						draft.user.method = "simulate"
+						break
+
+					case "closeAnalysis":
+						draft.user.method = "undefined"
+						break
+
+					default:
+						break
+				}
 		}
 	}
 
@@ -86,7 +107,6 @@ function Main() {
 			localStorage.setItem("complexappToken", state.user.token)
 			localStorage.setItem("complexappUsername", state.user.username)
 			localStorage.setItem("complexappAvatar", state.user.avatar)
-			// localStorage.setItem("complexappVersions", state.user.versions)
 			localStorage.setItem("complexappShipIndex", state.user.shipId)
 			localStorage.setItem("complexappShipLifeCycle", state.user.lifeCycle)
 			localStorage.setItem("complexappShipMethod", state.user.method)
@@ -96,8 +116,6 @@ function Main() {
 
 				try {
 					const versions = await Axios.get(`/profile/${component.username.toLowerCase()}/posts`, { cancelToken: ourRequest.token })
-					// console.log(versions)
-					// debugger
 
 					dispatch({ type: "setVersion", data: versions.data })
 				} catch (e) {
@@ -110,7 +128,6 @@ function Main() {
 			localStorage.removeItem("complexappToken")
 			localStorage.removeItem("complexappUsername")
 			localStorage.removeItem("complexappAvatar")
-			// localStorage.removeItem("complexappVersions")
 			localStorage.removeItem("complexappShipIndex")
 			localStorage.removeItem("complexappShipLifeCycle")
 			localStorage.removeItem("complexappShipMethod")
@@ -151,6 +168,13 @@ function Main() {
 								<NotFound />
 							</Route>
 						</Switch>
+						<CSSTransition timeout={330} in={state.isInsertStateOpen} classNames="search-overlay" unmountOnExit>
+							<div className="search-overlay">
+								<Suspense fallback="">
+									<InsertState />
+								</Suspense>
+							</div>
+						</CSSTransition>
 					</Suspense>
 					<Footer />
 				</BrowserRouter>

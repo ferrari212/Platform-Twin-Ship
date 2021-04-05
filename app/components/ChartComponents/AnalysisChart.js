@@ -52,7 +52,7 @@ function AnalysisChart(props) {
 						<Card>
 							<Card.Header>
 								<Accordion.Toggle as={Button} variant="secondary" eventKey="2">
-									Test Response
+									RAO
 								</Accordion.Toggle>
 							</Card.Header>
 							<Accordion.Collapse eventKey="2">
@@ -74,6 +74,7 @@ function AnalysisChart(props) {
 
 	return (
 		<Page title="Analyisis" wide={true}>
+			{/* Get out of .state pass just the ship */}
 			{returnAnalysis(props.state.ship)}
 		</Page>
 	)

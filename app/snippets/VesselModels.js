@@ -22,11 +22,7 @@ export default class VesselModels {
 		// This is the wave created
 		this.wave = new Vessel.WaveCreator()
 
-		if (!this.ship.designState.calculationParameters.speed) {
-			this.v_proj = 10
-		} else {
-			this.v_proj = this.ship.designState.calculationParameters.speed
-		}
+		this.v_proj = this.ship.designState.calculationParameters.speed || 10
 
 		this.hullRes = new Vessel.HullResistance(this.ship, this.shipState, this.propellerSpecification, this.wave)
 		this.hullRes.writeOutput()
