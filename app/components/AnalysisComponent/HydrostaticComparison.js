@@ -16,15 +16,12 @@ function HydrostaticComparison(prop) {
 			var dataCoeffVolume = new DataChartStructure()
 
 			var datasetDisp = dataDisp.pushDataSet("Current", "rgba(1, 28, 64, 0.6)")
-			var datasetDispNewState = dataDisp.pushDataSet("New", "rgba(138, 103, 83, 0.6)")
+			var datasetDispNew = dataDisp.pushDataSet("New", "rgba(138, 103, 83, 0.6)")
 
-			var datasetLCB = dataCenter.pushDataSet("LCB", "rgba(1, 28, 64, 0.6)")
-			var datasetLCF = dataCenter.pushDataSet("LCF", "rgba(115, 69, 41, 0.6)")
-
-			var datasetKB = dataBuoyancy.pushDataSet("KB", "rgba(41, 85, 115, 0.6)")
-			var datasetBMt = dataBuoyancy.pushDataSet("BMt", "rgba(1, 28, 64, 0.6)")
-			var datasetBMl = dataBuoyancy.pushDataSet("0.1 x KMl", "rgba(138, 103, 83, 0.6)")
-			var datasetGMt = dataBuoyancy.pushDataSet("GMt", "rgba(166, 13, 13, 0.6)")
+			var datasetBMtCurrent = dataBuoyancy.pushDataSet("Current BMt", "rgba(41, 85, 115, 0.6)")
+			var datasetBMtNew = dataBuoyancy.pushDataSet("New BMt", "rgba(166, 13, 13, 0.6)")
+			var datasetBMlCurrent = dataBuoyancy.pushDataSet("0.1 x KMl", "rgba(1, 28, 64, 0.6)")
+			var datasetBMlNew = dataBuoyancy.pushDataSet("0.1 x KMl", "rgba(138, 103, 83, 0.6)")
 
 			var datasetLCBCurrent = dataCoeffVolume.pushDataSet("Current LCB", "rgba(41, 85, 115, 0.6)")
 			var datasetLCBNew = dataCoeffVolume.pushDataSet("New LCB", "rgba(166, 13, 13, 0.6)")
@@ -55,16 +52,14 @@ function HydrostaticComparison(prop) {
 				var newAttributes = newState.ship.structure.hull.calculateAttributesAtDraft(draft)
 
 				datasetDisp.push(attributes["Vs"].toFixed(2))
-				datasetLCB.push(attributes["LCB"].toFixed(2))
-				datasetLCF.push(attributes["LCF"].toFixed(2))
-				datasetKB.push(attributes["KB"].toFixed(2))
-				datasetBMt.push(attributes["BMt"].toFixed(2))
-				datasetBMl.push((0.1 * attributes["BMl"]).toFixed(2))
-				datasetGMt.push((attributes["KB"] + attributes["BMt"] - CG).toFixed(2))
+				datasetBMtCurrent.push(attributes["BMt"].toFixed(2))
+				datasetBMlCurrent.push((0.1 * attributes["BMl"]).toFixed(2))
 				datasetLCBCurrent.push(attributes["LCB"].toFixed(2))
 				datasetLCFCurrent.push(attributes["LCF"].toFixed(2))
 
-				datasetDispNewState.push(newAttributes["Vs"].toFixed(2))
+				datasetDispNew.push(newAttributes["Vs"].toFixed(2))
+				datasetBMtNew.push(newAttributes["BMt"].toFixed(2))
+				datasetBMlNew.push((0.1 * newAttributes["BMl"]).toFixed(2))
 				datasetLCBNew.push(newAttributes["LCB"].toFixed(2))
 				datasetLCFNew.push(newAttributes["LCF"].toFixed(2))
 
@@ -108,7 +103,7 @@ function HydrostaticComparison(prop) {
 					</div>
 					<div className="row">
 						<div className="col-lg-12  text-center ">
-							<LineChart chartData={dataBuoyancy.chartData} textTitle={`Vertical Centers, with vertical CG = ${CG.toFixed(2)} m`} xLabel="Draft (m)" yLabel="Displacement (m)" />
+							<LineChart chartData={dataBuoyancy.chartData} textTitle={`Vertical Centers, with vertical CG = ${CG.toFixed(2)} m`} xLabel="Draft (m)" yLabel="Displacement (m)" legendPosition="top" />
 						</div>
 					</div>
 					<div className="row">

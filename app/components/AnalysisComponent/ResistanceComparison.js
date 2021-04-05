@@ -33,6 +33,12 @@ function ResistanceComparison(prop) {
 				dataPower.xLabel.push(type)
 			}
 
+			// This is just to clear out data
+			currentState.hullRes.setSpeed(1)
+			currentState.hullRes.writeOutput()
+			newState.hullRes.setSpeed(1)
+			newState.hullRes.writeOutput()
+
 			for (let v = 0; v <= Math.floor(v_proj * 1.2); v++) {
 				currentState.hullRes.setSpeed(v)
 				newState.hullRes.setSpeed(v)
@@ -69,7 +75,7 @@ function ResistanceComparison(prop) {
 					</div>
 					<br />
 					<div className="row align-items-center text-center justify-content-center">
-						<h4>Resistance comparison in the design speed = {v_proj.toFixed(2)} m/s </h4>
+						<h4>Resistance comparison in the design speed = {v_proj.toFixed(2)} knots </h4>
 					</div>
 					<div className="row align-items-center text-center justify-content-center">
 						<div className="col-lg-6 ">

@@ -65,7 +65,7 @@ function ResistanceModule(prop) {
 					</div>
 					<br />
 					<div className="row align-items-center text-center justify-content-center">
-						<h4>Resistance in the design speed = {models.v_proj.toFixed(2)} m/s </h4>
+						<h4>Resistance in the design speed = {models.v_proj.toFixed(2)} knots </h4>
 					</div>
 					<div className="row align-items-center text-center justify-content-center">
 						<div className="col-lg-6 ">
