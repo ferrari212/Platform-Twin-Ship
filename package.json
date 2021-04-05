@@ -1,6 +1,6 @@
 {
-	"name": "complex-react-app",
-	"version": "1.0.0",
+	"name": "twin-ship-app",
+	"version": "1.2.1",
 	"description": "",
 	"main": "test.js",
 	"scripts": {
@@ -55,7 +55,7 @@
 		"renderjson": "^1.4.0",
 		"socket.io-client": "^2.3.0",
 		"ssri": "^8.0.1",
-		"three": "^0.120.1",
+		"three": "^0.118.1",
 		"use-immer": "^0.4.1",
 		"vega": "^5.18.0",
 		"vega-lite": "^4.17.0",
