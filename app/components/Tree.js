@@ -106,20 +106,15 @@ class TreeComponent extends React.Component {
 	}
 
 	threeToggle = () => {
-		// debugger
-		// this.callBackMap()
 		for (let prop in this.map) {
 			// Maybe it is necessary to use the getObjectByName
 			let treeStatus = this.tree.leafNodesById[prop].status
 			let mapStatus = this.map[prop][1]
-			// debugger
 
 			if (treeStatus !== mapStatus) {
-				// this.callBackMap(this.map[prop])
 				for (let i = 2; i < this.map[prop].length; i++) {
 					var name = this.map[prop][i]
 					this.callBackMap(name)
-					// zUpCont.getObjectByName(name).layers.toggle()
 				}
 				this.map[prop][1] = treeStatus
 			}

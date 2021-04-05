@@ -20,20 +20,27 @@ function ThreeSwitch(props) {
 	}
 
 	function ChooseModel() {
-		if (props.user.method === "simulate") return <ThreeSimulation user={props.user} />
+		if (props.user.method === "simulate") {
+			return <ThreeSimulation user={props.user} />
+		}
+
+		if (props.user.newState) {
+			return <AnalysisChartComparison state={ship.shipObj} newState={props.user.newState} />
+		}
+
+		// Checking Status this way is deprecated @ferrari212
+		// function checkStatus(user) {
+		// 	if (user.newState) {
+		// 		return <AnalysisChartComparison state={ship.shipObj} newState={user.newState} />
+		// 	}
+		// 	return <>{user.method === "simulate" ? <ThreeSimulation user={props.user} /> : <ThreeModelRayCaster user={props.user} />}</>
+		// }
 
 		var key = logicalProcess(ship)
 
-		function checkStatus(user) {
-			if (user.newState) {
-				return <AnalysisChartComparison state={ship.shipObj} newState={user.newState} />
-			}
-			return <>{user.method === "simulate" ? <ThreeSimulation user={props.user} /> : <ThreeModelRayCaster user={props.user} />}</>
-		}
-
 		switch (key) {
 			case "RayCaster":
-				return checkStatus(props.user)
+				return <ThreeModelRayCaster user={props.user} />
 
 			case "GLB":
 				return <ThreeModelGLB user={props.user} />

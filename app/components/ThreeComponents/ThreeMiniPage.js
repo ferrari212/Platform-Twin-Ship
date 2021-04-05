@@ -74,7 +74,7 @@ class ThreeMiniPage extends Component {
 		this.camera.position.set(oSize * 0.05, oSize * 0.05, oSize * 0.04)
 
 		this.controls = new OrbitControls(this.camera, this.mount)
-		this.renderer = new THREE.WebGLRenderer()
+		this.renderer = new THREE.WebGLRenderer({ antialias: true })
 		this.renderer.setSize(width, height)
 		this.mount.appendChild(this.renderer.domElement) // mount using React ref
 

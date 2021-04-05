@@ -96,7 +96,7 @@ class ThreeSimulation extends Component {
 
 		this.controls = new OrbitControls(this.camera, this.mount)
 		this.controls.maxDistance = 200
-		this.renderer = new THREE.WebGLRenderer()
+		this.renderer = new THREE.WebGLRenderer({ antialias: true })
 		this.renderer.setSize(width, height)
 		this.mount.appendChild(this.renderer.domElement) // mount using React ref
 
@@ -199,7 +199,7 @@ class ThreeSimulation extends Component {
 		return (
 			<Page title="Three-js" className="" wide={this.props.wide}>
 				<div ref={ref => (this.mount = ref)}></div>
-				<h1>YOU ARE IN A SIMULATION EXAMPLE</h1>
+				{/* <h1>YOU ARE IN A SIMULATION EXAMPLE</h1> */}
 				<LifeCycleBar />
 				{switchElement(this.props.user, this.state)}
 			</Page>

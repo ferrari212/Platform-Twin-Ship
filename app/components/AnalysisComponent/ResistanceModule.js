@@ -29,6 +29,10 @@ function ResistanceModule(prop) {
 				dataPower.xLabel.push(type)
 			}
 
+			// This is just to clear out data
+			models.hullRes.setSpeed(1)
+			models.hullRes.writeOutput()
+
 			for (let v = 0; v <= Math.floor(models.v_proj * 1.2); v++) {
 				models.hullRes.setSpeed(v)
 

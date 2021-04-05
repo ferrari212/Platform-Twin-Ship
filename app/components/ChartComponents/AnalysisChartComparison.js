@@ -85,7 +85,7 @@ function AnalysisChartComparison(props) {
 						<Card>
 							<Card.Header>
 								<Accordion.Toggle as={Button} variant="secondary" eventKey="2">
-									Test Response
+									RAO
 								</Accordion.Toggle>
 							</Card.Header>
 							<Accordion.Collapse eventKey="2">
@@ -107,8 +107,8 @@ function AnalysisChartComparison(props) {
 
 	return (
 		<Page title="Analyisis Comparison" wide={true}>
-			<h1>This will be a analysis Comparison</h1>
-			{/* Get out of .state pass just the ship */}
+			{/* <h1>This will be a analysis Comparison</h1> */}
+			{/* Tak away the .state to pass just the ship @ferrari212 */}
 			{returnAnalysis(props.state, props.newState)}
 		</Page>
 	)

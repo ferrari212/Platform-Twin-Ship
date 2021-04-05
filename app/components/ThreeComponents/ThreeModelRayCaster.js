@@ -104,7 +104,7 @@ class ThreeModelRayCaster extends Component {
 
 		this.controls = new OrbitControls(this.camera, this.mount)
 		this.controls.maxDistance = 200
-		this.renderer = new THREE.WebGLRenderer()
+		this.renderer = new THREE.WebGLRenderer({ antialias: true })
 		this.renderer.setSize(width, height)
 		this.mount.appendChild(this.renderer.domElement) // mount using React ref
 

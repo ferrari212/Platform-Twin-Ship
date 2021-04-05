@@ -4,8 +4,8 @@
 		"calculationParameters": {
 			"LWL_design": "",
 			"Draft_design": 2.787,
-			"Cb_design": "",
-			"speed": "",
+			"Cb_design": 0.626,
+			"speed": 10,
 			"crew": "",
 			"K": "",
 			"Co": "",
