@@ -219,7 +219,9 @@ class ThreeModelGLB extends Component {
 				}, 50)
 			},
 			xhr => {
-				var percentage = "Loading: " + ((xhr.loaded / xhr.total) * 100).toFixed(1) + "%"
+				// For some reason the Loading percentage does not appear in the web, investigate @ferrari212
+				// var percentage = "Loading: " + ((xhr.loaded / xhr.total) * 100).toFixed(1) + "%"
+				var percentage = "Loading"
 				textTarget.innerHTML = percentage
 			},
 			error => {
