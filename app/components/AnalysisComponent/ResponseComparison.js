@@ -25,6 +25,26 @@ function ResponseComparison(prop) {
 			dataSetRollACC = []
 			dataSetPitchACC = []
 
+			// Vessel.js indexes
+			const VESSELIND = ["heaveAmp", "rollAmp", "pitchAmp", "heaveAcc", "pitchAcc"]
+
+			var maxObj = {
+				current: {
+					heaveAmp: { angle: "undefined", value: 0, frequency: "undefined" },
+					rollAmp: { angle: "undefined", value: 0, frequency: "undefined" },
+					pitchAmp: { angle: "undefined", value: 0, frequency: "undefined" },
+					heaveAcc: { angle: "undefined", value: 0, frequency: "undefined" },
+					pitchAcc: { angle: "undefined", value: 0, frequency: "undefined" }
+				},
+				newState: {
+					heaveAmp: { angle: "undefined", value: 0, frequency: "undefined" },
+					rollAmp: { angle: "undefined", value: 0, frequency: "undefined" },
+					pitchAmp: { angle: "undefined", value: 0, frequency: "undefined" },
+					heaveAcc: { angle: "undefined", value: 0, frequency: "undefined" },
+					pitchAcc: { angle: "undefined", value: 0, frequency: "undefined" }
+				}
+			}
+
 			currentState.wavMo.setSpeed(0)
 			currentState.wave.setWaveDef(1, 1, 1)
 			newState.wavMo.setSpeed(0)
@@ -61,11 +81,26 @@ function ResponseComparison(prop) {
 			dataSetRollACC.push(dataRollACC.pushDataSet(`New 90°`, colors[2]))
 			dataSetPitchACC.push(dataPitchACC.pushDataSet(`New 90°`, colors[2]))
 
+			function setMaxValue(max, resp, i, fq, an) {
+				if (resp[i] > max[i].value) {
+					max[i].value = resp[[i]]
+					max[i].angle = an
+					max[i].frequency = fq
+				}
+			}
+
 			frequencies.forEach(freq => {
 				var currentResponse90 = currentState.getWaveResponse(freq, 1, 90)
 				var newResponse90 = newState.getWaveResponse(freq, 1, 90)
 				var currentResponse180 = currentState.getWaveResponse(freq, 1, 180)
 				var newResponse180 = newState.getWaveResponse(freq, 1, 180)
+
+				VESSELIND.forEach(i => {
+					setMaxValue(maxObj.current, currentResponse90, i, freq, 90)
+					setMaxValue(maxObj.current, currentResponse180, i, freq, 180)
+					setMaxValue(maxObj.newState, newResponse90, i, freq, 90)
+					setMaxValue(maxObj.newState, newResponse180, i, freq, 180)
+				})
 
 				dataSetHeave[0].push(currentResponse90["heaveAmp"].toFixed(3))
 				dataSetHeave[1].push(currentResponse180["heaveAmp"].toFixed(3))
@@ -98,6 +133,8 @@ function ResponseComparison(prop) {
 			dataRollACC.setLabels(frequencies)
 			dataPitchACC.setLabels(frequencies)
 
+			console.log(maxObj)
+
 			return (
 				<div className="container-fluid align-items-center p-3">
 					<div className="row">
@@ -128,6 +165,90 @@ function ResponseComparison(prop) {
 					<div className="row">
 						<div className="col-lg-12  text-center ">
 							<LineChart chartData={dataPitchACC.chartData} textTitle="Pitch Acc. Amplitude" xLabel="Frequency (Hz)" yLabel="|A|/(wave amplitude)" legendPosition="top" />
+						</div>
+					</div>
+					<br />
+					<div className="row align-items-center text-center justify-content-center">
+						<h4>Resistance comparison in the design speed </h4>
+					</div>
+					<div className="row align-items-center text-center justify-content-center">
+						<div className="col-lg-8 ">
+							<table className="table table-hover">
+								<thead className="thead-dark">
+									<tr>
+										<th scope="col">Variation</th>
+										<th scope="col">Current max Angle.</th>
+										<th scope="col">Current Frequency (hz)</th>
+										<th scope="col">Current Value</th>
+										<th scope="col">New Angle Cons.</th>
+										<th scope="col">New Frequency (hz)</th>
+										<th scope="col">New Value</th>
+										<th scope="col">Variation</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr key={1}>
+										<td className="align-middle">Heave Amp.</td>
+										<td className="align-middle">{maxObj.current.heaveAmp.angle.toFixed(0)}&#176;</td>
+										<td className="align-middle">{maxObj.current.heaveAmp.frequency.toFixed(2)}</td>
+										<td className="align-middle">{maxObj.current.heaveAmp.value.toFixed(2)}</td>
+										<td className="align-middle">{maxObj.newState.heaveAmp.angle.toFixed(0)}&#176;</td>
+										<td className="align-middle">{maxObj.newState.heaveAmp.frequency.toFixed(2)}</td>
+										<td className="align-middle">{maxObj.newState.heaveAmp.value.toFixed(2)}</td>
+										<td className="align-middle" style={{ color: maxObj.newState.heaveAmp.value < maxObj.current.heaveAmp.value ? "#295773" : "#A60D0D" }}>
+											{((100 * (maxObj.newState.heaveAmp.value - maxObj.current.heaveAmp.value)) / maxObj.current.heaveAmp.value).toFixed(2)}%
+										</td>
+									</tr>
+									<tr key={2}>
+										<td className="align-middle">Roll Amp.</td>
+										<td className="align-middle">{maxObj.current.rollAmp.angle.toFixed(0)}&#176;</td>
+										<td className="align-middle">{maxObj.current.rollAmp.frequency.toFixed(2)}</td>
+										<td className="align-middle">{maxObj.current.rollAmp.value.toFixed(2)}</td>
+										<td className="align-middle">{maxObj.newState.rollAmp.angle.toFixed(0)}&#176;</td>
+										<td className="align-middle">{maxObj.newState.rollAmp.frequency.toFixed(2)}</td>
+										<td className="align-middle">{maxObj.newState.rollAmp.value.toFixed(2)}</td>
+										<td className="align-middle" style={{ color: maxObj.newState.rollAmp.value < maxObj.current.rollAmp.value ? "#295773" : "#A60D0D" }}>
+											{((100 * (maxObj.newState.rollAmp.value - maxObj.current.rollAmp.value)) / maxObj.current.rollAmp.value).toFixed(2)}%
+										</td>
+									</tr>
+									<tr key={3}>
+										<td className="align-middle">Pitch Amp.</td>
+										<td className="align-middle">{maxObj.current.pitchAmp.angle.toFixed(0)}&#176;</td>
+										<td className="align-middle">{maxObj.current.pitchAmp.frequency.toFixed(2)}</td>
+										<td className="align-middle">{maxObj.current.pitchAmp.value.toFixed(2)}</td>
+										<td className="align-middle">{maxObj.newState.pitchAmp.angle.toFixed(0)}&#176;</td>
+										<td className="align-middle">{maxObj.newState.pitchAmp.frequency.toFixed(2)}</td>
+										<td className="align-middle">{maxObj.newState.pitchAmp.value.toFixed(2)}</td>
+										<td className="align-middle" style={{ color: maxObj.newState.pitchAmp.value < maxObj.current.pitchAmp.value ? "#295773" : "#A60D0D" }}>
+											{((100 * (maxObj.newState.pitchAmp.value - maxObj.current.pitchAmp.value)) / maxObj.current.pitchAmp.value).toFixed(2)}%
+										</td>
+									</tr>
+									<tr key={4}>
+										<td className="align-middle">Heave Acc.</td>
+										<td className="align-middle">{maxObj.current.heaveAcc.angle.toFixed(0)}&#176;</td>
+										<td className="align-middle">{maxObj.current.heaveAcc.frequency.toFixed(2)}</td>
+										<td className="align-middle">{maxObj.current.heaveAcc.value.toFixed(2)}</td>
+										<td className="align-middle">{maxObj.newState.heaveAcc.angle.toFixed(0)}&#176;</td>
+										<td className="align-middle">{maxObj.newState.heaveAcc.frequency.toFixed(2)}</td>
+										<td className="align-middle">{maxObj.newState.heaveAcc.value.toFixed(2)}</td>
+										<td className="align-middle" style={{ color: maxObj.newState.heaveAcc.value < maxObj.current.heaveAcc.value ? "#295773" : "#A60D0D" }}>
+											{((100 * (maxObj.newState.heaveAcc.value - maxObj.current.heaveAcc.value)) / maxObj.current.heaveAcc.value).toFixed(2)}%
+										</td>
+									</tr>
+									<tr key={5}>
+										<td className="align-middle">Pitch Acc.</td>
+										<td className="align-middle">{maxObj.current.pitchAcc.angle.toFixed(0)}&#176;</td>
+										<td className="align-middle">{maxObj.current.pitchAcc.frequency.toFixed(2)}</td>
+										<td className="align-middle">{maxObj.current.pitchAcc.value.toFixed(2)}</td>
+										<td className="align-middle">{maxObj.newState.pitchAcc.angle.toFixed(0)}&#176;</td>
+										<td className="align-middle">{maxObj.newState.pitchAcc.frequency.toFixed(2)}</td>
+										<td className="align-middle">{maxObj.newState.pitchAcc.value.toFixed(2)}</td>
+										<td className="align-middle" style={{ color: maxObj.newState.pitchAcc.value < maxObj.current.pitchAcc.value ? "#295773" : "#A60D0D" }}>
+											{((100 * (maxObj.newState.pitchAcc.value - maxObj.current.pitchAcc.value)) / maxObj.current.pitchAcc.value).toFixed(2)}%
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>

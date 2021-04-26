@@ -46,8 +46,12 @@ class ThreeMiniPage extends Component {
 			this.ship = new Vessel.Ship(this.state.newShip)
 			this.setState({ newShip: JSON.parse(this.props.ship) })
 		} else {
-			if (!this.scene.getObjectByName("Ship3D")) this.addShip()
-			if (this.requestID === undefined) this.startAnimationLoop()
+			if (!this.scene.getObjectByName("Ship3D")) {
+				this.addShip()
+			}
+			if (this.requestID === undefined) {
+				this.startAnimationLoop()
+			}
 		}
 	}
 

@@ -2675,6 +2675,169 @@ ShipState now mainly accounts for load state, by which I mean the states of obje
 	})
 	// This module simulates the propeller and its interaction with hull and engine.
 
+	// @ferrari212
+	function Manoeuvring(ship, states, hullResistance, propellerInteraction, m, I, initial_yaw = 0, rho = 1025) {
+		StateModule.call(this, ship, states)
+		if (typeof this.states.discrete.FloatingCondition === "undefined") {
+			this.setDraft()
+		}
+		if (typeof this.states.discrete.Speed === "undefined") {
+			// if vessel does not have a speed state
+			this.setSpeed() // use its design speed
+		}
+
+		// debugger
+		this.hullRes = hullResistance
+		this.propellerInteraction = propellerInteraction
+		this.rho = propellerInteraction.rho
+		this.propeller = this.propellerInteraction.propeller
+		this.speedState = this.states.discrete.Speed.state
+		this.floatState = this.states.discrete.FloatingCondition.state
+		this.resistanceState = this.states.discrete.HullResistance.state
+
+		// The modules bellow use the value in knots for the ship speed,
+		// here it is going to be used the values in SI (m/s). @ferrari212
+		Object.assign(this, {
+			DX: { x: 0, y: 0, yaw: 0 },
+			V: { u: 0, v: 0, yaw_dot: 0 },
+			n: 0,
+			yaw: initial_yaw,
+			rudderAngle: 0
+		})
+
+		// The function simplify the resitence curve by Rt = k*u^2
+		// the interpolation could be improved by other types of functions interporlation @ferrari212
+		function intResist(man) {
+			var pow = Math.pow
+
+			const U = Boolean(man.states.calculationParameters.speed) ? man.states.calculationParameters.speed : 10
+
+			man.hullRes.setSpeed(U)
+			const CONV = 0.5144447
+			const R = man.hullRes.totalResistance.Rtadd
+
+			var k = R / Math.pow(U * CONV, 2)
+
+			var getRes = function (u) {
+				return k * pow(u, 2) * Math.sign(u)
+			}
+
+			return getRes
+		}
+
+		this.getRes = intResist(this)
+
+		const W = ship.getWeight()
+		this.m = m || W.mass
+
+		// The approximaxion is given by the inercia of an Elipsoid in water
+		var attributes = this.ship.structure.hull.attributes
+		var Vs = this.states.discrete.FloatingCondition.state.Vs
+		var T = this.ship.designState.calculationParameters.Draft_design
+		var approxI = I || (Math.PI * rho * attributes.LOA * attributes.BOA * T * (4 * Math.pow(T, 2) + Math.pow(attributes.BOA, 2))) / 120
+
+		this.M_RB = [
+			[this.m, 0, 0],
+			[0, this.m, 0],
+			[0, 0, approxI]
+		]
+
+		this.output = ["hydroCoeff", "dn"]
+
+		this.cacheDependence = ["PropellerInteraction", "FloatingCondition"]
+		this.cache = {}
+	}
+
+	Manoeuvring.prototype = Object.create(StateModule.prototype)
+
+	Object.assign(Manoeuvring.prototype, {
+		constructor: Manoeuvring,
+		getPropResult: function (n) {
+			if (n === 0) return { Fp: 0, Pp: 0 }
+
+			var Va = this.propellerInteraction.propulsion.Va
+
+			var lcb = (100 * (this.floatState.LCB - (this.floatState.minXs + this.floatState.LWL / 2))) / this.floatState.LWL // %
+			var J = Va / (Math.abs(n) * this.propeller.D)
+
+			var KT = this.propeller.beta1 - this.propeller.beta2 * J
+			var KQ = this.propeller.gamma1 - this.propeller.gamma2 * J
+
+			var etar
+			if (this.propeller.noProps === 1) {
+				etar = 0.9922 - 0.05908 * this.propeller.AeAo + 0.07424 * (this.floatState.Cp - 0.0225 * lcb)
+			} else if (this.propeller.noProps === 2) {
+				etar = 0.9737 + 0.111 * (this.floatState.Cp - 0.0225 * lcb) - (0.06325 * this.propeller.P) / this.propeller.D
+			}
+
+			var T = KT * this.rho * Math.pow(n, 2) * Math.pow(this.propeller.D, 4)
+			var Q = KQ * this.rho * Math.pow(n, 2) * Math.pow(this.propeller.D, 5)
+			// console.log( `T: ${T}; Q: ${Q}`);
+
+			var Fp = Math.sign(n) * T * this.propeller.noProps * (1 - this.resistanceState.t)
+			var Po = 2 * Math.PI * Math.abs(Q * n) * this.propeller.noProps
+			var Pp = Po * etar
+			// debugger
+			return { Fp, Pp }
+		}
+	})
+	Object.defineProperties(Manoeuvring.prototype, {
+		hydroCoeff: StateModule.prototype.memoized(function () {
+			var attributes = this.ship.structure.hull.attributes
+			var state = this.states.discrete.FloatingCondition.state
+			var calc = this.ship.designState.calculationParameters
+
+			var L = attributes.LOA
+			var D = attributes.Depth
+			var B = attributes.BOA
+
+			var Cb = calc.Cb_design || state.Cb
+			var Vs = state.Vs
+			var T = calc.Draft_design
+			var rho = this.rho
+
+			var Vsdn = Vs / Math.pow(L, 3)
+			var delta_SR = 1 - 0.7 / (28.7 * Vsdn + 0.54)
+			var pow = Math.pow
+
+			const PI = Math.PI
+			const ld = L / D
+			const bl = B / L
+			const bt = B / T
+			const bls = pow(bl, 2)
+			const bts = pow(bt, 2)
+			const tls = pow(T / L, 2)
+
+			// Clarke formulas
+			var Yvaccdn = -PI * tls * (1 + 0.16 * Cb * bt - 5.1 * bls)
+			var Yraccdn = -PI * tls * (0.67 * bl - 0.0033 * bts)
+			var Nvaccdn = -PI * tls * (1.1 * bl - 0.041 * bt)
+			var Nraccdn = -PI * tls * (1 / 12 + 0.017 * Cb * bt - 0.33 * bl)
+			var Yvacc = Yvaccdn * 0.5 * rho * pow(L, 3)
+			var Yracc = Yraccdn * 0.5 * rho * pow(L, 4)
+			var Nvacc = Nvaccdn * 0.5 * rho * pow(L, 4)
+			var Nracc = Nraccdn * 0.5 * rho * pow(L, 5)
+
+			// Lee formulas
+			var Yvdn = -(0.145 + 2.25 / ld - 0.2 * delta_SR)
+			var mdn = this.m / (0.5 * rho * pow(L, 2) * D)
+			var Yrdn = mdn - (0.282 + 0.1 * delta_SR) + (0.0086 * delta_SR + 0.004) * ld
+			var Nvdn = -(0.222 + 0.1 * delta_SR) + 0.00484 * ld
+			var Nrdn = -(0.0424 - 0.03 * delta_SR) - (0.004 * delta_SR - 0.00027) * ld
+
+			return { Yvacc, Yracc, Nvacc, Nracc, Yvdn, Yrdn, Nvdn, Nrdn }
+		}, "hydroCoeff"),
+		dn: StateModule.prototype.memoized(function () {
+			const L = this.ship.structure.hull.attributes.LOA
+
+			var Cl = 0.5 * this.rho * Math.pow(L, 2)
+			var Cll = Cl * L
+			var Clll = Cll * L
+
+			return { Cl, Cll, Clll }
+		}, "dn")
+	})
+
 	function PropellerInteraction(ship, states, propeller, rho = 1025) {
 		StateModule.call(this, ship, states) // get resistance results in N, W from vessel state
 		this.propeller = propeller
@@ -2698,24 +2861,15 @@ ShipState now mainly accounts for load state, by which I mean the states of obje
 	PropellerInteraction.prototype = Object.create(StateModule.prototype)
 
 	Object.assign(PropellerInteraction.prototype, {
-		constructor: PropellerInteraction,
-		getForceByRotation: function (n) {
-			if (n === 0) return 0
-
-			var J = this.propulsion.Va / (n * this.propeller.D)
-
-			var KT = this.propeller.beta1 - this.propeller.beta2 * J
-			var T = KT * this.rho * Math.pow(n, 2) * Math.pow(this.propeller.D, 5)
-			var Ftadd = T * this.propeller.noProps * (1 - this.resistanceState.t)
-			return Ftadd
-		}
+		constructor: PropellerInteraction
 	})
 
 	Object.defineProperties(PropellerInteraction.prototype, {
 		propulsion: StateModule.prototype.memoized(function () {
 			// convert vessel speed from knots to m/s
 			if (this.speedSI === 0) {
-				console.error("Speed equals to zero, try getForceByRotation() method to get boolard pull or use changeSpeed() method.")
+				// Change the console error  @ferrari212
+				console.error("Speed equals to zero, try getPropResult() method to get boolard pull or use changeSpeed() method to set a non null value.")
 			}
 			var speedSI = 0.514444 * this.speedState.speed
 			var lcb = (100 * (this.floatState.LCB - (this.floatState.minXs + this.floatState.LWL / 2))) / this.floatState.LWL // %
@@ -2742,6 +2896,7 @@ ShipState now mainly accounts for load state, by which I mean the states of obje
 			}
 			var eta = eta0 * this.resistanceState.etah * etar
 			var Ps = this.resistanceState.Pe / eta // W, required brake power
+
 			return { eta, Ps, n, Va }
 		}, "propulsion")
 	})
@@ -2837,6 +2992,7 @@ Vessel.loadShip(filePath, function(ship) {
 		Positioning: Positioning,
 		FuelConsumption: FuelConsumption,
 		HullResistance: HullResistance,
+		Manoeuvring: Manoeuvring,
 		PropellerInteraction: PropellerInteraction,
 		browseShip: browseShip,
 		loadShip: loadShip,

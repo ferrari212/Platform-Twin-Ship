@@ -22,8 +22,8 @@ function ResistanceComparison(prop) {
 
 			var pieColor = ["rgba(1, 28, 64, 0.6)", "rgba(166, 13, 13, 0.6)"]
 			var hoverPieColor = ["rgba(1, 28, 64, 1)", "rgba(166, 13, 13, 1)"]
-			var datasetPower = dataPower.pushDataSet("Power percentage", pieColor[0], hoverPieColor[0])
-			var newDatasetPower = dataPower.pushDataSet("Power percentage", pieColor[1], hoverPieColor[1])
+			var datasetPower = dataPower.pushDataSet("Current State", pieColor[0], hoverPieColor[0])
+			var newDatasetPower = dataPower.pushDataSet("New State", pieColor[1], hoverPieColor[1])
 
 			if (isNaN(currentState.hullRes.calmResistance.Rt)) throw "Resistance not possible to be calculated, possible main dimensions out of allowed range"
 
@@ -79,7 +79,7 @@ function ResistanceComparison(prop) {
 					</div>
 					<div className="row align-items-center text-center justify-content-center">
 						<div className="col-lg-6 ">
-							<table className="table">
+							<table className="table table-hover">
 								<thead className="thead-dark">
 									<tr>
 										<th scope="col">Variable</th>
