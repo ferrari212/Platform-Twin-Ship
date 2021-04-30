@@ -127,7 +127,7 @@ function ResponseModule(prop) {
 					</div>
 					<br />
 					<div className="row align-items-center text-center justify-content-center">
-						<h4>Resistance comparison in the design speed </h4>
+						<h4>Response values</h4>
 					</div>
 					<div className="row align-items-center text-center justify-content-center">
 						<div className="col-lg-6 ">

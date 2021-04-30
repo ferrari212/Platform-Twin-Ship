@@ -56,6 +56,7 @@
 		"renderjson": "^1.4.0",
 		"socket.io-client": "^2.3.0",
 		"ssri": "^8.0.1",
+		"styled-components": "^5.2.3",
 		"three": "^0.118.1",
 		"use-immer": "^0.4.1",
 		"vega": "^5.18.0",

@@ -5,7 +5,7 @@ import numeric from "numeric"
 class ManoeuvringMovement {
 	constructor(manoeuvring, N) {
 		if (numeric) {
-			console.error("Manoeuvring requires the numeric.js library.")
+			console.warn("Manoeuvring requires the numeric.js library.")
 		}
 
 		this.mvr = manoeuvring

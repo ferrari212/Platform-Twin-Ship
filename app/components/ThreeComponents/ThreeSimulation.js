@@ -19,6 +19,8 @@ import { ManoeuvringMovement } from "../../vessel/snippets/ManoeuvringMovement"
 
 import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
 import AnalysisChart from "../ChartComponents/AnalysisChart"
+import Pannel from "../GuideComponents/Pannel"
+// const Pannel = React.lazy(() => import("../GuideComponents/Pannel"))
 import GUI from "../GUI"
 
 class ThreeSimulation extends Component {
@@ -84,6 +86,7 @@ class ThreeSimulation extends Component {
 
 	componentWillUnmount() {
 		delete this.startAnimationLoop
+		// Delete the keyDown later on @ferrari212
 	}
 
 	sceneSetup = () => {
@@ -265,7 +268,6 @@ class ThreeSimulation extends Component {
 		var keyCode = event.which
 		var n = this.manoeuvringMovement.mvr.n
 		// console.log(this.manoeuvringMovement.mvr)
-		console.log(keyCode, n)
 
 		switch (keyCode) {
 			case 87:
@@ -291,6 +293,11 @@ class ThreeSimulation extends Component {
 			default:
 				break
 		}
+	}
+
+	getShipState = () => {
+		const manoeuvringMovement = this.manoeuvringMovement
+		return Boolean(manoeuvringMovement) ? this.manoeuvringMovement.mvr : undefined
 	}
 
 	usePropSpec = (propeller, name) => {
@@ -401,10 +408,10 @@ class ThreeSimulation extends Component {
 
 		return (
 			<Page title="Three-js" className="" wide={this.props.wide}>
-				<div ref={ref => (this.mount = ref)}></div>
-				{/* <h1>YOU ARE IN A SIMULATION EXAMPLE</h1> */}
-				{/* <div onKeyDown={onDocumentKeyDown} tabIndex={0} /> */}
-				{/* <div onKeyDown={console.log("Teste")} tabIndex="0" /> */}
+				<div ref={ref => (this.mount = ref)}>
+					<Pannel set={this.getShipState} />
+					<GUI />
+				</div>
 				<LifeCycleBar />
 				{switchElement(this.props.user, this.state)}
 			</Page>
