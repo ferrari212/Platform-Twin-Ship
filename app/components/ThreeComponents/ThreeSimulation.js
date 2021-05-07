@@ -410,7 +410,8 @@ class ThreeSimulation extends Component {
 			<Page title="Three-js" className="" wide={this.props.wide}>
 				<div ref={ref => (this.mount = ref)}>
 					<Pannel set={this.getShipState} />
-					<GUI />
+					{/* The GUI will be for the next version */}
+					{/* <GUI /> */}
 				</div>
 				<LifeCycleBar />
 				{switchElement(this.props.user, this.state)}

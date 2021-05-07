@@ -63,7 +63,8 @@
 		"vega-lite": "^4.17.0",
 		"webpack": "^4.43.0",
 		"webpack-cli": "^3.3.11",
-		"webpack-dev-server": "^3.11.0"
+		"webpack-dev-server": "^3.11.0",
+		"xmlhttprequest-ssl": "^1.6.2"
 	},
 	"devDependencies": {
 		"@babel/plugin-proposal-class-properties": "^7.10.4"
