@@ -27,7 +27,7 @@ function InsertState() {
 		}
 	}
 
-	var keys = Object.keys(newState.value).map(key => key) //problem in this part
+	var keys = Object.keys(newState.value).map(key => key)
 
 	var ship = new ShipObject(appState.user)
 
@@ -62,7 +62,7 @@ function InsertState() {
 		e.preventDefault()
 		newState.value[key] = parseFloat(e.target.value)
 		setState(newState.value)
-		e.target.nextElementSibling.innerText = e.target.value
+		e.target.nextElementSibling.innerText = newState.value[key].toFixed(2)
 	}
 
 	// function handleAddFields(e) {
@@ -149,16 +149,6 @@ function InsertState() {
 					<input defaultValue={`New state from ${ship.version.title}`} onChange={e => setTitle(e.target.value)} autoFocus name="title" id="post-title" className="form-control form-control-title" type="text" placeholder="Insert state name based on the project" autoComplete="off" />
 				</div>
 
-				{/* Take the object and save with the description of state of tile */}
-				{/* <div className="form-group">
-					<label htmlFor="post-description" className="text-muted mb-1 d-block">
-						<small>Description</small>
-					</label>
-					<textarea defaultValue={`New state for ${ship.version.title}`} onChange={e => setDescription(e.target.value)} name="description" id="post-description" className="description-content small-textarea form-control form-control-sm" type="text"></textarea>
-				</div>
-
-				<button onClick={() => handleAddFields()}>Test Button</button> */}
-
 				{Object.keys(newState.value).map((key, index) => {
 					var title = key.split("_")
 					var value = newState.value[key]
@@ -197,49 +187,6 @@ function InsertState() {
 						</div>
 					)
 				})}
-
-				{/* {tanks.map((tank, index) => {
-					return (
-						<>
-							<div key={index} className="form-group form-inline">
-								<div className="table-row">
-									<div className="col-xs-1 ml-1">
-										<label for="ex1">col-xs-2</label>
-										<input className="form-control" id="ex1" type="text" />
-									</div>
-									<div className="col-xs-2 ml-1">
-										<label for="ex2">col-xs-3</label>
-										<input className="form-control" id="ex2" type="text" />
-									</div>
-									<div className="col-xs-3 ml-1">
-										<label for="ex3">col-xs-4</label>
-										<input className="form-control" id="ex3" type="text" />
-									</div>
-									<div className="col-xs-3 ml-1">
-										<label for="ex3">col-xs-4</label>
-										<input className="form-control" id="ex3" type="text" />
-									</div>
-								</div>
-								<div className="table-row"></div>
-							</div>
-						
-						</>
-					)
-				})} */}
-
-				{/* <label for="usr">{tank.referenceState.xCentre}</label>
-							<input type="text" className="form-control" id="usr" /> */}
-
-				{/* <div className="form-group">
-				<label htmlFor="post-description" className="text-muted mb-1 d-block">
-					<small>Insert JSON Ship File</small>
-				</label>
-				<InputJSON changeShip={changeShip} />
-			</div>
-
-			<div className="form-group">{ship ? <ThreeMiniPage ship={ship} height={350} /> : <UpLoadCanvas />}</div>
-			<div id="render-json" /> */}
-
 				<button className="btn btn-primary">Create New State</button>
 			</form>
 		</Page>

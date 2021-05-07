@@ -18,8 +18,6 @@ import TableInfo from "../../snippets/TableInfo"
 import ShipObject from "../../snippets/ShipObject"
 
 const AnalysisChart = React.lazy(() => import("../ChartComponents/AnalysisChart"))
-// import AnalysisChart from "../ChartComponents/AnalysisChart"
-// import GUI from "../GUI"
 
 var oSize = 512
 const skybox = new Skybox(oSize)
@@ -71,11 +69,15 @@ class ThreeModelRayCaster extends Component {
 		} else {
 			this.ship = new Vessel.Ship(this.state.newShip)
 
-			if (!this.scene.getObjectByName("Ship3D")) this.addShip()
+			if (!this.scene.getObjectByName("Ship3D")) {
+				this.addShip()
+			}
 
 			this.tableInfo = new TableInfo(this.ship3D, "tableinfo")
 
-			if (this.requestID === undefined) this.startAnimationLoop()
+			if (this.requestID === undefined) {
+				this.startAnimationLoop()
+			}
 		}
 	}
 

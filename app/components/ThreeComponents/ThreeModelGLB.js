@@ -17,7 +17,7 @@ import ShipObject from "../../snippets/ShipObject"
 // import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
 import GunnerusTeste from "../../vessel/specs/Gunnerus.gltf"
 import AnalysisChart from "../ChartComponents/AnalysisChart"
-import GUI from "../GUI"
+// import GUI from "../GUI"
 import Tree from "../Tree"
 
 var oSize = 512
@@ -106,8 +106,9 @@ class ThreeModelGLB extends Component {
 		this.mount.appendChild(this.renderer.domElement) // mount using React ref
 
 		this.useZUp = () => {
-			const zUpCont = new THREE.Group()
-			this.scene.add(zUpCont)
+			// THREE.Object3D.DefaultUp.set(0, 0, 1)
+			this.zUpCont = new THREE.Group()
+			this.scene.add(this.zUpCont)
 		}
 	}
 
@@ -220,7 +221,8 @@ class ThreeModelGLB extends Component {
 			},
 			xhr => {
 				// For some reason the Loading percentage does not appear in the web, investigate @ferrari212
-				// var percentage = "Loading: " + ((xhr.loaded / xhr.total) * 100).toFixed(1) + "%"
+				var percentage = "Loading: " + ((xhr.loaded / xhr.total) * 100).toFixed(1) + "%"
+				console.log(`The model was loaded: ${percentage}%`)
 				var percentage = "Loading"
 				textTarget.innerHTML = percentage
 			},

@@ -121,7 +121,7 @@ function HydrostaticComparison(prop) {
 					</div>
 					<div className="row align-items-center text-center justify-content-center">
 						<div className="col-lg-6 ">
-							<table className="table">
+							<table className="table table-hover">
 								<thead className="thead-dark">
 									<tr>
 										<th scope="col">Variable</th>
