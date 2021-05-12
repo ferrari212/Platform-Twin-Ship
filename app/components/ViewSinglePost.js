@@ -35,7 +35,7 @@ function ViewSinglePost(props) {
 		fetchPost().then(post => {
 			var fileCont = document.getElementById("render-json")
 			fileCont.innerHTML = ""
-			Renderjson.set_show_to_level(2)
+			Renderjson.set_show_to_level(1)
 
 			fileCont.appendChild(Renderjson(JSON.parse(post.ship)))
 		})
@@ -53,6 +53,13 @@ function ViewSinglePost(props) {
 
 	const date = new Date(post.createdDate)
 	const dateFormatted = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+
+	function parseObj(string) {
+		let ship = JSON.parse(string)
+		return ship.obj
+	}
+	const object = parseObj(post.ship)
+	console.log(object)
 
 	function isOwner() {
 		if (appState.loggedIn) {
@@ -105,10 +112,11 @@ function ViewSinglePost(props) {
 				Posted by <Link to={`/profile/${post.author.username}`}>{post.author.username}</Link> on {dateFormatted}
 			</p>
 
+			{console.log(post)}
 			<div className="description-content">
 				<ReactMarkdown source={post.description} allowedTypes={["paragraph", "strong", "emphasis", "text", "heading", "list", "listItem"]} />
-				<ThreeMiniPage ship={post.ship} height={350} />
-				<div id="render-json" />
+				<ThreeMiniPage ship={object} height={350} />
+				<div id="render-json"></div>
 			</div>
 		</Page>
 	)

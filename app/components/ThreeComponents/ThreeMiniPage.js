@@ -8,7 +8,7 @@ import { Skybox } from "../../vessel/libs/skybox_from_examples_r118"
 import { Vessel } from "../../vessel/build/vessel"
 import { Ship3D } from "../../vessel/build/Ship3D"
 
-import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
+// import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
 
 var oSize = 512
 const skybox = new Skybox(oSize)
@@ -17,7 +17,6 @@ class ThreeMiniPage extends Component {
 	constructor(props) {
 		super(props)
 
-		this.addLifeCycle = this.props.addLifeCycle || false
 		this.height = this.props.height
 		this.ship = this.props.ship
 
@@ -30,7 +29,7 @@ class ThreeMiniPage extends Component {
 		this.sceneSetup()
 
 		this.addScenario()
-		this.ship = new Vessel.Ship(JSON.parse(this.props.ship))
+		this.ship = new Vessel.Ship(this.props.ship)
 
 		window.addEventListener("resize", this.handleWindowResize)
 
@@ -44,7 +43,7 @@ class ThreeMiniPage extends Component {
 		if (prevProps.ship !== this.props.ship) {
 			this.removeShip()
 			this.ship = new Vessel.Ship(this.state.newShip)
-			this.setState({ newShip: JSON.parse(this.props.ship) })
+			this.setState({ newShip: this.props.ship })
 		} else {
 			if (!this.scene.getObjectByName("Ship3D")) {
 				this.addShip()
@@ -109,7 +108,7 @@ class ThreeMiniPage extends Component {
 
 		async function fetchPosts(component) {
 			try {
-				await component.setState({ newShip: JSON.parse(component.ship) })
+				await component.setState({ newShip: component.ship })
 			} catch (e) {
 				console.log("There was a problem.", e)
 			}

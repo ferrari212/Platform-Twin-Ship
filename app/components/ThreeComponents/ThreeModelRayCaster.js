@@ -143,11 +143,12 @@ class ThreeModelRayCaster extends Component {
 	}
 
 	setShipDataTemporary = (context, version) => {
+		console.log(version)
 		if (version) {
 			this.setState(() => {
 				return {
-					newShip: version,
-					ship: new Vessel.Ship(version)
+					newShip: version.obj,
+					ship: new Vessel.Ship(version.obj)
 				}
 			})
 		}

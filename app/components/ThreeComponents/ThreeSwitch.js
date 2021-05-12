@@ -12,7 +12,7 @@ function ThreeSwitch(props) {
 
 	var logicalProcess = ship => {
 		if (typeof ship.version.ship === "string") {
-			if (Boolean(ship.shipObj.attributes.GLTFUrl)) return "GLB"
+			if (Boolean(ship.shipObj.obj.attributes.GLTFUrl)) return "GLB"
 			return "RayCaster"
 		}
 

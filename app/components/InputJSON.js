@@ -12,7 +12,7 @@ class InputJSON extends Component {
 				const content = e.target.result
 
 				// You can set content in state and show it in render.
-				this.props.changeShip(content)
+				this.props.changeFunc(content, this.props.jsonClass)
 			}
 
 			if (file != undefined) {

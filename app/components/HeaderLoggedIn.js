@@ -8,7 +8,7 @@ import ShipObject from "../snippets/ShipObject"
 
 function HeaderLoggedIn(props) {
 	const appDispatch = useContext(DispatchContext)
-	const appState = useContext(StateContext)
+	var appState = props.appState
 
 	var ship = new ShipObject(appState.user)
 
@@ -48,7 +48,7 @@ function HeaderLoggedIn(props) {
 
 	function Ship3DButton() {
 		if (appState.user.versions.length) {
-			var GLTFUrl = ship.shipObj.attributes.GLTFUrl || undefined
+			var GLTFUrl = ship.shipObj.obj.attributes.GLTFUrl || undefined
 
 			// Insert the verification for the operation fase
 			var lifeCyclePhase = GLTFUrl ? "Detailing" : "Initial Design"
