@@ -2,11 +2,7 @@ import React, { useEffect, useState, Component } from "react"
 import * as THREE from "three"
 import Page from "../Page"
 import LifeCycleBar from "../LifeCycleBar"
-import { useParams } from "react-router-dom"
-import Axios from "axios"
 
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
 import { Skybox } from "../../vessel/libs/skybox_from_examples_r118"
 import { Ocean } from "../../vessel/libs/Configurable_ocean2"
 import { Vessel } from "../../vessel/build/vessel"
@@ -17,7 +13,7 @@ import ShipObject from "../../snippets/ShipObject"
 import { renderRayCaster } from "../../vessel/snippets/renderRayCaster"
 import { ManoeuvringMovement } from "../../vessel/snippets/ManoeuvringMovement"
 
-import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
+// import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
 import AnalysisChart from "../ChartComponents/AnalysisChart"
 import Pannel from "../GuideComponents/Pannel"
 // const Pannel = React.lazy(() => import("../GuideComponents/Pannel"))
@@ -36,9 +32,8 @@ class ThreeSimulation extends Component {
 		//  Later pass the ship object to the switch function
 		// The view size may be changed late, this will be passed inside SceneSetup
 		var version = new ShipObject(this.props.user)
-		this.viewInitialPoint = 1.5 * version.shipObj.designState.calculationParameters["LWL_design"]
+		this.viewInitialPoint = 1.5 * version.shipObj.obj.designState.calculationParameters["LWL_design"]
 		this.setShipDataTemporary(this, version.shipObj)
-		// debugger
 
 		this.sceneSetup()
 
@@ -151,8 +146,8 @@ class ThreeSimulation extends Component {
 		if (version) {
 			this.setState(() => {
 				return {
-					newShip: version,
-					ship: new Vessel.Ship(version)
+					newShip: version.obj,
+					ship: new Vessel.Ship(version.obj)
 				}
 			})
 		}

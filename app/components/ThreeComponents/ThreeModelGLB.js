@@ -15,7 +15,7 @@ import ToolTip from "../../snippets/ToolTip"
 import ShipObject from "../../snippets/ShipObject"
 
 // import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
-import GunnerusTeste from "../../vessel/specs/Gunnerus.gltf"
+import GunnerusTeste from "../../vessel/specs/GLTF_files/Gunnerus.gltf"
 import AnalysisChart from "../ChartComponents/AnalysisChart"
 // import GUI from "../GUI"
 import Tree from "../Tree"
@@ -142,9 +142,9 @@ class ThreeModelGLB extends Component {
 		if (version) {
 			this.setState(() => {
 				return {
-					newShip: version,
-					ship: new Vessel.Ship(version),
-					GLTFPath: version.attributes.GLTFUrl
+					newShip: version.obj,
+					ship: new Vessel.Ship(version.obj),
+					GLTFPath: version.obj.attributes.GLTFUrl
 				}
 			})
 		}

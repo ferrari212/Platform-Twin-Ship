@@ -123,7 +123,7 @@ function Main() {
 				}
 			}
 
-			if (state.user.versions.length === 0) getVersions(state.user)
+			if (state.user.versions.length !== 0) getVersions(state.user)
 		} else {
 			localStorage.removeItem("complexappToken")
 			localStorage.removeItem("complexappUsername")
@@ -132,7 +132,7 @@ function Main() {
 			localStorage.removeItem("complexappShipLifeCycle")
 			localStorage.removeItem("complexappShipMethod")
 		}
-	}, [state.loggedIn, state.user.versions])
+	}, [state.loggedIn])
 
 	return (
 		<StateContext.Provider value={state}>
