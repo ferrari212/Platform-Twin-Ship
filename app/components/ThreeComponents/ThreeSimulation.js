@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Component } from "react"
 import * as THREE from "three"
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import Page from "../Page"
 import LifeCycleBar from "../LifeCycleBar"
 
@@ -16,12 +17,18 @@ import { ManoeuvringMovement } from "../../vessel/snippets/ManoeuvringMovement"
 // import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
 import AnalysisChart from "../ChartComponents/AnalysisChart"
 import Pannel from "../GuideComponents/Pannel"
-// const Pannel = React.lazy(() => import("../GuideComponents/Pannel"))
 import GUI from "../GUI"
 
 class ThreeSimulation extends Component {
 	constructor(props) {
 		super(props)
+
+		this.recorder = false
+		this.state = {
+			recorder: false,
+			i: 0,
+			maxLen: 0
+		}
 
 		console.log("Constructor")
 	}
@@ -33,6 +40,8 @@ class ThreeSimulation extends Component {
 		// The view size may be changed late, this will be passed inside SceneSetup
 		var version = new ShipObject(this.props.user)
 		this.viewInitialPoint = 1.5 * version.shipObj.obj.designState.calculationParameters["LWL_design"]
+		this.isoArray = []
+
 		this.setShipDataTemporary(this, version.shipObj)
 
 		this.sceneSetup()
@@ -43,10 +52,6 @@ class ThreeSimulation extends Component {
 
 		this.clock = new THREE.Clock()
 		this.time = this.clock.getElapsedTime()
-
-		document.addEventListener("keydown", e => {
-			this.onDocumentKeyDown(e)
-		})
 
 		console.log("Component did Mount!")
 	}
@@ -98,16 +103,15 @@ class ThreeSimulation extends Component {
 			1, // near plane
 			10000 // far plane
 		)
-
 		// set some distance from a cube that is located at z = 0
-		// this.camera.position.set(this.viewInitialPoint, this.viewInitialPoint, this.viewInitialPoint)
 		this.camera.position.set(0, 7, 40)
-
-		// this.controls = new OrbitControls(this.camera, this.mount)
-		// this.controls.maxDistance = 200
 
 		this.renderer = new THREE.WebGLRenderer({ antialias: true })
 		this.renderer.setSize(width, height)
+
+		this.orbitControl = {}
+		// this.orbitControl = new THREE.OrbitControl(this.camera, this.renderer.domElement)
+
 		this.mount.appendChild(this.renderer.domElement) // mount using React ref
 
 		this.useZUp = () => {
@@ -147,7 +151,10 @@ class ThreeSimulation extends Component {
 			this.setState(() => {
 				return {
 					newShip: version.obj,
-					ship: new Vessel.Ship(version.obj)
+					ship: new Vessel.Ship(version.obj),
+					propeller: version.propeller,
+					powerPlant: version.powerPlant,
+					man: version.man
 				}
 			})
 		}
@@ -168,43 +175,29 @@ class ThreeSimulation extends Component {
 		this.ship3D.show = "on"
 		this.ship3D.rotation.z = -Math.PI / 2
 		this.scene.add(this.ship3D)
-		// shipGLTF.rotation.y = - Math.PI / 2;
 
 		this.thrirdPersonCamera = new ThirdPersonCamera({
 			camera: this.camera,
 			object: this.ship3D
 		})
 
+		// this.OrbitCamera = new
+
 		this.shipState = new Vessel.ShipState(this.ship.designState.getSpecification())
 
-		// preload propeller specification
-		// var propReq = new XMLHttpRequest();
-		// propReq.open( "GET", "specs/propeller_specifications/rolls_royce_500_azipod.json", true );
-		// propReq.addEventListener( "load", function ( event ) {
+		this.usePropSpec(this.state.propeller, "rolls_royce_500_azipod.json")
+		this.usePowSpec(this.state.powerPlant, "gunnerus_power_plant.json")
 
-		// 	var response = event.target.response;
-		// 	var propeller = JSON.parse( response );
-		// 	usePropSpec( propeller, "rolls_royce_500_azipod.json" );
-		// 	// usePropSpec( propeller, "wag_4b_0.55a_1.2p.json" );
+		this.manoeuvring = new Vessel.Manoeuvring(this.ship, this.shipState, this.hullRes, this.propellerInteraction, this.fuelCons, this.state.man)
+		this.manoeuvringMovement = new ManoeuvringMovement(this.manoeuvring)
 
-		// } );
-		// propReq.send( null );
+		this.interateLoop()
 
-		var propeller = {
-			noProps: 2,
-			noBlades: 4,
-			D: 1.9,
-			P: 1.2,
-			AeAo: 0.55,
-			beta1: 0.57,
-			beta2: 0.44,
-			gamma1: 0.105,
-			gamma2: 0.077,
-			maxRot: 239
-		}
-		this.usePropSpec(propeller, "rolls_royce_500_azipod.json")
+		this.setInitial()
 
-		// document.addEventListener("keydown", onDocumentKeyDown, false)
+		document.addEventListener("keydown", e => {
+			this.onDocumentKeyDown(e)
+		})
 	}
 
 	removeShip = () => {
@@ -221,38 +214,150 @@ class ThreeSimulation extends Component {
 		this.camera.updateProjectionMatrix()
 	}
 
+	setRecorderView = () => {
+		this.setInitial()
+		this.time = this.clock.getElapsedTime()
+		this.recorder = !this.recorder
+		this.setState(() => {
+			return { recorder: this.recorder }
+		})
+		if (this.recorder) {
+			// this.camera.lookAt(40, 7, 40)
+			this.orbitControl = new OrbitControls(this.camera, this.mount)
+			this.orbitControl.target = new THREE.Vector3(40, 7, 40)
+
+			// this.camera.position.set(0, 0, 0)
+			// this.orbitControl.update()
+		} else {
+			this.orbitControl.dispose()
+			this.orbitControl.update()
+		}
+	}
+
+	interateLoop = () => {
+		var t = 0
+		var dt = 0.01
+		this.manoeuvring.states.V.u = 10 / 1.96
+		this.manoeuvring.setSpeed(this.manoeuvring.states.V.u)
+
+		this.isoArray.push({ x: 0, y: 0, yaw: 0 })
+
+		const material = new THREE.LineBasicMaterial({ color: 0xffff00, transparent: true, opacity: 0.4 })
+		var points = []
+
+		while (t < 600) {
+			const i = this.isoArray.length - 1
+
+			points.push(new THREE.Vector3(this.isoArray[i].x, this.isoArray[i].y, 2))
+
+			const MAN = this.manoeuvringMovement.manoeuvring
+
+			if (this.manoeuvring.states.rudderAngle < 35) {
+				this.manoeuvring.states.rudderAngle += MAN.rudderRate * dt
+			}
+
+			this.isoArray.push(this.calculateISO(this.manoeuvring, this.manoeuvringMovement, this.manoeuvring.states.rudderAngle, this.isoArray[i], dt))
+
+			t = t + dt
+		}
+		const geometry = new THREE.BufferGeometry().setFromPoints(points)
+		const line = new THREE.Line(geometry, material)
+		line.name = "line"
+		line.opacity = 0
+
+		this.scene.add(line)
+
+		this.setState(() => {
+			return { maxLen: this.isoArray.length }
+		})
+	}
+
+	setInitial = () => {
+		this.manoeuvring.setSpeed(0)
+		this.manoeuvringMovement.states.x = 0
+		this.manoeuvringMovement.states.y = 0
+		this.manoeuvringMovement.states.yaw = 0
+		this.manoeuvringMovement.states.DX.x = 0
+		this.manoeuvringMovement.states.DX.y = 0
+		this.manoeuvringMovement.states.DX.yaw = 0
+		this.manoeuvringMovement.states.V.u = 0
+		this.manoeuvringMovement.states.V.v = 0
+		this.manoeuvringMovement.states.V.yaw_dot = 0
+		this.manoeuvring.states.rudderAngle = 0
+		this.manoeuvring.states.n = 0
+		this.ship3D.position.x = 0
+		this.ship3D.position.y = 0
+		this.ship3D.rotation.z = 0
+	}
+
+	calculateISO = (manoeuvring, manoeuvringMovement, angle, postion, dt) => {
+		manoeuvring.setSpeed(manoeuvring.states.V.u * 1.96)
+		var propellerAngle = (angle * Math.PI) / 180
+		var cos = Math.cos(propellerAngle)
+		var sin = Math.sin(propellerAngle)
+
+		var rotationStates = manoeuvring.getPropResult(210 / 60)
+
+		var Rt = manoeuvring.getRes(manoeuvring.states.V.u)
+
+		var forceVector = [rotationStates.Fp * cos - Rt, rotationStates.Fp * sin, rotationStates.Fp * sin * 40]
+		manoeuvringMovement.setMatrixes(forceVector, postion.yaw)
+		manoeuvringMovement.getDisplacements(dt)
+
+		var x = postion.x + manoeuvringMovement.states.DX.x
+		var y = postion.y + manoeuvringMovement.states.DX.y
+		var yaw = postion.yaw + manoeuvringMovement.states.DX.yaw
+
+		return { x: x, y: y, yaw: yaw }
+	}
+
 	startAnimationLoop = () => {
 		if (this.ocean.name) {
 			this.ocean.water.material.uniforms.time.value += 1 / 60
 		}
 
-		// make this inside the Vessel.js
-		this.manoeuvring.setSpeed(this.manoeuvringMovement.mvr.V.u * 1.96)
-		var propellerAngle = (this.manoeuvringMovement.mvr.rudderAngle * Math.PI) / 180
-		var cos = Math.cos(propellerAngle)
-		var sin = Math.sin(propellerAngle)
+		if (!this.recorder) {
+			// make this inside the Vessel.js
+			this.manoeuvring.setSpeed(this.manoeuvring.states.V.u * 1.96)
+			var propellerAngle = (this.manoeuvring.states.rudderAngle * Math.PI) / 180
+			var cos = Math.cos(propellerAngle)
+			var sin = Math.sin(propellerAngle)
 
-		var rotationStates = this.manoeuvring.getPropResult(this.manoeuvringMovement.mvr.n)
+			var rotationStates = this.manoeuvring.getPropResult(this.manoeuvring.states.n)
 
-		var Rt = this.manoeuvring.getRes(this.manoeuvringMovement.mvr.V.u)
+			var Rt = this.manoeuvring.getRes(this.manoeuvring.states.V.u)
 
-		var forceVector = [rotationStates.Fp * cos - Rt, rotationStates.Fp * sin, rotationStates.Fp * sin * 40]
+			var forceVector = [rotationStates.Fp * cos - Rt, rotationStates.Fp * sin, rotationStates.Fp * sin * 40]
 
-		var dt = this.clock.getElapsedTime() - this.time
+			this.manoeuvringMovement.dt = this.clock.getElapsedTime() - this.time
+			const dt = this.manoeuvringMovement.dt
 
-		this.manoeuvringMovement.setMatrixes(forceVector, this.ship3D.rotation.z)
-		this.manoeuvringMovement.getDisplacements(dt)
+			this.manoeuvringMovement.setMatrixes(forceVector, this.ship3D.rotation.z)
+			this.manoeuvringMovement.getDisplacements(dt)
 
-		this.ship3D.position.x += this.manoeuvringMovement.mvr.DX.x
-		this.ship3D.position.y += this.manoeuvringMovement.mvr.DX.y
-		this.ship3D.rotation.z = -this.manoeuvringMovement.mvr.yaw
+			// debugger
+			this.ship3D.position.x += this.manoeuvringMovement.states.DX.x
+			this.ship3D.position.y += this.manoeuvringMovement.states.DX.y
+			this.ship3D.rotation.z = -this.manoeuvringMovement.states.yaw
 
-		// console.log(`Position: x = ${this.ship3D.position.x}; y = ${this.ship3D.position.y};  y = ${this.ship3D.rotation.y}`)
-		// console.log(forceVector)
+			this.thrirdPersonCamera.Update(dt)
+			this.time = this.clock.getElapsedTime()
+		} else {
+			// console.log(this.clock.getElapsedTime() - this.time)
+			var i = Math.floor((this.clock.getElapsedTime() - this.time) * 100)
 
-		this.thrirdPersonCamera.Update(dt)
+			this.setState(() => {
+				return { i: i }
+			})
 
-		this.time = this.clock.getElapsedTime()
+			if (i > this.isoArray.length - 1) {
+				i = 0
+				this.time = this.clock.getElapsedTime()
+			}
+			this.ship3D.position.x = this.isoArray[i].x
+			this.ship3D.position.y = this.isoArray[i].y
+			this.ship3D.rotation.z = this.isoArray[i].yaw
+		}
 
 		this.renderer.render(this.scene, this.camera)
 		this.requestID = window.requestAnimationFrame(this.startAnimationLoop)
@@ -261,29 +366,46 @@ class ThreeSimulation extends Component {
 	// debugger
 	onDocumentKeyDown = event => {
 		var keyCode = event.which
-		var n = this.manoeuvringMovement.mvr.n
-		// console.log(this.manoeuvringMovement.mvr)
+		var n = this.manoeuvringMovement.states.n
+		const DT = this.manoeuvringMovement.dt
+		const MAN = this.manoeuvringMovement.manoeuvring
+		const F = MAN.maxPropRot / 60
+		const T = MAN.maxTorque
+		const L = this.manoeuvringMovement.states.load
+		const LT = Math.abs(n * T)
 
+		//
 		switch (keyCode) {
 			case 87:
-				if (n <= 4) {
-					this.manoeuvringMovement.mvr.n += 0.1
-					// rotationText.innerText = (60 * this.manoeuvringMovement.mvr.n).toFixed(0)
+				if (n <= F) {
+					if (L > 1 || LT < L) {
+						break
+					}
+
+					this.manoeuvringMovement.states.n += MAN.helRate * DT
+					// rotationText.innerText = (60 * this.manoeuvringMovement.states.n).toFixed(0)
 				}
+
 				break
 			case 83:
-				if (n >= -4) {
-					this.manoeuvringMovement.mvr.n -= 0.1
-					// rotationText.innerText = (60 * this.manoeuvringMovement.mvr.n).toFixed(0)
+				if (n >= -F) {
+					if (L > 1 || LT < L) {
+						break
+					}
+					// debugger
+
+					this.manoeuvringMovement.states.n -= MAN.helRate * DT
+					// rotationText.innerText = (60 * this.manoeuvringMovement.states.n).toFixed(0)
 				}
+
 				break
 			case 65:
-				this.manoeuvringMovement.mvr.rudderAngle -= 0.5
-				// angleText.innerText = this.manoeuvringMovement.mvr.rudderAngle.toFixed(1)
+				this.manoeuvringMovement.states.rudderAngle -= MAN.rudderRate * DT
+				// angleText.innerText = this.manoeuvringMovement.states.rudderAngle.toFixed(1)
 				break
 			case 68:
-				this.manoeuvringMovement.mvr.rudderAngle += 0.5
-				// angleText.innerText = this.manoeuvringMovement.mvr.rudderAngle.toFixed(1)
+				this.manoeuvringMovement.states.rudderAngle += MAN.rudderRate * DT
+				// angleText.innerText = this.manoeuvringMovement.states.rudderAngle.toFixed(1)
 				break
 			default:
 				break
@@ -292,7 +414,13 @@ class ThreeSimulation extends Component {
 
 	getShipState = () => {
 		const manoeuvringMovement = this.manoeuvringMovement
-		return Boolean(manoeuvringMovement) ? this.manoeuvringMovement.mvr : undefined
+		return Boolean(manoeuvringMovement) ? this.manoeuvringMovement.states : undefined
+	}
+
+	setShipPosition = (x, y, z) => {
+		this.ship3D.position.x = x
+		this.ship3D.position.y = y
+		this.ship3D.rotation.z = z
 	}
 
 	usePropSpec = (propeller, name) => {
@@ -301,24 +429,14 @@ class ThreeSimulation extends Component {
 
 		const WAVE = new Vessel.WaveCreator()
 
-		var hullRes = new Vessel.HullResistance(this.ship, this.shipState, propeller, WAVE)
-		hullRes.writeOutput()
+		this.hullRes = new Vessel.HullResistance(this.ship, this.shipState, propeller, WAVE)
+		this.hullRes.writeOutput()
 
 		for (var propProp in propellers) {
 			var wagProp = propellers[propProp]
 			this.propellerInteraction = new Vessel.PropellerInteraction(this.ship, this.shipState, wagProp)
 			this.propellerInteraction.writeOutput()
 		}
-
-		this.manoeuvring = new Vessel.Manoeuvring(this.ship, this.shipState, hullRes, this.propellerInteraction)
-
-		const N = [
-			[0, 0, 0],
-			[0, 5.5e4, 6.4e4],
-			[0, 6.4e4, 1.2e7]
-		]
-
-		this.manoeuvringMovement = new ManoeuvringMovement(this.manoeuvring, N)
 
 		// -------------------------- //
 		// This is for the checkpoint //
@@ -381,7 +499,18 @@ class ThreeSimulation extends Component {
 		// 	labelObj2,
 		// 	"lineChart-eff"
 		// )
-		// lineChart2.drawLineGeneric(0, 0, manoeuvringMovement.mvr.propeller)
+		// lineChart2.drawLineGeneric(0, 0, manoeuvringMovement.states.propeller)
+	}
+
+	usePowSpec = (powerPlant, name) => {
+		var powerPlants = {}
+		powerPlants[name.substring(0, name.length - 5)] = powerPlant
+
+		for (var powProp in powerPlants) {
+			var plant = powerPlants[powProp]
+			this.fuelCons = new Vessel.FuelConsumption(this.ship, this.shipState, plant)
+			this.fuelCons.writeOutput()
+		}
 	}
 
 	render() {
@@ -404,9 +533,9 @@ class ThreeSimulation extends Component {
 		return (
 			<Page title="Three-js" className="" wide={this.props.wide}>
 				<div ref={ref => (this.mount = ref)}>
-					<Pannel set={this.getShipState} />
+					{this.state.recorder ? "" : <Pannel get={this.getShipState} />}
 					{/* The GUI will be for the next version */}
-					{/* <GUI /> */}
+					<GUI i={this.state.i} maxLen={this.state.maxLen} setRecorderView={this.setRecorderView} />
 				</div>
 				<LifeCycleBar />
 				{switchElement(this.props.user, this.state)}

@@ -1,11 +1,12 @@
 import React from "react"
-import { Form } from "react-bootstrap"
+import { Button, ProgressBar } from "react-bootstrap"
 import styled from "styled-components"
 
 const Wrapper = styled.section`
 	position: absolute;
 	top: 15vh;
 	right: 5vw;
+	width: 300px;
 	background: #212529;
 	border-radius: 10px;
 `
@@ -21,28 +22,61 @@ const Wrapper = styled.section`
 class GUI extends React.Component {
 	constructor(props) {
 		super(props)
-
-		this.checked = false
+		this.recorder = false
 	}
+
+	componentDidMount() {
+		// this.now = 60
+	}
+
+	// componentDidUpdate(prevProps, prevStates) {
+	// 	console.log(prevStates)
+	// 	this.setState(() => {
+	// 		return {
+	// 			recorder: this.recorder
+	// 		}
+	// 	})
+	// }
 
 	handleChange = e => {
 		e.preventDefault()
-		this.checked = !this.checked
-		this.props.showGLTF(this.checked)
+		this.recorder = !this.recorder
+		console.log(this)
+		this.setState(() => {
+			return {
+				recorder: this.recorder
+			}
+		})
+		this.props.setRecorderView()
+		// this.props.showGLTF(this.recorder)
+	}
+
+	progressInstance = () => {
+		return <ProgressBar now={this.now} label={`${this.now}%`} />
 	}
 
 	render() {
 		return (
 			<Wrapper>
 				<table style={{ marginTop: 10 }} className="table table-dark">
-					<tr>
-						<td>Show GLTF</td>
-						<td>Show GLTF</td>
-					</tr>
-					<tr>
-						<td>Show GLTF</td>
-						<td>Show GLTF</td>
-					</tr>
+					<tbody>
+						<tr>
+							<td>Display IMO</td>
+							<td>
+								{
+									<Button variant="btn btn-sm btn-success mr-2 success" onClick={this.handleChange}>
+										{this.recorder ? "Playing…" : "Show Recorder"}
+										{console.log(this)}
+									</Button>
+								}
+							</td>
+						</tr>
+						<tr>
+							<td colSpan="2">
+								<ProgressBar now={this.props.i / this.props.maxLen} />
+							</td>
+						</tr>
+					</tbody>
 				</table>
 			</Wrapper>
 		)

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react"
+import React, { useState, useContext } from "react"
 import ReactTooltip from "react-tooltip"
 
 import UpLoadCanvas from "./UpLoadCanvas"
@@ -20,7 +20,7 @@ function CreatePost(props) {
 	const [propeller, setPropeller] = useState({
 		noProps: 2,
 		noBlades: 4,
-		D: 3,
+		D: 1.9,
 		P: 1.2,
 		AeAo: 0.55,
 		beta1: 0.57,
@@ -29,13 +29,34 @@ function CreatePost(props) {
 		gamma2: 0.077
 	})
 	const [powerPlant, setPowerPlant] = useState({
-		MCR: 3000,
-		a: 200,
-		b: 338,
-		c: 340,
-		polOrder: 2
+		main: {
+			noSys: 1,
+			etas: 0.99,
+			etag: 0.95,
+			engines: [
+				{
+					MCR: 500,
+					rpmSpeed: 239,
+					weight: 1900,
+					a: 8.64,
+					b: -23.76,
+					c: 228.96,
+					polOrder: 2
+				},
+				{
+					MCR: 500,
+					rpmSpeed: 239,
+					weight: 1900,
+					a: 8.64,
+					b: -23.76,
+					c: 228.96,
+					polOrder: 2
+				}
+			]
+		}
 	})
 	const [man, setMan] = useState({
+		distHel: 15,
 		m: null,
 		I: null,
 		initial_yaw: 0,
