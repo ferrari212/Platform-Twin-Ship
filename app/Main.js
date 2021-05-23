@@ -76,6 +76,7 @@ function Main() {
 
 			case "closeInsertState":
 				draft.user.newState = action.data
+				draft.user.method = "analyse"
 				draft.isInsertStateOpen = false
 				return
 
@@ -84,6 +85,10 @@ function Main() {
 				switch (action.status) {
 					case "setAnalysis":
 						draft.user.method = "analyse"
+						break
+
+					case "setDigitalTwin":
+						draft.user.method = "digitalTwin"
 						break
 
 					case "setSimulation":

@@ -36,8 +36,9 @@ function InsertState() {
 		structure: { hull: { attributes: {} } }
 	}
 
-	var calculationParameters = ship.shipObj.designState.calculationParameters
-	var attributes = ship.shipObj.structure.hull.attributes
+	var obj = ship.shipObj.obj
+	var calculationParameters = obj.designState.calculationParameters
+	var attributes = obj.structure.hull.attributes
 
 	Object.assign(newState.value, extract(calculationParameters, keys))
 

@@ -39,7 +39,6 @@ class Pannel extends React.Component {
 
 	componentWillUnmount() {
 		delete this.startAnimationLoop
-		// Delete the keyDown later on @ferrari212
 	}
 
 	startAnimationLoop = () => {
@@ -48,6 +47,7 @@ class Pannel extends React.Component {
 				mvr: this.get()
 			}
 		})
+		// The store ID value of the frame
 		this.requestID = window.requestAnimationFrame(this.startAnimationLoop)
 	}
 

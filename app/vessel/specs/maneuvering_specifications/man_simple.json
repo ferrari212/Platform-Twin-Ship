@@ -1,0 +1,17 @@
+{
+	"distHel": 15,
+	"m": null,
+	"I": null,
+	"initial_yaw": 0,
+	"initial_angle": 0,
+	"M": null,
+	"N": [
+		[0, 0, 0],
+		[0, 5.5e3, 6.4e3],
+		[0, 6.4e3, 1.2e6]
+	],
+	"helRate": 0.5,
+	"rudderRate": 5,
+	"maxPropRot": 210,
+	"maxTorque": 400
+}

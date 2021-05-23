@@ -2,6 +2,7 @@ import React from "react"
 
 import { Accordion, Card, Button } from "react-bootstrap"
 import Page from "../Page"
+import LifeCycleBar from "../LifeCycleBar"
 
 import VesselModels from "../../snippets/VesselModels"
 import { Vessel } from "../../vessel/build/vessel"
@@ -16,8 +17,9 @@ function AnalysisChartComparison(props) {
 			var newParams = JSON.parse(JSON.stringify(params))
 			var keys = Object.keys(newState).map(key => key)
 
-			var calculationParameters = newParams.designState.calculationParameters
-			var attributes = newParams.structure.hull.attributes
+			debugger
+			var calculationParameters = newParams.obj.designState.calculationParameters
+			var attributes = newParams.obj.structure.hull.attributes
 
 			keys
 				.filter(function (prop) {
@@ -38,8 +40,8 @@ function AnalysisChartComparison(props) {
 				.map(prop => (attributes[prop] = newState[prop]))
 
 			var ship = {
-				currentState: new Vessel.Ship(params),
-				newState: new Vessel.Ship(newParams)
+				currentState: new Vessel.Ship(params.obj),
+				newState: new Vessel.Ship(newParams.obj)
 			}
 
 			var models = {
@@ -109,6 +111,7 @@ function AnalysisChartComparison(props) {
 		<Page title="Analyisis Comparison" wide={true}>
 			{/* <h1>This will be a analysis Comparison</h1> */}
 			{/* Tak away the .state to pass just the ship @ferrari212 */}
+			<LifeCycleBar />
 			{returnAnalysis(props.state, props.newState)}
 		</Page>
 	)

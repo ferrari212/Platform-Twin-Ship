@@ -167,7 +167,7 @@
 				"height": 4.3
 			},
 			"capabilities": {},
-			"file3D": "tank1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -224,7 +224,7 @@
 				"height": 4.3
 			},
 			"capabilities": {},
-			"file3D": "tank2.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -253,7 +253,7 @@
 				"height": 4.3
 			},
 			"capabilities": {},
-			"file3D": "tank3.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -282,7 +282,7 @@
 				"height": 4.3
 			},
 			"capabilities": {},
-			"file3D": "tank4.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -329,7 +329,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "tank5.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -358,7 +358,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "DryBulk.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -376,7 +376,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "DryBulk.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -394,7 +394,7 @@
 				"height": 4.3
 			},
 			"capabilities": {},
-			"file3D": "FOOverFlow.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -412,7 +412,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "MudBrineOroSlop.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -430,7 +430,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "tank6.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -459,7 +459,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "tank7.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -488,7 +488,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "tank8.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -517,7 +517,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "sewage.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -535,7 +535,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "tank10.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -564,7 +564,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "tank9.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -593,7 +593,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "tank11.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -622,7 +622,7 @@
 				"height": 9.5
 			},
 			"capabilities": {},
-			"file3D": "tank12.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -651,7 +651,7 @@
 				"height": 3.9
 			},
 			"capabilities": {},
-			"file3D": "EngineRoomLower.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -669,7 +669,7 @@
 				"height": 3.9
 			},
 			"capabilities": {},
-			"file3D": "BowThrusterRoom1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -687,7 +687,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "tank13.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -716,7 +716,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "tank14.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -745,7 +745,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "Motors.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -763,7 +763,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "Motors.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -781,7 +781,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "PropulsionRoomUpper.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -799,7 +799,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "tank15.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -828,7 +828,7 @@
 				"height": 2.4
 			},
 			"capabilities": {},
-			"file3D": "tank17.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -857,7 +857,7 @@
 				"height": 2.4
 			},
 			"capabilities": {},
-			"file3D": "tank16.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -886,7 +886,7 @@
 				"height": 2.4
 			},
 			"capabilities": {},
-			"file3D": "SwitchBoardRoom.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -904,7 +904,7 @@
 				"height": 2.4
 			},
 			"capabilities": {},
-			"file3D": "EngineRoomUpper.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -922,7 +922,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "BowThursterRoom2.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -940,7 +940,7 @@
 				"height": 2.4
 			},
 			"capabilities": {},
-			"file3D": "Workshop.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -958,7 +958,7 @@
 				"height": 5.6
 			},
 			"capabilities": {},
-			"file3D": "ChainTank.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -987,7 +987,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "cover1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1005,7 +1005,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "tank18.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1034,7 +1034,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "tank19.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1063,7 +1063,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "FiremStore.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1081,7 +1081,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "DeckWorkshop.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1099,7 +1099,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "tank20.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1128,7 +1128,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "Store1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1146,7 +1146,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "chem.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1164,7 +1164,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "paint.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1182,7 +1182,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "Inc&GarbRoom.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1200,7 +1200,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "room1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1218,7 +1218,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "room2.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1236,7 +1236,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "room3.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1254,7 +1254,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "room4.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1272,7 +1272,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "room5.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1290,7 +1290,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "room6.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1308,7 +1308,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "room7.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1326,7 +1326,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "tank21.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1355,7 +1355,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "room8.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1373,7 +1373,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "stairs1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1391,7 +1391,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "toilets1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1409,7 +1409,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "DeckOffice1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1427,7 +1427,7 @@
 				"height": 2
 			},
 			"capabilities": {},
-			"file3D": "cover2.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1445,7 +1445,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "StabTank.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1474,7 +1474,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "freezer.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1492,7 +1492,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "fridge.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1510,7 +1510,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "DryRoom.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1528,7 +1528,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "room9.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1546,7 +1546,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "ACRoom1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1564,7 +1564,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "room10.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1582,7 +1582,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "CL1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1600,7 +1600,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "toilets2.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1618,7 +1618,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "gallery1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1636,7 +1636,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "stairs1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1654,7 +1654,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "DayRoom1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1672,7 +1672,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "MessRoom1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1690,7 +1690,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "RopeBin1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1708,7 +1708,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "store.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1726,7 +1726,7 @@
 				"height": 2.9
 			},
 			"capabilities": {},
-			"file3D": "store2.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1744,7 +1744,7 @@
 				"height": 1
 			},
 			"capabilities": {},
-			"file3D": "SafetyBoat.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1762,7 +1762,7 @@
 				"height": 5.4
 			},
 			"capabilities": {},
-			"file3D": "HoistBase.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1780,7 +1780,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "stairs1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1798,7 +1798,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "CableRoom1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1816,7 +1816,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "cabin1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1834,7 +1834,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "cabin2.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1852,7 +1852,7 @@
 				"height": 5.3
 			},
 			"capabilities": {},
-			"file3D": "tank22.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1881,7 +1881,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "room11.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1899,7 +1899,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "cabin3.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1917,7 +1917,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "cabin5.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1935,7 +1935,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "cabin4.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1953,7 +1953,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "corridor.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1971,7 +1971,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "InstrumentRoom.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -1989,7 +1989,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "CaptainCabin.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2007,7 +2007,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "ChiefOfficerCabin.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2025,7 +2025,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "FirstOfficerCabin.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2043,7 +2043,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "ChiefStewardCabin.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2061,7 +2061,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "ElectricianCabin.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2079,7 +2079,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "stairs2.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2097,7 +2097,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "SmallRoom.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2115,7 +2115,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "SmallRoom.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2133,7 +2133,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "SmallRoom.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2151,7 +2151,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "ChiefCabin.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2169,7 +2169,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "FirstEngineerCabin.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2187,7 +2187,7 @@
 				"height": 2.7
 			},
 			"capabilities": {},
-			"file3D": "SecondEngineerCabin.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2205,7 +2205,7 @@
 				"height": 4.15
 			},
 			"capabilities": {},
-			"file3D": "hoist.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2223,7 +2223,7 @@
 				"height": 4.15
 			},
 			"capabilities": {},
-			"file3D": "AccessStairs1.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2241,7 +2241,7 @@
 				"height": 4.15
 			},
 			"capabilities": {},
-			"file3D": "AccessStairs2.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2259,7 +2259,7 @@
 				"height": 4.15
 			},
 			"capabilities": {},
-			"file3D": "ShipHanding.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2277,7 +2277,7 @@
 				"height": 4.15
 			},
 			"capabilities": {},
-			"file3D": "MainRoom.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2295,7 +2295,7 @@
 				"height": 4.15
 			},
 			"capabilities": {},
-			"file3D": "NavigationRoom.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2313,7 +2313,7 @@
 				"height": 5
 			},
 			"capabilities": {},
-			"file3D": "EmGenRoom.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2331,7 +2331,7 @@
 				"height": 5
 			},
 			"capabilities": {},
-			"file3D": "CommunicationRoom.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2349,7 +2349,7 @@
 				"height": 2
 			},
 			"capabilities": {},
-			"file3D": "aerial.stl",
+			"file3D": "",
 			"baseState": {
 				"fullness": 0.5
 			},
@@ -2359,7 +2359,6 @@
 			}
 		}
 	],
-
 	"derivedObjects": [
 		{
 			"id": "Tank1",
