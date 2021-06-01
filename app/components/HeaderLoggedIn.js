@@ -48,10 +48,17 @@ function HeaderLoggedIn(props) {
 
 	function Ship3DButton() {
 		if (appState.user.versions.length) {
-			var GLTFUrl = ship.shipObj.obj.attributes.GLTFUrl || undefined
+			debugger
+			var shipObj = ship.shipObj
+			var GLTFUrl = shipObj.obj.attributes.GLTFUrl || undefined
+			var lifeCyclePhase
 
 			// Insert the verification for the operation fase
-			var lifeCyclePhase = GLTFUrl ? "Detailing" : "Initial Design"
+			if (!Boolean(ship.shipObj.data[0])) {
+				lifeCyclePhase = GLTFUrl ? "Detailing" : "Initial Design"
+			} else {
+				lifeCyclePhase = "Operation"
+			}
 
 			return (
 				<Link className="btn btn-sm btn-success mr-2" to={`/three-model/${appState.user.username}`}>

@@ -433,7 +433,7 @@ class ThreeTwinShip extends Component {
 			<Page title="Three-js" className="" wide={this.props.wide}>
 				<div ref={ref => (this.mount = ref)}>
 					{/* The GUITwinShip will be for the next version */}
-					{/* <GuiTwinShip taticalDiameter={this.state.taticalDiameter} advance={this.state.advance} /> */}
+					<GuiTwinShip />
 					{/* <ProgressBar now={this.state.i / this.state.maxLen} /> */}
 				</div>
 				<LifeCycleBar />

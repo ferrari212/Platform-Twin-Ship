@@ -11,6 +11,22 @@ const Wrapper = styled.section`
 	border-radius: 10px;
 `
 
+const BoxYellow = styled.section`
+	height: 20px;
+	width: 20px;
+	margin-bottom: 15px;
+	border: 1px solid black;
+	background-color: yellow;
+`
+
+const BoxRed = styled.section`
+	height: 20px;
+	width: 20px;
+	margin-bottom: 15px;
+	border: 1px solid black;
+	background-color: white;
+`
+
 // 	position: absolute;
 // 	top: 15vh;
 // 	right: 5vw;
@@ -22,32 +38,32 @@ const Wrapper = styled.section`
 class GuiTwinShip extends React.Component {
 	constructor(props) {
 		super(props)
-		this.taticalDiameter = props.taticalDiameter
-		this.advance = props.advance
-		this.state = {
-			recorder: false,
-			taticalDiameter: props.taticalDiameter,
-			advance: props.advance
-		}
+		// this.taticalDiameter = props.taticalDiameter
+		// this.advance = props.advance
+		// this.state = {
+		// 	recorder: false,
+		// 	taticalDiameter: props.taticalDiameter,
+		// 	advance: props.advance
+		// }
 	}
 
-	componentDidMount() {}
+	// componentDidMount() {}
 
-	shouldComponentUpdate(nextProps, nextState) {
-		if (!nextState) {
-			return false
-		}
-		return nextProps.taticalDiameter !== this.state.taticalDiameter
-	}
+	// shouldComponentUpdate(nextProps, nextState) {
+	// 	if (!nextState) {
+	// 		return false
+	// 	}
+	// 	return nextProps.taticalDiameter !== this.state.taticalDiameter
+	// }
 
-	componentDidUpdate(nextProps, nextState) {
-		this.setState(() => {
-			return {
-				taticalDiameter: nextProps.taticalDiameter,
-				advance: nextProps.advance
-			}
-		})
-	}
+	// componentDidUpdate(nextProps, nextState) {
+	// 	this.setState(() => {
+	// 		return {
+	// 			taticalDiameter: nextProps.taticalDiameter,
+	// 			advance: nextProps.advance
+	// 		}
+	// 	})
+	// }
 
 	// handleChange = e => {
 	// 	e.preventDefault()
@@ -66,23 +82,25 @@ class GuiTwinShip extends React.Component {
 			<Wrapper>
 				<table style={{ marginTop: 10 }} className="table table-dark">
 					<tbody>
-						{/* <tr>
-							<td>Display IMO</td>
-							<td colSpan={2}>
-								<Button variant="btn btn-sm btn-success mr-2 success" onClick={this.handleChange}>
-									{this.state.recorder ? "Playing…" : "Show Recorder"}
-								</Button>
-							</td>
-						</tr> */}
 						<tr>
-							<td>Tatical Diameter</td>
-							<td>{parseFloat(this.state.taticalDiameter).toFixed(2)}</td>
-							<td>m</td>
+							<td>Scale Dist.</td>
+							<td>1:10</td>
 						</tr>
 						<tr>
-							<td>Advance</td>
-							<td>{parseFloat(this.state.advance).toFixed(2)}</td>
-							<td>m</td>
+							<td>Scale Time</td>
+							<td>100x</td>
+						</tr>
+						<tr>
+							<td>Real Track</td>
+							<td>
+								<BoxYellow></BoxYellow>
+							</td>
+						</tr>
+						<tr>
+							<td>Calc. Track</td>
+							<td>
+								<BoxRed></BoxRed>
+							</td>
 						</tr>
 					</tbody>
 				</table>

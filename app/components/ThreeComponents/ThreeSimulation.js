@@ -265,7 +265,7 @@ class ThreeSimulation extends Component {
 			this.isoArray.push(this.calculateISO(this.manoeuvring, this.manoeuvringMovement, this.manoeuvring.states.rudderAngle, this.isoArray[i], dt))
 
 			t = t + dt
-		} while (t < 600 && (!this.advance || !this.taticalDiameter))
+		} while (t < 600 && !this.taticalDiameter)
 
 		this.setState(() => {
 			return { advance: this.advance, taticalDiameter: this.taticalDiameter }

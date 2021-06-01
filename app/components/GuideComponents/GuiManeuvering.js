@@ -89,11 +89,11 @@ class GuiManeuvering extends React.Component {
 						</tr>
 						<tr>
 							<td colSpan={2}>Tatical Diameter - Crit.</td>
-							<td> {this.state.len * 5 > this.state.taticalDiameter ? <div class="alert-success p-1">Passed</div> : <div class="alert-fail">Fail</div>} </td>
+							<td> {this.state.len * 5 > this.state.taticalDiameter ? <div class="alert-success p-1">Passed</div> : <div class="alert-danger p-1">Fail</div>} </td>
 						</tr>
 						<tr>
 							<td colSpan={2}>Advance - Crit.</td>
-							<td> {this.state.len * 4.5 > this.state.advance ? <div class="alert-success p-1">Passed</div> : <div class="alert-fail">Fail</div>} </td>
+							<td> {this.state.len * 4.5 > this.state.advance ? <div class="alert-success p-1">Passed</div> : <div class="alert-danger p-1">Fail</div>} </td>
 						</tr>
 					</tbody>
 				</table>
