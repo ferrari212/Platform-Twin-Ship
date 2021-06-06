@@ -7,7 +7,6 @@ class ManoeuvringMovement {
 		if (numeric) {
 			console.warn("Manoeuvring requires the numeric.js library.")
 		}
-		// debugger
 
 		this.mvr = manoeuvring
 		this.manoeuvring = manoeuvring.manoeuvring

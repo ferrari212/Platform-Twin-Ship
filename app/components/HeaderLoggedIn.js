@@ -48,12 +48,11 @@ function HeaderLoggedIn(props) {
 
 	function Ship3DButton() {
 		if (appState.user.versions.length) {
-			debugger
 			var shipObj = ship.shipObj
 			var GLTFUrl = shipObj.obj.attributes.GLTFUrl || undefined
 			var lifeCyclePhase
 
-			// Insert the verification for the operation fase
+			// Insert the verification for the operation phase
 			if (!Boolean(ship.shipObj.data[0])) {
 				lifeCyclePhase = GLTFUrl ? "Detailing" : "Initial Design"
 			} else {

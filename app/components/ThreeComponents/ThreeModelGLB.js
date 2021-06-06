@@ -322,7 +322,6 @@ class ThreeModelGLB extends Component {
 
 	callBackMap = name => {
 		console.log("Returned here ", name)
-		debugger
 
 		var object = this.scene.getObjectByName(name)
 

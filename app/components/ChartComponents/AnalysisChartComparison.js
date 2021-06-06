@@ -17,7 +17,6 @@ function AnalysisChartComparison(props) {
 			var newParams = JSON.parse(JSON.stringify(params))
 			var keys = Object.keys(newState).map(key => key)
 
-			debugger
 			var calculationParameters = newParams.obj.designState.calculationParameters
 			var attributes = newParams.obj.structure.hull.attributes
 

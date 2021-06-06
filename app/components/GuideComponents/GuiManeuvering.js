@@ -49,7 +49,6 @@ class GuiManeuvering extends React.Component {
 				len: nextProps.self.ship.structure.hull.attributes.LOA
 			}
 		})
-		debugger
 	}
 
 	handleChange = e => {

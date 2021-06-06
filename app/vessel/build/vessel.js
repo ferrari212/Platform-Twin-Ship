@@ -1487,7 +1487,6 @@ And the geometric calculations are faulty.
 				}
 
 				V2 = this.calculateAttributesAtDraft(t)["Vs"] - VT
-				// debugger
 				let dx = (V2 - V1) / (t - a)
 				if (dx > 0.1 || dx < -0.1) {
 					a = t
@@ -2686,7 +2685,6 @@ ShipState now mainly accounts for load state, by which I mean the states of obje
 			this.setSpeed() // use its design speed
 		}
 
-		// debugger
 		this.hullRes = hullResistance
 		this.propellerInteraction = propellerInteraction
 		this.fuelConsumption = fuelConsumption

@@ -2,19 +2,28 @@ import React, { useEffect } from "react"
 import Page from "./Page"
 
 function About() {
-  useEffect(() => {
-    document.title = "About us | ComplexApp"
-    window.scrollTo(0, 0)
-  }, [])
+	useEffect(() => {
+		document.title = "About | OpenSim"
+		window.scrollTo(0, 0)
+	}, [])
 
-  return (
-    <Page title="About Us">
-      <h2>About Us!!!</h2>
-      <p className="lead text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis dolorum labore quisquam vel id dicta fuga! Ducimus, quo. Dolore commodi aliquid error veritatis consequuntur, excepturi cumque fuga eum incidunt doloremque?</p>
-      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. At qui enim rem totam voluptatum. Aut saepe temporibus, facilis ex a iste expedita minima dolorum dicta doloribus libero aliquid, quae maxime? Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat suscipit beatae eum, est soluta ducimus ratione et impedit sapiente, nihil, atque dignissimos adipisci? Totam atque officia quis voluptates sed veniam?</p>
-      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Expedita voluptates quisquam possimus tenetur, dicta enim rerum quis, quaerat id nobis provident quo dolorum sapiente temporibus facere non repellendus consequatur cupiditate!</p>
-    </Page>
-  )
+	return (
+		<Page title="About">
+			<h2>About</h2>
+			<p className="lead text-muted">The open platform is a free and open source site for vessel analysis and simulation</p>
+			<p>
+				Here you are invited to share your ship models, having as base the{" "}
+				<a href="https://shiplab.github.io/vesseljs/" target="_blank">
+					Vessel.js
+				</a>{" "}
+				notation. All the users have access to the open environment and you can sign up for a free account to have your own ship models. We also invite you to expand the platform by improving the code, reporting bugs and suggesting improvements in the{" "}
+				<a href="https://github.com/ferrari212/Platform-Twin-Ship" target="_blank">
+					GitHub repository
+				</a>
+				.
+			</p>
+		</Page>
+	)
 }
 
 export default About

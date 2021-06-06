@@ -93,8 +93,6 @@ class TreeComponent extends React.Component {
 	}
 
 	componentDidMount() {
-		// console.log(this.data)
-		// debugger
 		this.tree = new Tree(".hierarchy", {
 			data: [{ id: "-1", text: "Functions", children: this.data }],
 			values: ["-1"],
