@@ -5,7 +5,6 @@ import HeaderLoggedIn from "./HeaderLoggedIn"
 import StateContext from "../StateContext"
 
 function Header(props) {
-	console.log(props)
 	const appState = useContext(StateContext)
 	const headerContent = appState.loggedIn ? <HeaderLoggedIn appState={appState} /> : <HeaderLoggedOut />
 

@@ -28,6 +28,8 @@ import NotFound from "./components/NotFound"
 import LoadingDotsIcon from "./components/LoadingDotsIcon"
 
 function Main() {
+	const [checkDb, setDbChecker] = useState(true)
+
 	const initialState = {
 		loggedIn: Boolean(localStorage.getItem("complexappToken")),
 		flashMessages: [],
@@ -128,7 +130,10 @@ function Main() {
 				}
 			}
 
-			if (state.user.versions.length !== 0) getVersions(state.user)
+			if (checkDb) {
+				getVersions(state.user)
+				setDbChecker(false)
+			}
 		} else {
 			localStorage.removeItem("complexappToken")
 			localStorage.removeItem("complexappUsername")
