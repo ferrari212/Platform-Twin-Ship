@@ -8,7 +8,7 @@ function Home() {
 	return (
 		<Page title="Your Feed">
 			<h2 className="text-center">
-				Hello <strong>{appState.user.username}</strong> user, this is a preliminary version of the TwinShip platform.
+				Hello <strong>{appState.user.username}</strong> user, this is a initial version of the OpenSim platform.
 			</h2>
 			<p className="lead text-muted text-center">
 				Your feed displays the ship projects you have. You can use the &ldquo;Show 3D&rdquo; button to visualize your selected version or the &ldquo;Create Ship Version&rdquo; button featured in the top menu bar to upload a ship version according to{" "}

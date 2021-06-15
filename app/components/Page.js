@@ -3,7 +3,7 @@ import Container from "./Container"
 
 function Page(props) {
 	useEffect(() => {
-		document.title = `${props.title} | TwinShipPlatform`
+		document.title = `${props.title} | OpenSim`
 		window.scrollTo(0, 0)
 	}, [props.title])
 

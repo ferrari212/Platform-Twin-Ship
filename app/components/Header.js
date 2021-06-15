@@ -5,7 +5,6 @@ import HeaderLoggedIn from "./HeaderLoggedIn"
 import StateContext from "../StateContext"
 
 function Header(props) {
-	console.log(props)
 	const appState = useContext(StateContext)
 	const headerContent = appState.loggedIn ? <HeaderLoggedIn appState={appState} /> : <HeaderLoggedOut />
 
@@ -14,7 +13,7 @@ function Header(props) {
 			<div className="container d-flex flex-column flex-md-row align-items-center p-3">
 				<h4 className="my-0 mr-md-auto font-weight-normal">
 					<Link to="/" className="text-white">
-						TwinShipPlatform
+						OpenSim
 					</Link>
 				</h4>
 				{!props.staticEmpity ? headerContent : ""}

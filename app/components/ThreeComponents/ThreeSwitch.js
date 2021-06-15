@@ -6,6 +6,7 @@ import AnalysisChartComparison from "../ChartComponents/AnalysisChartComparison"
 const ThreeModelRayCaster = React.lazy(() => import("./ThreeModelRayCaster"))
 const ThreeModelGLB = React.lazy(() => import("./ThreeModelGLB"))
 const ThreeSimulation = React.lazy(() => import("./ThreeSimulation"))
+const ThreeTwinShip = React.lazy(() => import("./ThreeTwinShip"))
 
 function ThreeSwitch(props) {
 	var ship = new ShipObject(props.user)
@@ -22,6 +23,10 @@ function ThreeSwitch(props) {
 	function ChooseModel() {
 		if (props.user.method === "simulate") {
 			return <ThreeSimulation user={props.user} />
+		}
+
+		if (props.user.method === "digitalTwin") {
+			return <ThreeTwinShip user={props.user} />
 		}
 
 		if (props.user.newState) {

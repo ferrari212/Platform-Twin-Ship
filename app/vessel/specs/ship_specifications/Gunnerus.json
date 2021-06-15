@@ -17,7 +17,6 @@
 			}
 		}
 	},
-	"data": {},
 	"structure": {
 		"hull": {
 			"attributes": {
@@ -1454,7 +1453,6 @@
 			}
 		}
 	],
-
 	"derivedObjects": [
 		{
 			"id": "Propulsion room",

@@ -12,19 +12,19 @@ import { Ship3D } from "../../vessel/build/Ship3D"
 import { ThirdPersonCamera } from "../../vessel/examples/3D_engine/ThirdPersonCamera"
 
 import ShipObject from "../../snippets/ShipObject"
+import { renderRayCaster } from "../../vessel/snippets/renderRayCaster"
 import { ManoeuvringMovement } from "../../vessel/snippets/ManoeuvringMovement"
 
 // import GunnerusTeste from "../../vessel/specs/Gunnerus.json"
 import AnalysisChart from "../ChartComponents/AnalysisChart"
 import Pannel from "../GuideComponents/Pannel"
-import GuiManeuvering from "../GuideComponents/GuiManeuvering"
+import GuiTwinShip from "../GuideComponents/GuiTwinShip"
 
-class ThreeSimulation extends Component {
+class ThreeTwinShip extends Component {
 	constructor(props) {
 		super(props)
 
-		this.recorder = false
-		this.state = { recorder: false, advance: false, taticalDiameter: false }
+		this.state = { advance: false, taticalDiameter: false }
 
 		console.log("Constructor")
 	}
@@ -36,7 +36,7 @@ class ThreeSimulation extends Component {
 		// The view size may be changed late, this will be passed inside SceneSetup
 		var version = new ShipObject(this.props.user)
 		this.viewInitialPoint = 1.5 * version.shipObj.obj.designState.calculationParameters["LWL_design"]
-		this.isoArray = []
+		this.twinData = []
 
 		this.setShipDataTemporary(this, version.shipObj)
 
@@ -45,9 +45,6 @@ class ThreeSimulation extends Component {
 		this.addScenario()
 
 		window.addEventListener("resize", this.handleWindowResize)
-
-		this.clock = new THREE.Clock()
-		this.time = this.clock.getElapsedTime()
 
 		console.log("Component did Mount!")
 	}
@@ -70,11 +67,13 @@ class ThreeSimulation extends Component {
 		} else {
 			this.ship = new Vessel.Ship(this.state.newShip)
 
-			if (!this.scene.getObjectByName("Ship3D")) {
+			if (!this.scene.getObjectByName("ShipTwin")) {
 				this.addShip()
 			}
 
 			if (this.requestID === undefined) {
+				this.clock = new THREE.Clock()
+				this.time = this.clock.getElapsedTime()
 				this.startAnimationLoop()
 			}
 		}
@@ -82,9 +81,6 @@ class ThreeSimulation extends Component {
 
 	componentWillUnmount() {
 		delete this.startAnimationLoop
-		document.removeEventListener("keydown", e => {
-			this.onDocumentKeyDown(e)
-		})
 		// Delete the keyDown later on @ferrari212
 	}
 
@@ -100,18 +96,20 @@ class ThreeSimulation extends Component {
 			26, // fov = field of view
 			width / height, // aspect ratio
 			1, // near plane
-			10000 // far plane
+			100000 // far plane
 		)
 		// set some distance from a cube that is located at z = 0
-		this.camera.position.set(0, 7, 40)
+		this.camera.position.set(40, 40, 40)
 
 		this.renderer = new THREE.WebGLRenderer({ antialias: true })
 		this.renderer.setSize(width, height)
 
-		this.orbitControl = {}
-		// this.orbitControl = new THREE.OrbitControl(this.camera, this.renderer.domElement)
-
 		this.mount.appendChild(this.renderer.domElement) // mount using React ref
+
+		this.orbitControl = new OrbitControls(this.camera, this.mount)
+		// this.orbitControl.target = new THREE.Vector3(40, 40, 40)
+
+		// this.orbitControl = new THREE.OrbitControl(this.camera, this.renderer.domElement)
 
 		this.useZUp = () => {
 			const zUpCont = new THREE.Group()
@@ -153,14 +151,15 @@ class ThreeSimulation extends Component {
 					ship: new Vessel.Ship(version.obj),
 					propeller: version.propeller,
 					powerPlant: version.powerPlant,
-					man: version.man
+					man: version.man,
+					data: version.data
 				}
 			})
 		}
 	}
 
 	addShip = () => {
-		this.ship3D = new Ship3D(this.ship, {
+		this.twinShip = new Ship3D(this.ship, {
 			stlPath: "specs/STL files/Gunnerus",
 			upperColor: 0x33aa33,
 			lowerColor: 0xaa3333,
@@ -169,18 +168,25 @@ class ThreeSimulation extends Component {
 			objectOpacity: 1
 		})
 
-		// Pass later on with the value of the title
-		this.ship3D.name = "Ship3D"
-		this.ship3D.show = "on"
-		this.ship3D.rotation.z = -Math.PI / 2
-		this.scene.add(this.ship3D)
-
-		this.thrirdPersonCamera = new ThirdPersonCamera({
-			camera: this.camera,
-			object: this.ship3D
+		this.realShip = new Ship3D(this.ship, {
+			stlPath: "specs/STL files/Gunnerus",
+			upperColor: 0x33aa33,
+			lowerColor: 0xaa3333,
+			hullOpacity: 1,
+			deckOpacity: 1,
+			objectOpacity: 0.5
 		})
 
-		// this.OrbitCamera = new
+		// Pass later on with the value of the title
+		this.twinShip.name = "ShipTwin"
+		this.twinShip.show = "on"
+		this.twinShip.rotation.z = -Math.PI / 2
+		this.scene.add(this.twinShip)
+
+		this.realShip.name = "RealShip"
+		this.realShip.show = "on"
+		this.realShip.rotation.z = -Math.PI / 2
+		this.scene.add(this.realShip)
 
 		this.shipState = new Vessel.ShipState(this.ship.designState.getSpecification())
 
@@ -190,17 +196,20 @@ class ThreeSimulation extends Component {
 		this.manoeuvring = new Vessel.Manoeuvring(this.ship, this.shipState, this.hullRes, this.propellerInteraction, this.fuelCons, this.state.man)
 		this.manoeuvringMovement = new ManoeuvringMovement(this.manoeuvring)
 
+		this.realData = this.state.data
+
 		this.interateLoop()
 
 		this.setInitial()
 
-		document.addEventListener("keydown", e => {
-			this.onDocumentKeyDown(e)
-		})
+		// Ther is no key down in digital twin ship
+		// document.addEventListener("keydown", e => {
+		// 	this.onDocumentKeyDown(e)
+		// })
 	}
 
 	removeShip = () => {
-		var deletedShip = this.scene.getObjectByName("Ship3D")
+		var deletedShip = this.scene.getObjectByName("ShipTwin")
 		this.scene.remove(deletedShip)
 	}
 
@@ -213,73 +222,79 @@ class ThreeSimulation extends Component {
 		this.camera.updateProjectionMatrix()
 	}
 
-	setRecorderView = () => {
-		this.setInitial()
-		this.time = this.clock.getElapsedTime()
-		this.recorder = !this.recorder
-		this.setState(() => {
-			return { recorder: this.recorder }
-		})
-		if (this.recorder) {
-			this.orbitControl = new OrbitControls(this.camera, this.mount)
-			this.orbitControl.target = new THREE.Vector3(40, 7, 40)
-		} else {
-			this.orbitControl.dispose()
-			this.orbitControl.update()
-		}
-	}
-
 	interateLoop = () => {
-		var t = 0
-		var dt = 0.01
-		this.manoeuvring.states.V.u = 10 / 1.96
+		var t = [0]
+		var tin = this.realData[0].t
+		this.twinData.push({
+			x: this.realData[0].x,
+			y: this.realData[0].y,
+			u: this.realData[0].u,
+			v: this.realData[0].v,
+			yaw: (this.realData[0].yaw * Math.PI) / 180 + Math.PI / 2,
+			RPMO: this.realData[0].RPMO,
+			Azimuth: this.realData[0].Azimuth
+		})
+
+		this.manoeuvring.states.V.u = this.realData[0].u / 1.96
 		this.manoeuvring.setSpeed(this.manoeuvring.states.V.u)
 
-		this.isoArray.push({ x: 0, y: 0, yaw: 0 })
+		const materialRealData = new THREE.LineBasicMaterial({ color: 0xffff00, transparent: true, opacity: 0.4 })
+		const materialTwinData = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.4 })
+		var pointsRealData = []
+		var pointsTwinData = []
 
-		const material = new THREE.LineBasicMaterial({ color: 0xffff00, transparent: true, opacity: 0.4 })
-		var points = []
+		for (let i = 1; i < this.realData.length - 2; i++) {
+			pointsRealData.push(new THREE.Vector3(-0.1 * this.realData[i].x, 0.1 * this.realData[i].y, 2))
 
-		this.advance = false
-		this.taticalDiameter = false
+			let input = this.realData[i]
+			let position = { x: this.twinData[i - 1].x, y: this.twinData[i - 1].y, yaw: this.twinData[i - 1].yaw }
+			t.push(input.t - tin)
+			let dt = (this.realData[i + 1].t - input.t) * 0.001
+			this.twinData.push(this.calculateEstimation(this.manoeuvring, this.manoeuvringMovement, input, position, dt))
 
-		do {
-			const i = this.isoArray.length - 1
+			pointsTwinData.push(new THREE.Vector3(0.1 * this.twinData[i].x, 0.1 * this.twinData[i].y, 2))
+		}
 
-			points.push(new THREE.Vector3(this.isoArray[i].x, this.isoArray[i].y, 2))
+		// do {
+		// 	const i = this.twinData.length - 1
 
-			if (Math.cos(this.isoArray[i].yaw) < 0 && !this.advance) {
-				this.advance = this.isoArray[i].x
-			}
+		// 	pointsRealData.push(new THREE.Vector3(this.twinData[i].x, this.twinData[i].y, 2))
 
-			if (Math.cos(this.isoArray[i].yaw / 2) < 0 && !this.taticalDiameter) {
-				this.taticalDiameter = this.isoArray[i].y
-			}
+		// 	if (Math.cos(this.twinData[i].yaw) < 0 && !this.advance) {
+		// 		this.advance = this.twinData[i].x
+		// 	}
 
-			const MAN = this.manoeuvringMovement.manoeuvring
+		// 	if (Math.cos(this.twinData[i].yaw / 2) < 0 && !this.taticalDiameter) {
+		// 		this.taticalDiameter = this.twinData[i].y
+		// 	}
 
-			if (this.manoeuvring.states.rudderAngle < 35) {
-				this.manoeuvring.states.rudderAngle += MAN.rudderRate * dt
-			}
+		// 	const MAN = this.manoeuvringMovement.manoeuvring
 
-			this.isoArray.push(this.calculateISO(this.manoeuvring, this.manoeuvringMovement, this.manoeuvring.states.rudderAngle, this.isoArray[i], dt))
+		// 	if (this.manoeuvring.states.rudderAngle < 35) {
+		// 		this.manoeuvring.states.rudderAngle += MAN.rudderRate * dt
+		// 	}
 
-			t = t + dt
-		} while (t < 600 && !this.taticalDiameter)
+		// 	this.twinData.push(this.calculateEstimation(this.manoeuvring, this.manoeuvringMovement, this.manoeuvring.states.rudderAngle, this.twinData[i], dt))
+
+		// 	t = t + dt
+		// } while (t < 60)
 
 		this.setState(() => {
 			return { advance: this.advance, taticalDiameter: this.taticalDiameter }
 		})
 
-		const geometry = new THREE.BufferGeometry().setFromPoints(points)
-		const line = new THREE.Line(geometry, material)
-		line.name = "line"
-		line.opacity = 0
+		const geometryRealData = new THREE.BufferGeometry().setFromPoints(pointsRealData)
+		const lineRealData = new THREE.Line(geometryRealData, materialRealData)
+		lineRealData.name = "lineRealData"
+		this.scene.add(lineRealData)
 
-		this.scene.add(line)
+		const geometryTwinData = new THREE.BufferGeometry().setFromPoints(pointsTwinData)
+		const lineTwinData = new THREE.Line(geometryTwinData, materialTwinData)
+		lineTwinData.name = "lineTwinData"
+		this.scene.add(lineTwinData)
 	}
 
-	setInitial = () => {
+	setInitial = input => {
 		this.manoeuvring.setSpeed(0)
 		this.manoeuvringMovement.states.x = 0
 		this.manoeuvringMovement.states.y = 0
@@ -292,23 +307,21 @@ class ThreeSimulation extends Component {
 		this.manoeuvringMovement.states.V.yaw_dot = 0
 		this.manoeuvring.states.rudderAngle = 0
 		this.manoeuvring.states.n = 0
-		this.ship3D.position.x = 0
-		this.ship3D.position.y = 0
-		this.ship3D.rotation.z = 0
 	}
 
-	calculateISO = (manoeuvring, manoeuvringMovement, angle, position, dt) => {
+	calculateEstimation = (manoeuvring, manoeuvringMovement, input, position, dt) => {
 		manoeuvring.setSpeed(manoeuvring.states.V.u * 1.96)
-		var propellerAngle = (angle * Math.PI) / 180
+		var propellerAngle = (input.Azimuth * Math.PI) / 180
 		var cos = Math.cos(propellerAngle)
 		var sin = Math.sin(propellerAngle)
 
-		const DIST = this.manoeuvringMovement.manoeuvring.distHel
 		const MAXRPM = manoeuvringMovement.manoeuvring.maxPropRot
 
-		var rotationStates = manoeuvring.getPropResult(MAXRPM / 60)
+		var rotationStates = manoeuvring.getPropResult((MAXRPM * input.RPMO) / (60 * 100))
 
 		var Rt = manoeuvring.getRes(manoeuvring.states.V.u)
+
+		const DIST = this.manoeuvringMovement.manoeuvring.distHel
 
 		var forceVector = [rotationStates.Fp * cos - Rt, rotationStates.Fp * sin, rotationStates.Fp * sin * DIST]
 		manoeuvringMovement.setMatrixes(forceVector, position.yaw)
@@ -318,7 +331,7 @@ class ThreeSimulation extends Component {
 		var y = position.y + manoeuvringMovement.states.DX.y
 		var yaw = position.yaw + manoeuvringMovement.states.DX.yaw
 
-		return { x: x, y: y, yaw: yaw }
+		return { x: x, y: y, yaw: yaw, u: manoeuvringMovement.states.V.u, v: manoeuvringMovement.states.V.v, RPMO: input.RPMO, Azimuth: input.Azimuth }
 	}
 
 	startAnimationLoop = () => {
@@ -326,91 +339,24 @@ class ThreeSimulation extends Component {
 			this.ocean.water.material.uniforms.time.value += 1 / 60
 		}
 
-		if (!this.recorder) {
-			// make this inside the Vessel.js
-			this.manoeuvring.setSpeed(this.manoeuvring.states.V.u * 1.96)
-			var propellerAngle = (this.manoeuvring.states.rudderAngle * Math.PI) / 180
-			var cos = Math.cos(propellerAngle)
-			var sin = Math.sin(propellerAngle)
+		let i = Math.floor((this.clock.getElapsedTime() - this.time) * 100)
 
-			var rotationStates = this.manoeuvring.getPropResult(this.manoeuvring.states.n)
-
-			var Rt = this.manoeuvring.getRes(this.manoeuvring.states.V.u)
-
-			const DIST = this.manoeuvringMovement.manoeuvring.distHel
-
-			var forceVector = [rotationStates.Fp * cos - Rt, rotationStates.Fp * sin, rotationStates.Fp * sin * DIST]
-
-			this.manoeuvringMovement.dt = this.clock.getElapsedTime() - this.time
-			const dt = this.manoeuvringMovement.dt
-
-			this.manoeuvringMovement.setMatrixes(forceVector, this.ship3D.rotation.z)
-			this.manoeuvringMovement.getDisplacements(dt)
-
-			this.ship3D.position.x += this.manoeuvringMovement.states.DX.x
-			this.ship3D.position.y += this.manoeuvringMovement.states.DX.y
-			this.ship3D.rotation.z = -this.manoeuvringMovement.states.yaw
-
-			this.thrirdPersonCamera.Update(dt)
+		if (i > this.twinData.length - 1) {
+			i = 0
 			this.time = this.clock.getElapsedTime()
-		} else {
-			// console.log(this.clock.getElapsedTime() - this.time)
-			let i = Math.floor((this.clock.getElapsedTime() - this.time) * 100)
-
-			if (i > this.isoArray.length - 1) {
-				i = 0
-				this.time = this.clock.getElapsedTime()
-			}
-			this.ship3D.position.x = this.isoArray[i].x
-			this.ship3D.position.y = this.isoArray[i].y
-			this.ship3D.rotation.z = this.isoArray[i].yaw
 		}
+
+		this.twinShip.position.x = 0.1 * this.twinData[i].x
+		this.twinShip.position.y = 0.1 * this.twinData[i].y
+		this.twinShip.rotation.z = this.twinData[i].yaw
+		// Math.PI / 180
+
+		this.realShip.position.x = -0.1 * this.realData[i].x
+		this.realShip.position.y = 0.1 * this.realData[i].y
+		this.realShip.rotation.z = (this.realData[i].yaw * Math.PI) / 180 + Math.PI / 2
 
 		this.renderer.render(this.scene, this.camera)
 		this.requestID = window.requestAnimationFrame(this.startAnimationLoop)
-	}
-
-	onDocumentKeyDown = event => {
-		var keyCode = event.which
-		var n = this.manoeuvringMovement.states.n
-		const DT = this.manoeuvringMovement.dt
-		const MAN = this.manoeuvringMovement.manoeuvring
-		const F = MAN.maxPropRot / 60
-		const T = MAN.maxTorque
-		const L = this.manoeuvringMovement.states.load
-		const LT = Math.abs(n * T)
-
-		switch (keyCode) {
-			case 87:
-				if (n <= F) {
-					if (L > 1 || LT < L) {
-						break
-					}
-
-					this.manoeuvringMovement.states.n += MAN.helRate * DT
-					// rotationText.innerText = (60 * this.manoeuvringMovement.states.n).toFixed(0)
-				}
-
-				break
-			case 83:
-				if (n >= -F) {
-					if (L > 1 || LT < L) {
-						break
-					}
-
-					this.manoeuvringMovement.states.n -= MAN.helRate * DT
-				}
-
-				break
-			case 65:
-				this.manoeuvringMovement.states.rudderAngle -= MAN.rudderRate * DT
-				break
-			case 68:
-				this.manoeuvringMovement.states.rudderAngle += MAN.rudderRate * DT
-				break
-			default:
-				break
-		}
 	}
 
 	getShipState = () => {
@@ -419,9 +365,9 @@ class ThreeSimulation extends Component {
 	}
 
 	setShipPosition = (x, y, z) => {
-		this.ship3D.position.x = x
-		this.ship3D.position.y = y
-		this.ship3D.rotation.z = z
+		this.twinShip.position.x = x
+		this.twinShip.position.y = y
+		this.twinShip.rotation.z = z
 	}
 
 	usePropSpec = (propeller, name) => {
@@ -438,38 +384,6 @@ class ThreeSimulation extends Component {
 			this.propellerInteraction = new Vessel.PropellerInteraction(this.ship, this.shipState, wagProp)
 			this.propellerInteraction.writeOutput()
 		}
-
-		// -------------------------- //
-		// This is for the checkpoint //
-		// -------------------------- //
-		// const BOUNDS = [
-		// 	[-500.0, -500.0],
-		// 	[500.0, 500.0]
-		// ]
-		// const RADIUS = 5
-		// // const RADIUS = ship.structure.hull.attributes.BOA
-		// const DIVISIONS = [200, 200]
-		// grid = new SpatialHashGrid(BOUNDS, DIVISIONS)
-
-		// var keyResults = []
-		// keyResults.push({ position: { x: 50, y: 0.0 }, radius: RADIUS, name: "A" })
-		// keyResults.push({ position: { x: 0, y: 186.52 }, radius: RADIUS, name: "B" })
-		// keyResults.push({ position: { x: 0, y: -200 }, radius: RADIUS, name: "C" })
-		// keyResults.push({ position: { x: 400, y: 400 }, radius: RADIUS, name: "D" })
-
-		// var checkPoint = []
-
-		// for (let i = 0; i < keyResults.length; i++) {
-		// 	const POS = keyResults[i].position
-		// 	const R = keyResults[i].radius
-		// 	const N = keyResults[i].name
-
-		// 	checkPoint.push(new CheckPoint("Test", POS, R))
-		// 	const client = grid.NewClient(POS, { w: R, h: R }, N)
-
-		// 	zUpCont.add(checkPoint[i].mesh)
-		// 	zUpCont.add(checkPoint[i].light)
-		// }
 
 		// ------------------------- //
 		// Insert Line Chart outside //
@@ -518,8 +432,8 @@ class ThreeSimulation extends Component {
 		return (
 			<Page title="Three-js" className="" wide={this.props.wide}>
 				<div ref={ref => (this.mount = ref)}>
-					{this.state.recorder ? "" : <Pannel get={this.getShipState} />}
-					<GuiManeuvering taticalDiameter={this.state.taticalDiameter} advance={this.state.advance} setRecorderView={this.setRecorderView} self={this} />
+					{/* The GUITwinShip will be for the next version */}
+					<GuiTwinShip />
 					{/* <ProgressBar now={this.state.i / this.state.maxLen} /> */}
 				</div>
 				<LifeCycleBar />
@@ -528,4 +442,4 @@ class ThreeSimulation extends Component {
 	}
 }
 
-export default ThreeSimulation
+export default ThreeTwinShip

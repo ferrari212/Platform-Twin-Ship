@@ -61,8 +61,8 @@ function HomeGuest() {
 							</label>
 							<input onChange={e => setPassword(e.target.value)} id="password-register" name="password" className="form-control" type="password" placeholder="Create a password" />
 						</div>
-						<button type="submit" className="py-3 mt-4 btn btn-lg btn-success btn-block">
-							Sign up for TwinShipPlatform
+						<button type="submit" className="py-3 mt-4 btn btn-lg btn-block btn-primary">
+							Sign up for OpenSim
 						</button>
 					</form>
 				</div>

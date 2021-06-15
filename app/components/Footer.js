@@ -20,7 +20,7 @@ function Footer() {
 			<p className="m-0">
 				MIT License - 2020{" "}
 				<a href="/" className="text-muted">
-					TwinShipPlatform
+					OpenSim
 				</a>
 				. Author:{" "}
 				<a href="http://shiptodata.com/" className="text-muted">

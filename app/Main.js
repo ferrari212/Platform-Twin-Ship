@@ -28,6 +28,8 @@ import NotFound from "./components/NotFound"
 import LoadingDotsIcon from "./components/LoadingDotsIcon"
 
 function Main() {
+	const [checkDb, setDbChecker] = useState(true)
+
 	const initialState = {
 		loggedIn: Boolean(localStorage.getItem("complexappToken")),
 		flashMessages: [],
@@ -76,6 +78,7 @@ function Main() {
 
 			case "closeInsertState":
 				draft.user.newState = action.data
+				draft.user.method = "analyse"
 				draft.isInsertStateOpen = false
 				return
 
@@ -84,6 +87,10 @@ function Main() {
 				switch (action.status) {
 					case "setAnalysis":
 						draft.user.method = "analyse"
+						break
+
+					case "setDigitalTwin":
+						draft.user.method = "digitalTwin"
 						break
 
 					case "setSimulation":
@@ -123,7 +130,10 @@ function Main() {
 				}
 			}
 
-			if (state.user.versions.length !== 0) getVersions(state.user)
+			if (checkDb) {
+				getVersions(state.user)
+				setDbChecker(false)
+			}
 		} else {
 			localStorage.removeItem("complexappToken")
 			localStorage.removeItem("complexappUsername")
