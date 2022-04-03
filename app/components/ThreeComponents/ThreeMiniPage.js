@@ -20,7 +20,6 @@ class ThreeMiniPage extends Component {
 		this.height = this.props.height
 		this.ship = this.props.ship
 
-		console.log("Constructor")
 	}
 
 	componentDidMount() {
@@ -33,11 +32,9 @@ class ThreeMiniPage extends Component {
 
 		window.addEventListener("resize", this.handleWindowResize)
 
-		console.log("Component did Mount!")
 	}
 
 	componentDidUpdate(prevProps, prevStates) {
-		console.log("Component did Update!", prevProps, prevStates)
 
 		// Make the if else of the posting or notF
 		if (prevProps.ship !== this.props.ship) {

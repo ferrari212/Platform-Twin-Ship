@@ -26,7 +26,6 @@ class ThreeTwinShip extends Component {
 
 		this.state = { advance: false, taticalDiameter: false }
 
-		console.log("Constructor")
 	}
 
 	componentDidMount() {
@@ -46,11 +45,9 @@ class ThreeTwinShip extends Component {
 
 		window.addEventListener("resize", this.handleWindowResize)
 
-		console.log("Component did Mount!")
 	}
 
 	componentDidUpdate(prevProps, prevStates) {
-		console.log("Component did Update!", prevProps, prevStates)
 
 		// Use ShipObject class here
 		var prevIndex = prevProps.user.shipId

@@ -110,8 +110,6 @@ function CreatePost(props) {
 		str = str[1]
 
 		chooseFunc[str]()
-		console.log(obj, propeller, powerPlant, man)
-		console.log(chooseFunc[str])
 
 		var fileCont = document.getElementById(jsonClass)
 		fileCont.innerHTML = ""

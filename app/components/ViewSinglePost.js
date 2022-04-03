@@ -1,88 +1,87 @@
-import React, { useEffect, useState, useContext } from "react"
-import { useParams, Link, withRouter } from "react-router-dom"
-import Axios from "axios"
-import Page from "./Page"
-import ThreeMiniPage from "./ThreeComponents/ThreeMiniPage"
-import Renderjson from "renderjson"
-import LoadingDotsIcon from "./LoadingDotsIcon"
-import ReactMarkdown from "react-markdown"
-import ReactTooltip from "react-tooltip"
-import StateContext from "../StateContext"
-import DispatchContext from "../DispatchContext"
+import React, { useEffect, useState, useContext } from "react";
+import { useParams, Link, withRouter } from "react-router-dom";
+import Axios from "axios";
+import Page from "./Page";
+import ThreeMiniPage from "./ThreeComponents/ThreeMiniPage";
+import Renderjson from "renderjson";
+import LoadingDotsIcon from "./LoadingDotsIcon";
+import ReactMarkdown from "react-markdown";
+import ReactTooltip from "react-tooltip";
+import StateContext from "../StateContext";
+import DispatchContext from "../DispatchContext";
 
 function ViewSinglePost(props) {
-	const appState = useContext(StateContext)
-	const appDispatch = useContext(DispatchContext)
-	const { id } = useParams()
-	const [isLoading, setIsLoading] = useState(true)
-	const [post, setPost] = useState()
+	const appState = useContext(StateContext);
+	const appDispatch = useContext(DispatchContext);
+	const { id } = useParams();
+	const [isLoading, setIsLoading] = useState(true);
+	const [post, setPost] = useState();
 
 	useEffect(() => {
-		const ourRequest = Axios.CancelToken.source()
+		const ourRequest = Axios.CancelToken.source();
 
 		async function fetchPost() {
 			try {
-				const response = await Axios.get(`/post/${id}`, { cancelToken: ourRequest.token })
-				setPost(response.data)
+				const response = await Axios.get(`/post/${id}`, { cancelToken: ourRequest.token });
+				setPost(response.data);
 
-				setIsLoading(false)
+				setIsLoading(false);
 
-				return response.data
+				return response.data;
 			} catch (e) {
-				console.log("There was a problem or the request was cancelled.")
+				console.log("There was a problem or the request was cancelled.");
 			}
 		}
 		fetchPost().then(post => {
-			var fileCont = document.getElementById("render-json")
-			fileCont.innerHTML = ""
-			Renderjson.set_show_to_level(1)
+			var fileCont = document.getElementById("render-json");
+			fileCont.innerHTML = "";
+			Renderjson.set_show_to_level(1);
 
-			fileCont.appendChild(Renderjson(JSON.parse(post.ship)))
-		})
+			fileCont.appendChild(Renderjson(JSON.parse(post.ship)));
+		});
 		return () => {
-			ourRequest.cancel()
-		}
-	}, [])
+			ourRequest.cancel();
+		};
+	}, []);
 
 	if (isLoading)
 		return (
 			<Page title="...">
 				<LoadingDotsIcon />
 			</Page>
-		)
+		);
 
-	const date = new Date(post.createdDate)
-	const dateFormatted = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+	const date = new Date(post.createdDate);
+	const dateFormatted = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 
 	function parseObj(string) {
-		let ship = JSON.parse(string)
-		return ship.obj
+		let ship = JSON.parse(string);
+		return ship.obj;
 	}
-	const object = parseObj(post.ship)
-	console.log(object)
+	const object = parseObj(post.ship);
 
 	function isOwner() {
 		if (appState.loggedIn) {
-			return appState.user.username == post.author.username
+			return appState.user.username == post.author.username;
 		}
-		return false
+		return false;
 	}
 
 	async function deleteHandler(e) {
-		e.preventDefault()
-		const areYouSure = window.confirm("Do you really want to delete this ship version?")
+		e.preventDefault();
+		const areYouSure = window.confirm("Do you really want to delete this ship version?");
 		if (areYouSure) {
 			try {
-				const response = await Axios.delete(`/post/${id}`, { data: { token: appState.user.token } })
+				const response = await Axios.delete(`/post/${id}`, { data: { token: appState.user.token } });
 				if (response.data == "Success") {
 					// 1. Display flash message
-					appDispatch({ type: "flashMessage", value: "Version was successfully deleted", clearData: [] })
+					appDispatch({ type: "flashMessage", value: "Version was successfully deleted", clearData: [] });
 
 					// 2. Redirec back to the user main page
-					props.history.push(`/profile/${appState.user.username}`)
+					props.history.push(`/profile/${appState.user.username}`);
 				}
 			} catch (e) {
-				console.warn("There was a error:", e)
+				console.warn("There was a error:", e);
 			}
 		}
 	}
@@ -119,7 +118,7 @@ function ViewSinglePost(props) {
 				<div id="render-json"></div>
 			</div>
 		</Page>
-	)
+	);
 }
 
-export default withRouter(ViewSinglePost)
+export default withRouter(ViewSinglePost);

@@ -24,7 +24,6 @@ class Pannel extends React.Component {
 		this.get = props.get
 		this.set = props.set
 		this.state = { mvr: undefined }
-		console.log(this)
 	}
 
 	componentDidMount() {

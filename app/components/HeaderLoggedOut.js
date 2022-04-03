@@ -19,7 +19,6 @@ function HeaderLoggedOut(props) {
 
 				appDispatch({ type: "login", data: response.data })
 			} else {
-				console.log(username, password)
 				console.log("Incorrect username / password", username, password)
 			}
 		} catch (e) {

@@ -17,10 +17,10 @@ class D3Chart extends Component {
 		this.drawBarChart(data)
 	}
 
-	componentDidUpdate(prevProps, prevStates) {
-		console.log(this.props)
-		// this.vesselModel = new Vessel(this.props.props.state.newShip)
-	}
+	// componentDidUpdate(prevProps, prevStates) {
+	// 	console.log(this.props)
+	// 	// this.vesselModel = new Vessel(this.props.props.state.newShip)
+	// }
 
 	drawBarChart(data) {
 		const w = 400
