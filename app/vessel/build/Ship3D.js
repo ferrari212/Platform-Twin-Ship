@@ -112,7 +112,6 @@ function Ship3D(ship, { shipState, stlPath, deckOpacity = 0.2, objectOpacity = 0
 	let BOA = hull.attributes.BOA
 	let Depth = hull.attributes.Depth
 
-	//console.log("LOA:%.1f, BOA:%.1f, Depth:%.1f",LOA,BOA,Depth);
 	let {
 		w: { cg, mass },
 		T,

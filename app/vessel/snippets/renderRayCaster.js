@@ -46,7 +46,7 @@ function renderRayCaster(mouse, camera, scene, intersectedElement = { name: unde
 			// Objsect touched something
 
 			if (intersectedElement.name != intersects[0].object.name) {
-				// Objsect touched is different from the previeus
+				// Objsect touched is different from the previews
 
 				if (intersectedElement.name != undefined) {
 					// Check if there was a previeus touched object
@@ -66,7 +66,7 @@ function renderRayCaster(mouse, camera, scene, intersectedElement = { name: unde
 		} else {
 			returnToOriginalColor()
 
-			// cast name and colors of the object as udefined
+			// cast name and colors of the object as undefined
 			intersectedElement = { name: undefined, currentHex: undefined, status: false }
 		}
 	}
@@ -78,7 +78,7 @@ function renderRayCaster(mouse, camera, scene, intersectedElement = { name: unde
 			intersectedElement.material.color.set(intersectedElement.currentHex)
 		}
 
-		// cast name and colors of the object as udefined
+		// cast name and colors of the object as undefined
 		intersectedElement = { name: undefined, currentHex: undefined, status: false }
 	}
 }

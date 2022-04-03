@@ -107,7 +107,7 @@ function EditPost(props) {
 					dispatch({ type: "notFound" })
 				}
 			} catch (e) {
-				console.log("There was a problem or the request was cancelled.")
+				console.log("There was a problem or the request was cancelled:", e)
 			}
 		}
 		fetchPost()
@@ -127,7 +127,7 @@ function EditPost(props) {
 					dispatch({ type: "saveRequestFinished" })
 					appDispatch({ type: "flashMessage", value: "Post was updated.", clearData: [] })
 				} catch (e) {
-					console.log("There was a problem or the request was cancelled.")
+					console.log("There was a problem or the request was cancelled:", e)
 				}
 			}
 			fetchPost()
