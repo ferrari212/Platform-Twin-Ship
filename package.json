@@ -23,7 +23,7 @@
 		"@popperjs/core": "^2.6.0",
 		"@types/node": "^14.6.0",
 		"@widgetjs/tree": "^1.8.3",
-		"axios": "^0.21.1",
+		"axios": "^0.21.2",
 		"babel-loader": "^8.1.0",
 		"bootstrap": "^4.6.0",
 		"browserslist": "^4.16.6",
