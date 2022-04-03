@@ -132,9 +132,7 @@ function ResponseComparison(prop) {
 			dataHeaveACC.setLabels(frequencies)
 			dataRollACC.setLabels(frequencies)
 			dataPitchACC.setLabels(frequencies)
-
-			console.log(maxObj)
-
+			
 			return (
 				<div className="container-fluid align-items-center p-3">
 					<div className="row">

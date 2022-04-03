@@ -29,7 +29,6 @@ class ThreeModelRayCaster extends Component {
 		this.intersected = undefined
 		this.mouse = new THREE.Vector2(0.5, 0.5)
 
-		console.log("Constructor")
 	}
 
 	componentDidMount() {
@@ -48,11 +47,9 @@ class ThreeModelRayCaster extends Component {
 
 		window.addEventListener("resize", this.handleWindowResize)
 
-		console.log("Component did Mount!")
 	}
 
 	componentDidUpdate(prevProps, prevStates) {
-		console.log("Component did Update!", prevProps, prevStates)
 
 		// Use ShipObject class here
 		var prevIndex = prevProps.user.shipId

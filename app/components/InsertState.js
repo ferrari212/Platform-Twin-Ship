@@ -41,14 +41,7 @@ function InsertState() {
 	var attributes = obj.structure.hull.attributes
 
 	Object.assign(newState.value, extract(calculationParameters, keys))
-
-	console.log("Test Object", testObj)
-
 	Object.assign(newState.value, extract(attributes, keys))
-
-	console.log("Test Object", testObj)
-
-	// newState.value = Object.assign(newState.value, testObj)
 
 	keys.forEach(key => (newState.value[key] = calculationParameters[key] || attributes[key] || 10)) // The default value is 10 that is most attributed to the speed @ferrari212
 
@@ -181,7 +174,7 @@ function InsertState() {
 									id="basic-url"
 									aria-describedby="basic-addon3"
 								/>
-								<span id="new-state" className="input-group-text ml-2" id="basic-addon3">
+								<span id="new-state" className="input-group-text ml-2">
 									{state[key]}
 								</span>
 							</div>
